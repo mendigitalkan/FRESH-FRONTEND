@@ -1,0 +1,16 @@
+version: "3.1"
+
+services:
+    simerdeka:
+        container_name: simerdeka
+        image: registry.gitlab.com/codebox-id/simerdeka:latest
+        restart: always
+        environment:
+            NODE_ENV: production
+            PORT: 8080
+            SESSION_SECRET: S!merdeka2023!
+            AUTHORIZATION_ASSET_USERNAME: simerdeka_assets
+            AUTHORIZATION_ASSET_PASSWORD: simerdeka_assets
+            BASE_URL_API_ASSET: ""
+        ports:
+            - 5005:8080
