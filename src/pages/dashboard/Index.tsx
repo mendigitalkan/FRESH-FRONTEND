@@ -1,6 +1,5 @@
 import { Card, Grid } from '@mui/material'
 import ReactApexChart from 'react-apexcharts'
-import TableStyle from '../../components/table'
 
 const DashboardView = () => {
   return (
@@ -83,9 +82,7 @@ const DashboardView = () => {
           </div>
         </Card>
       </Grid>
-      <Grid item xs={12}>
-        <TableStyle />
-      </Grid>
+      <Grid item xs={12}></Grid>
     </Grid>
   )
 }
