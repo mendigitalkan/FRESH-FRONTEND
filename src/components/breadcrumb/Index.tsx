@@ -15,10 +15,11 @@ interface IBreadCrumberType {
 
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
-    theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[800]
+    theme.palette.mode === 'light' ? theme.palette.grey[200] : theme.palette.grey[800]
   return {
     backgroundColor,
-    height: theme.spacing(2),
+    height: theme.spacing(1),
+    padding: 12,
     color: theme.palette.text.primary,
     fontWeight: theme.typography.fontWeightRegular,
     '&:hover, &:focus': {
@@ -34,8 +35,9 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
 const BreadCrumberStyle = ({ navigation }: IBreadCrumberType) => {
   return (
     <Breadcrumbs aria-label='breadcrumb' sx={{ mb: 2 }}>
-      {navigation.map((item: IBreadCrumberItemType) => (
+      {navigation.map((item: IBreadCrumberItemType, index: number) => (
         <StyledBreadcrumb
+          key={index}
           component='a'
           href={item.link}
           label={item.label}

@@ -6,7 +6,7 @@ import { Box, Button, Grid, Stack, TablePagination } from '@mui/material'
 import ProductCard from '../../components/card/ProductCard'
 import AddIcon from '@mui/icons-material/Add'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
+import StorefrontIcon from '@mui/icons-material/Storefront'
 
 const ProductView = () => {
   const { handleGetTableDataRequest } = useHttp()
@@ -51,12 +51,11 @@ const ProductView = () => {
           {
             label: 'Products',
             link: 'products',
-            icon: <AddShoppingCartIcon fontSize='small' />
+            icon: <StorefrontIcon fontSize='small' />
           },
           {
             label: 'Products',
-            link: 'products',
-            icon: <AddShoppingCartIcon fontSize='small' />
+            link: 'products'
           }
         ]}
       />
