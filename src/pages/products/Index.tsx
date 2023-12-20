@@ -5,6 +5,8 @@ import { useHttp } from '../../hooks/http'
 import { Box, Button, Grid, Stack, TablePagination } from '@mui/material'
 import ProductCard from '../../components/card/ProductCard'
 import AddIcon from '@mui/icons-material/Add'
+import BreadCrumberStyle from '../../components/breadcrumb/Index'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 
 const ProductView = () => {
   const { handleGetTableDataRequest } = useHttp()
@@ -44,15 +46,22 @@ const ProductView = () => {
 
   return (
     <Box>
+      <BreadCrumberStyle
+        navigation={[
+          {
+            label: 'Products',
+            link: 'products',
+            icon: <AddShoppingCartIcon fontSize='small' />
+          },
+          {
+            label: 'Products',
+            link: 'products',
+            icon: <AddShoppingCartIcon fontSize='small' />
+          }
+        ]}
+      />
       <Stack justifyContent='space-between' mb={5} direction='row'>
-        <Button
-          variant='contained'
-          size='medium'
-          sx={{ width: 200 }}
-          startIcon={<AddIcon />}
-        >
-          New Product
-        </Button>
+        <div></div>
         <Button
           variant='contained'
           size='medium'
