@@ -16,13 +16,15 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { Link, Outlet } from 'react-router-dom'
-import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic'
 import StorefrontIcon from '@mui/icons-material/Storefront'
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 import { useState } from 'react'
 import { blue, grey } from '@mui/material/colors'
 import { Avatar, Container, Menu, MenuItem, Tooltip } from '@mui/material'
 import AdbIcon from '@mui/icons-material/Adb'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
+import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlined'
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined'
 
 const drawerWidth = 240
 
@@ -107,9 +109,11 @@ export default function AppLayout() {
   }
 
   const menuItems = [
-    { title: 'Dashboard', link: '/', icon: <AutoAwesomeMosaicIcon /> },
+    { title: 'Dashboard', link: '/', icon: <SpaceDashboardOutlinedIcon /> },
     { title: 'Products', link: '/products', icon: <StorefrontIcon /> },
-    { title: 'Customers', link: '/customers', icon: <PeopleAltIcon /> }
+    { title: 'Customers', link: '/customers', icon: <PeopleAltOutlinedIcon /> },
+    { title: 'Orders', link: '/orders', icon: <AddShoppingCartIcon /> },
+    { title: 'Profile', link: '/profile', icon: <PersonOutlineOutlinedIcon /> }
   ]
 
   const [activeLink, setActiveLink] = useState('/')

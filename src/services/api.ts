@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios'
-import { CONFIG } from '../configs'
+import { CONFIGS } from '../configs'
 
 export interface GetTableDataTypes {
   url: string
@@ -11,7 +11,7 @@ export interface GetTableDataTypes {
 }
 
 export const getHeaders = () => {
-  const user = localStorage.getItem(CONFIG.local_storage_key) || ''
+  const user = localStorage.getItem(CONFIGS.localStorageKey) || ''
   const result: any = JSON.parse(user)
   return {
     'x-user-id': result.userId,
@@ -22,14 +22,14 @@ export const getHeaders = () => {
 }
 
 export class ServiceHttp {
-  private baseUrl = CONFIG.base_url_api
+  private baseUrl = CONFIGS.baseUrl
 
   public async get({ path }: { path: string }) {
     try {
       const result = await axios.get(this.baseUrl + path, {
         auth: {
-          username: CONFIG.authorization.username,
-          password: CONFIG.authorization.passsword
+          username: CONFIGS.authorization.username,
+          password: CONFIGS.authorization.passsword
         },
         headers: {
           ...getHeaders()
@@ -46,8 +46,8 @@ export class ServiceHttp {
     try {
       const result = await axios.post(this.baseUrl + path, body, {
         auth: {
-          username: CONFIG.authorization.username,
-          password: CONFIG.authorization.passsword
+          username: CONFIGS.authorization.username,
+          password: CONFIGS.authorization.passsword
         },
         headers: {
           ...getHeaders()
@@ -64,8 +64,8 @@ export class ServiceHttp {
     try {
       const result = await axios.patch(this.baseUrl + path, body, {
         auth: {
-          username: CONFIG.authorization.username,
-          password: CONFIG.authorization.passsword
+          username: CONFIGS.authorization.username,
+          password: CONFIGS.authorization.passsword
         },
         headers: {
           ...getHeaders()
@@ -82,8 +82,8 @@ export class ServiceHttp {
     try {
       const result = await axios.delete(this.baseUrl + path, {
         auth: {
-          username: CONFIG.authorization.username,
-          password: CONFIG.authorization.passsword
+          username: CONFIGS.authorization.username,
+          password: CONFIGS.authorization.passsword
         },
         headers: {
           ...getHeaders()
@@ -104,8 +104,8 @@ export class ServiceHttp {
         `${url}?pagination=${pagination}&page=${page}&size=${size}&${queryFilter}`,
         {
           auth: {
-            username: CONFIG.authorization.username,
-            password: CONFIG.authorization.passsword
+            username: CONFIGS.authorization.username,
+            password: CONFIGS.authorization.passsword
           },
           headers: {
             // ...getHeaders()

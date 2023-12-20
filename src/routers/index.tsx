@@ -5,6 +5,8 @@ import DashboardView from '../pages/dashboard/Index'
 import LoginView from '../pages/auth/Login'
 import ProductView from '../pages/products/Index'
 import CustomersView from '../pages/custommers/Index'
+import OrderView from '../pages/orders/Index'
+import ProfileView from '../pages/profile/Index'
 // import { AppContextTypes, useAppContext } from '../context/app.context'
 
 export default function AppRouters() {
@@ -28,6 +30,14 @@ export default function AppRouters() {
         {
           path: '/customers',
           element: <CustomersView />
+        },
+        {
+          path: '/orders',
+          element: <OrderView />
+        },
+        {
+          path: '/profile',
+          element: <ProfileView />
         }
       ]
       break

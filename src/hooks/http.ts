@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CONFIG } from '../configs'
+import { CONFIGS } from '../configs'
 import { AppContextTypes, useAppContext } from '../context/app.context'
 import { ServiceHttp } from '../services/api'
 
@@ -93,7 +93,7 @@ export const useHttp = () => {
   const handleGetTableDataRequest = async (props: GetTabelDataRequestTypes) => {
     try {
       const result = await serviceHttp.getTableData({
-        url: CONFIG.base_url_api + props.path,
+        url: CONFIGS.baseUrl + props.path,
         pagination: true,
         page: props.page || 0,
         size: props.size || 10,

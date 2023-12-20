@@ -1,5 +1,5 @@
 const CustomersView = () => {
-  return <div>Customers</div>
+  return <div>customers</div>
 }
 
 export default CustomersView
