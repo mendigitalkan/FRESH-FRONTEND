@@ -3,6 +3,8 @@ import AppLayout from '../layouts/AppLayout'
 import ErrorPage from '../pages/error-page'
 import DashboardView from '../pages/dashboard/Index'
 import LoginView from '../pages/auth/Login'
+import ProductView from '../pages/products/Index'
+import CustomersView from '../pages/custommers/Index'
 // import { AppContextTypes, useAppContext } from '../context/app.context'
 
 export default function AppRouters() {
@@ -13,19 +15,19 @@ export default function AppRouters() {
   const currentUser = 'superAdmin'
 
   switch (currentUser) {
-    // case 'admin':
-    //   router = [
-    //     {
-    //       path: '/',
-    //       element: <DashboardView />
-    //     }
-    //   ]
-    //   break
     case 'superAdmin':
       router = [
         {
           path: '/',
           element: <DashboardView />
+        },
+        {
+          path: '/products',
+          element: <ProductView />
+        },
+        {
+          path: '/customers',
+          element: <CustomersView />
         }
       ]
       break

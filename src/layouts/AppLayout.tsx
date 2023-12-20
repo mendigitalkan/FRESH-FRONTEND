@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import MuiDrawer from '@mui/material/Drawer'
@@ -16,11 +15,14 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic'
-// import CampaignIcon from '@mui/icons-material/Campaign'
-// import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined'
-// import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
+import StorefrontIcon from '@mui/icons-material/Storefront'
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
+import { useState } from 'react'
+import { blue, grey } from '@mui/material/colors'
+import { Avatar, Container, Menu, MenuItem, Tooltip } from '@mui/material'
+import AdbIcon from '@mui/icons-material/Adb'
 
 const drawerWidth = 240
 
@@ -94,7 +96,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function AppLayout() {
   const theme = useTheme()
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -104,27 +106,114 @@ export default function AppLayout() {
     setOpen(false)
   }
 
+  const menuItems = [
+    { title: 'Dashboard', link: '/', icon: <AutoAwesomeMosaicIcon /> },
+    { title: 'Products', link: '/products', icon: <StorefrontIcon /> },
+    { title: 'Customers', link: '/customers', icon: <PeopleAltIcon /> }
+  ]
+
+  const [activeLink, setActiveLink] = useState('/')
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget)
+  }
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null)
+  }
+
+  const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
+
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', bgcolor: grey[50], minHeight: window.innerHeight }}>
       <CssBaseline />
       <AppBar position='fixed' open={open}>
-        <Toolbar>
-          <IconButton
-            color='inherit'
-            aria-label='open drawer'
-            onClick={handleDrawerOpen}
-            edge='start'
-            sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' })
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant='h6' noWrap component='div'>
-            Mini variant drawer
-          </Typography>
-        </Toolbar>
+        <Container maxWidth='xl'>
+          <Toolbar disableGutters>
+            <IconButton
+              color='inherit'
+              aria-label='open drawer'
+              onClick={handleDrawerOpen}
+              edge='start'
+              sx={{
+                marginRight: 5,
+                ...(open && { display: 'none' })
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+            <Typography
+              variant='h6'
+              noWrap
+              component='a'
+              href='#app-bar-with-responsive-menu'
+              sx={{
+                mr: 2,
+                display: { xs: 'none', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none'
+              }}
+            >
+              LOGO
+            </Typography>
+
+            <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+            <Typography
+              variant='h5'
+              noWrap
+              component='a'
+              href='#app-bar-with-responsive-menu'
+              sx={{
+                mr: 2,
+                display: { xs: 'flex', md: 'none' },
+                flexGrow: 1,
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none'
+              }}
+            >
+              LOGO
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
+
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title='Open settings'>
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id='menu-appbar'
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography textAlign='center'>{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          </Toolbar>
+        </Container>
       </AppBar>
       <Drawer variant='permanent' open={open}>
         <DrawerHeader>
@@ -134,92 +223,47 @@ export default function AppLayout() {
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
+          {menuItems.map((item, index) => (
+            <ListItem
+              disablePadding
               sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5
+                display: 'block',
+                backgroundColor: activeLink === item.link ? blue[50] : 'inherit'
               }}
+              key={index}
+              onClick={() => setActiveLink(item.link)}
             >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center'
+              <Link
+                to={item.link}
+                style={{
+                  textDecoration: 'none',
+                  color: 'inherit'
                 }}
               >
-                <AutoAwesomeMosaicIcon />
-              </ListItemIcon>
-              <ListItemText primary={'Dashboard'} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center'
-                }}
-              >
-                <AutoAwesomeMosaicIcon />
-              </ListItemIcon>
-              <ListItemText primary={'Dashboard'} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-        </List>
-        <Divider />
-        <List>
-          <ListItem disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center'
-                }}
-              >
-                <AutoAwesomeMosaicIcon />
-              </ListItemIcon>
-              <ListItemText primary={'Dashboard'} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center'
-                }}
-              >
-                <AutoAwesomeMosaicIcon />
-              </ListItemIcon>
-              <ListItemText primary={'Dashboard'} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.5
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.title} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          ))}
         </List>
       </Drawer>
-      <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
+      <Box component='main' sx={{ flexGrow: 1, margin: 0, p: 3 }}>
         <DrawerHeader />
         <Outlet />
       </Box>
