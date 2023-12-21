@@ -1,4 +1,4 @@
-import { Card, Grid, Box } from '@mui/material'
+import { Card, Grid, Box, Stack, Typography } from '@mui/material'
 import ReactApexChart from 'react-apexcharts'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
@@ -15,6 +15,55 @@ const DashboardView = () => {
           }
         ]}
       />
+      <Stack direction='row' flexWrap='wrap' spacing={5} my={3}>
+        <Card sx={{ p: 3, minWidth: 200 }}>
+          <Stack direction='row' spacing={2}>
+            <IconMenus.products fontSize='large' color={'inherit'} />
+            <Stack justifyContent='center' alignItems='center'>
+              <Typography>Products</Typography>
+              <Typography fontSize='large' fontWeight='bold'>
+                10
+              </Typography>
+            </Stack>
+          </Stack>
+        </Card>
+
+        <Card sx={{ p: 3, minWidth: 200 }}>
+          <Stack direction='row' spacing={2}>
+            <IconMenus.products fontSize='large' color={'inherit'} />
+            <Stack justifyContent='center' alignItems='center'>
+              <Typography>Products</Typography>
+              <Typography fontSize='large' fontWeight='bold'>
+                10
+              </Typography>
+            </Stack>
+          </Stack>
+        </Card>
+
+        <Card sx={{ p: 3, minWidth: 200 }}>
+          <Stack direction='row' spacing={2}>
+            <IconMenus.products fontSize='large' color={'inherit'} />
+            <Stack justifyContent='center' alignItems='center'>
+              <Typography>Products</Typography>
+              <Typography fontSize='large' fontWeight='bold'>
+                10
+              </Typography>
+            </Stack>
+          </Stack>
+        </Card>
+
+        <Card sx={{ p: 3, minWidth: 200 }}>
+          <Stack direction='row' spacing={2}>
+            <IconMenus.products fontSize='large' color={'inherit'} />
+            <Stack justifyContent='center' alignItems='center'>
+              <Typography>Products</Typography>
+              <Typography fontSize='large' fontWeight='bold'>
+                10
+              </Typography>
+            </Stack>
+          </Stack>
+        </Card>
+      </Stack>
       <Grid container spacing={3}>
         <Grid item md={7} xs={12}>
           <Card sx={{ p: { md: 5 } }}>

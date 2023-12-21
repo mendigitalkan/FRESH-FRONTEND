@@ -8,64 +8,79 @@ import CustomersView from '../pages/custommers/Index'
 import OrderView from '../pages/orders/Index'
 import ProfileView from '../pages/profile/Index'
 import WaBlasView from '../pages/waBlas/Index'
+import SignUpView from '../pages/auth/SignUp'
 // import { AppContextTypes, useAppContext } from '../context/app.context'
 
 export default function AppRouters() {
   //   const { currentUser }: AppContextTypes = useAppContext()
 
-  let router: { path: string; element: JSX.Element }[] = []
+  const routers: { path: string; element: JSX.Element }[] = []
+  const authRouters: { path: string; element: JSX.Element }[] = [
+    {
+      path: '/login',
+      element: <LoginView />
+    },
+    {
+      path: '/sign-up',
+      element: <SignUpView />
+    }
+  ]
+
+  const mainRouters: { path: string; element: JSX.Element }[] = []
 
   const currentUser = 'superAdmin'
 
   switch (currentUser) {
     case 'superAdmin':
-      router = [
-        {
-          path: '/',
-          element: <DashboardView />
-        },
-        {
-          path: '/products',
-          element: <ProductView />
-        },
-        {
-          path: '/customers',
-          element: <CustomersView />
-        },
-        {
-          path: '/orders',
-          element: <OrderView />
-        },
-        {
-          path: '/wa-blas',
-          element: <WaBlasView />
-        },
-        {
-          path: '/profile',
-          element: <ProfileView />
-        }
-      ]
+      mainRouters.push(
+        ...[
+          {
+            path: '/',
+            element: <DashboardView />
+          },
+          {
+            path: '/products',
+            element: <ProductView />
+          },
+          {
+            path: '/customers',
+            element: <CustomersView />
+          },
+          {
+            path: '/orders',
+            element: <OrderView />
+          },
+          {
+            path: '/wa-blas',
+            element: <WaBlasView />
+          },
+          {
+            path: '/profile',
+            element: <ProfileView />
+          }
+        ]
+      )
       break
     default:
       break
   }
 
-  const isAuth = true
+  const isAuth = false
 
-  const routers = createBrowserRouter([
-    isAuth
-      ? {
-          path: '/',
-          element: <AppLayout />,
-          errorElement: <ErrorPage />,
-          children: router
-        }
-      : {
-          path: '/',
-          element: <LoginView />,
-          errorElement: <ErrorPage />
-        }
+  if (isAuth) {
+    routers.push(...mainRouters)
+  } else {
+    routers.push(...authRouters)
+  }
+
+  const appRouters = createBrowserRouter([
+    {
+      path: '/',
+      element: isAuth ?? <AppLayout />,
+      errorElement: <ErrorPage />,
+      children: routers
+    }
   ])
 
-  return <RouterProvider router={routers} />
+  return <RouterProvider router={appRouters} />
 }
