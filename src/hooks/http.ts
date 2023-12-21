@@ -37,10 +37,11 @@ export interface HttpRequestTypes {
 }
 
 export const useHttp = () => {
-  const { setErrorMessage }: AppContextTypes = useAppContext()
+  const { setAppAlert, setIsLoading }: AppContextTypes = useAppContext()
   const serviceHttp = new ServiceHttp()
 
   const handleGetRequest = async ({ path }: GetRequestTypes) => {
+    setIsLoading(true)
     try {
       const result = await serviceHttp.get({
         path
@@ -48,8 +49,9 @@ export const useHttp = () => {
       return result
     } catch (error: any) {
       console.error(error?.message)
-      setErrorMessage({ isError: true, message: error?.message })
+      setAppAlert({ isDisplayAlert: true, message: error?.message, alertType: 'error' })
     }
+    setIsLoading(false)
   }
 
   const handlePostRequest = async ({ path, body }: PostRequestTypes) => {
@@ -61,7 +63,7 @@ export const useHttp = () => {
       return result
     } catch (error: any) {
       console.error(error?.message)
-      setErrorMessage({ isError: true, message: error?.message })
+      setAppAlert({ isDisplayAlert: true, message: error?.message, alertType: 'error' })
     }
   }
 
@@ -73,7 +75,7 @@ export const useHttp = () => {
       return result
     } catch (error: any) {
       console.error(error?.message)
-      setErrorMessage({ isError: true, message: error?.message })
+      setAppAlert({ isDisplayAlert: true, message: error?.message, alertType: 'error' })
     }
   }
 
@@ -86,12 +88,13 @@ export const useHttp = () => {
       return result
     } catch (error: any) {
       console.error(error?.message)
-      setErrorMessage({ isError: true, message: error?.message })
+      setAppAlert({ isDisplayAlert: true, message: error?.message, alertType: 'error' })
     }
   }
 
   const handleGetTableDataRequest = async (props: GetTabelDataRequestTypes) => {
     try {
+      setIsLoading(true)
       const result = await serviceHttp.getTableData({
         url: CONFIGS.baseUrl + props.path,
         pagination: true,
@@ -102,7 +105,11 @@ export const useHttp = () => {
       return result
     } catch (error: any) {
       console.error(error?.message)
-      setErrorMessage({ isError: true, message: error?.message })
+      setAppAlert({ isDisplayAlert: true, message: error?.message, alertType: 'error' })
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 500)
     }
   }
 

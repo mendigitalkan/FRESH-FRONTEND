@@ -16,15 +16,28 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { Link, Outlet } from 'react-router-dom'
-import StorefrontIcon from '@mui/icons-material/Storefront'
 import { useState } from 'react'
 import { blue, grey } from '@mui/material/colors'
-import { Avatar, Container, Menu, MenuItem, Tooltip } from '@mui/material'
+import {
+  Alert,
+  AlertTitle,
+  Avatar,
+  Backdrop,
+  CircularProgress,
+  Container,
+  Menu,
+  MenuItem,
+  Snackbar,
+  Stack,
+  Tooltip
+} from '@mui/material'
 import AdbIcon from '@mui/icons-material/Adb'
+import StorefrontIcon from '@mui/icons-material/Storefront'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlined'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined'
+import { useAppContext } from '../context/app.context'
 
 const drawerWidth = 240
 
@@ -99,6 +112,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function AppLayout() {
   const theme = useTheme()
   const [open, setOpen] = useState(false)
+  const { appAlert, setAppAlert, isLoading, setIsLoading } = useAppContext()
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -269,7 +283,40 @@ export default function AppLayout() {
       </Drawer>
       <Box component='main' sx={{ flexGrow: 1, margin: 0, p: 3 }}>
         <DrawerHeader />
-        <Outlet />
+        {isLoading ? (
+          <Backdrop
+            sx={{
+              color: '#fff',
+              zIndex: (theme) => theme.zIndex.drawer + 1,
+              backgroundColor: 'rgba(0, 0, 0, 0.2)'
+            }}
+            open={isLoading}
+            onClick={() => setIsLoading(false)}
+          >
+            <CircularProgress color='inherit' />
+          </Backdrop>
+        ) : (
+          <Outlet />
+        )}
+        <Stack direction='row' justifyContent='flex-end' zIndex={10}>
+          <Snackbar
+            open={appAlert.isDisplayAlert}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            autoHideDuration={5000}
+            onClose={() => {
+              setAppAlert({
+                isDisplayAlert: false,
+                message: '',
+                alertType: 'success'
+              })
+            }}
+          >
+            <Alert severity={appAlert.alertType}>
+              <AlertTitle>{appAlert.alertType.toUpperCase()}</AlertTitle>
+              {appAlert.message}
+            </Alert>
+          </Snackbar>
+        </Stack>
       </Box>
     </Box>
   )

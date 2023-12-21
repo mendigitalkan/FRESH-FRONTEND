@@ -1,40 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react'
 import { IProductModel } from '../../models/product'
-import { useHttp } from '../../hooks/http'
 import { Box, Button, Grid, Stack, TablePagination } from '@mui/material'
 import ProductCard from '../../components/card/ProductCard'
 import AddIcon from '@mui/icons-material/Add'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import StorefrontIcon from '@mui/icons-material/Storefront'
+import { usePagenation } from '../../hooks/pagination'
 
 const ProductView = () => {
-  const { handleGetTableDataRequest } = useHttp()
+  const { getTableData, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } =
+    usePagenation()
 
-  const [rowsPerPage, setRowsPerPage] = useState(5)
-  const [page, setPage] = useState(0)
   const [productsData, setProductsData] = useState<IProductModel[]>([])
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage)
-  }
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(+event.target.value)
-    setPage(0)
-  }
 
   const getData = async () => {
     try {
-      const result = await handleGetTableDataRequest({
-        path: '/products/list',
-        page: page || 0,
-        size: rowsPerPage || 10,
-        filter: {
-          search: ''
-        }
-      })
-      setProductsData(result.items)
+      const result = await getTableData({ path: '/products/list' })
+      if (result) {
+        setProductsData(result.items)
+      }
     } catch (error: any) {
       console.log(error)
     }

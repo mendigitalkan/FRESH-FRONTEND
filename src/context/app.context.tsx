@@ -1,122 +1,87 @@
-import { createContext, useContext, useReducer } from "react";
-import { AppRoleTypes, UserTypes } from "../models/user";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { createContext, useContext, useReducer } from 'react'
 
-type ErrorMessageTypes = { isError: boolean; message: string };
+type IAppAlertTypes = {
+  isDisplayAlert: boolean
+  alertType: 'error' | 'info' | 'warning' | 'success'
+  message: string
+}
 
 export interface AppContextTypes {
-	appRole: AppRoleTypes;
-	setAppRole: (value: AppRoleTypes) => void;
-	currentUser: UserTypes;
-	setCurrentUser: (value: UserTypes) => void;
-	isLoading: boolean;
-	setIsLoading: (value: boolean) => void;
-	errorMessage: ErrorMessageTypes;
-	setErrorMessage: (value: ErrorMessageTypes) => void;
+  isLoading: boolean
+  setIsLoading: (value: boolean) => void
+  appAlert: IAppAlertTypes
+  setAppAlert: (value: IAppAlertTypes) => void
 }
 
 export enum AppAction {
-	APP_ROLE = "APP_ROLE",
-	CURRENT_USER = "CURRENT_USER",
-	IS_LOADING = "IS_LOADING",
-	ERROR_MESSAGE = "ERROR_MESSAGE",
+  IS_LOADING = 'IS_LOADING',
+  APP_ALERT = 'APP_ALERT'
 }
 
 type State = {
-	appRole: AppRoleTypes | any;
-	currentUser: UserTypes | any;
-	isLoading: boolean | any;
-	errorMessage: ErrorMessageTypes | any;
-};
+  isLoading: boolean | unknown
+  appAlert: IAppAlertTypes | unknown
+}
 
-type Action = { type: AppAction; payload?: State };
-type Dispatch = (action: Action) => void;
+type Action = { type: AppAction; payload?: State }
+type Dispatch = (action: Action) => void
 
 type AppContextType = {
-	state: State;
-	dispatch: Dispatch;
-};
+  state: State
+  dispatch: Dispatch
+}
 
-export const AppContext = createContext<AppContextType | any>(undefined);
+export const AppContext = createContext<AppContextType | any>(undefined)
 
 function appReducer(state: State, action: Action) {
-	switch (action.type) {
-		case AppAction.APP_ROLE: {
-			return { ...state, appRole: action.payload?.appRole };
-		}
-		case AppAction.CURRENT_USER: {
-			return { ...state, currentUser: action.payload?.currentUser };
-		}
-		case AppAction.IS_LOADING: {
-			return { ...state, isLoading: action.payload?.isLoading };
-		}
-		case AppAction.ERROR_MESSAGE: {
-			return { ...state, errorMessage: action.payload?.errorMessage };
-		}
-		default: {
-			throw new Error(`Unhandled action type: ${action.type}`);
-		}
-	}
+  switch (action.type) {
+    case AppAction.IS_LOADING: {
+      return { ...state, isLoading: action.payload?.isLoading }
+    }
+    case AppAction.APP_ALERT: {
+      return { ...state, appAlert: action.payload?.appAlert }
+    }
+    default: {
+      throw new Error(`Unhandled action type: ${action.type}`)
+    }
+  }
 }
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
-	const [state, dispatch] = useReducer(appReducer, {
-		appRole: "student",
-		currentUser: {
-			userId: "",
-			userName: "",
-			userEmail: "",
-			userRole: "",
-			departmentId: "",
-			studyProgramId: "",
-		},
-		errorMessage: { isError: false, message: "" },
-		isLoading: false,
-	});
+  const [state, dispatch] = useReducer(appReducer, {
+    appAlert: { isDisplayAlert: false, message: '', alertType: 'success' },
+    isLoading: false
+  })
 
-	const value = { state, dispatch };
+  const value = { state, dispatch }
 
-	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }
 
-export function useAppContext() {
-	const context = useContext(AppContext);
-	if (context === undefined) {
-		throw new Error("useAppContext must be used within a AppProvider");
-	}
-	return {
-		...context,
-		...context.state,
-		setAppRole: (value: AppRoleTypes) => {
-			return context.dispatch({
-				type: AppAction.APP_ROLE,
-				payload: {
-					appRole: value,
-				},
-			});
-		},
-		setCurrentUser: (value: UserTypes) => {
-			return context.dispatch({
-				type: AppAction.CURRENT_USER,
-				payload: {
-					currentUser: value,
-				},
-			});
-		},
-		setIsLoading: (value: boolean) => {
-			return context.dispatch({
-				type: AppAction.IS_LOADING,
-				payload: {
-					isLoading: value,
-				},
-			});
-		},
-		setErrorMessage: (value: ErrorMessageTypes) => {
-			return context.dispatch({
-				type: AppAction.ERROR_MESSAGE,
-				payload: {
-					errorMessage: value,
-				},
-			});
-		},
-	};
+export function useAppContext(): AppContextTypes {
+  const context = useContext(AppContext)
+  if (context === undefined) {
+    throw new Error('useAppContext must be used within a AppProvider')
+  }
+  return {
+    ...context,
+    ...context.state,
+    setIsLoading: (value: boolean) => {
+      return context.dispatch({
+        type: AppAction.IS_LOADING,
+        payload: {
+          isLoading: value
+        }
+      })
+    },
+    setAppAlert: (value: IAppAlertTypes) => {
+      return context.dispatch({
+        type: AppAction.APP_ALERT,
+        payload: {
+          appAlert: value
+        }
+      })
+    }
+  }
 }
