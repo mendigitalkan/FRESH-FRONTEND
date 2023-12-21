@@ -17,14 +17,15 @@ export const usePagenation = () => {
     setPage(0)
   }
 
-  const getTableData = async ({ path }: { path: string }) => {
+  const getTableData = async ({ path, filter }: { path: string; filter?: any }) => {
     try {
+      console.log(filter)
       const result = await handleGetTableDataRequest({
         path: path,
         page: page ?? 0,
         size: rowsPerPage ?? 10,
         filter: {
-          search: ''
+          ...filter
         }
       })
       if (result) {

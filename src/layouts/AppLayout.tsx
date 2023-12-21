@@ -17,7 +17,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { Link, Outlet } from 'react-router-dom'
 import { useState } from 'react'
-import { blue, grey } from '@mui/material/colors'
+import { grey } from '@mui/material/colors'
 import {
   Alert,
   AlertTitle,
@@ -123,6 +123,7 @@ export default function AppLayout() {
     { title: 'Products', link: '/products', icon: <IconMenus.products /> },
     { title: 'Customers', link: '/customers', icon: <IconMenus.customers /> },
     { title: 'Orders', link: '/orders', icon: <IconMenus.orders /> },
+    { title: 'Wa Blas', link: '/wa-blas', icon: <IconMenus.waBlas /> },
     { title: 'Profile', link: '/profile', icon: <IconMenus.profile /> }
   ]
 
@@ -242,7 +243,7 @@ export default function AppLayout() {
               disablePadding
               sx={{
                 display: 'block',
-                backgroundColor: activeLink === item.link ? blue[50] : 'inherit'
+                backgroundColor: activeLink === item.link ? grey[200] : 'inherit'
               }}
               key={index}
               onClick={() => setActiveLink(item.link)}

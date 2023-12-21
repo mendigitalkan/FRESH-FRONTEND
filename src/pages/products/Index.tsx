@@ -5,18 +5,23 @@ import { Box, Button, Grid, Stack, TablePagination } from '@mui/material'
 import ProductCard from '../../components/card/ProductCard'
 import AddIcon from '@mui/icons-material/Add'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
-import StorefrontIcon from '@mui/icons-material/Storefront'
 import { usePagenation } from '../../hooks/pagination'
+import { IconMenus } from '../../components/icon'
+import { SearchField } from '../../components/search/Index'
 
 const ProductView = () => {
   const { getTableData, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } =
     usePagenation()
 
   const [productsData, setProductsData] = useState<IProductModel[]>([])
+  const [filterData, setFilterData] = useState<any>({})
 
   const getData = async () => {
     try {
-      const result = await getTableData({ path: '/products/list' })
+      const result = await getTableData({
+        path: `/products/list`,
+        filter: filterData
+      })
       if (result) {
         setProductsData(result.items)
       }
@@ -27,7 +32,7 @@ const ProductView = () => {
 
   useEffect(() => {
     getData()
-  }, [page, rowsPerPage])
+  }, [page, rowsPerPage, filterData])
 
   return (
     <Box>
@@ -36,23 +41,25 @@ const ProductView = () => {
           {
             label: 'Products',
             link: 'products',
-            icon: <StorefrontIcon fontSize='small' />
-          },
-          {
-            label: 'Products',
-            link: 'products'
+            icon: <IconMenus.products fontSize='small' />
           }
         ]}
       />
       <Stack justifyContent='space-between' mb={5} direction='row'>
-        <div></div>
+        <SearchField
+          onSearch={(value) => {
+            setFilterData({
+              search: value
+            })
+          }}
+        />
         <Button
           variant='contained'
           size='medium'
           sx={{ width: 200 }}
           startIcon={<AddIcon />}
         >
-          New Product
+          Add Product
         </Button>
       </Stack>
       <Grid container spacing={3}>

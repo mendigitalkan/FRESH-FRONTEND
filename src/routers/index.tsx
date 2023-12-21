@@ -7,6 +7,7 @@ import ProductView from '../pages/products/Index'
 import CustomersView from '../pages/custommers/Index'
 import OrderView from '../pages/orders/Index'
 import ProfileView from '../pages/profile/Index'
+import WaBlasView from '../pages/waBlas/Index'
 // import { AppContextTypes, useAppContext } from '../context/app.context'
 
 export default function AppRouters() {
@@ -34,6 +35,10 @@ export default function AppRouters() {
         {
           path: '/orders',
           element: <OrderView />
+        },
+        {
+          path: '/wa-blas',
+          element: <WaBlasView />
         },
         {
           path: '/profile',

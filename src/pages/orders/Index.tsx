@@ -2,10 +2,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react'
 import TableStyle from '../../components/table/Index'
-import { Button, TableCell } from '@mui/material'
+import { Box, Button, TableCell } from '@mui/material'
 import { IProductModel } from '../../models/product'
 import AddIcon from '@mui/icons-material/Add'
 import { usePagenation } from '../../hooks/pagination'
+import BreadCrumberStyle from '../../components/breadcrumb/Index'
+import { IconMenus } from '../../components/icon'
 
 const OrderView = () => {
   const { getTableData, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } =
@@ -62,7 +64,17 @@ const OrderView = () => {
   }, [page, rowsPerPage])
 
   return (
-    <div>
+    <Box>
+      <BreadCrumberStyle
+        navigation={[
+          {
+            label: 'Orders',
+            link: '/orders',
+            icon: <IconMenus.orders fontSize='small' />
+          }
+        ]}
+      />
+
       <TableStyle
         tableOption={
           <Button variant='contained' startIcon={<AddIcon />}>
@@ -76,7 +88,7 @@ const OrderView = () => {
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}
       />
-    </div>
+    </Box>
   )
 }
 
