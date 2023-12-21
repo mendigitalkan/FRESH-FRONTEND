@@ -3,7 +3,7 @@ import { createContext, useContext, useReducer } from 'react'
 
 type IAppAlertTypes = {
   isDisplayAlert: boolean
-  alertType: 'error' | 'info' | 'warning' | 'success'
+  alertType: 'error' | 'info' | 'warning' | 'success' | undefined
   message: string
 }
 
@@ -50,7 +50,7 @@ function appReducer(state: State, action: Action) {
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(appReducer, {
-    appAlert: { isDisplayAlert: false, message: '', alertType: 'success' },
+    appAlert: { isDisplayAlert: false, message: '', alertType: undefined },
     isLoading: false
   })
 

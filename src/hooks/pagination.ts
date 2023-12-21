@@ -21,8 +21,8 @@ export const usePagenation = () => {
     try {
       const result = await handleGetTableDataRequest({
         path: path,
-        page: page || 0,
-        size: rowsPerPage || 10,
+        page: page ?? 0,
+        size: rowsPerPage ?? 10,
         filter: {
           search: ''
         }

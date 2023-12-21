@@ -32,12 +32,8 @@ import {
   Tooltip
 } from '@mui/material'
 import AdbIcon from '@mui/icons-material/Adb'
-import StorefrontIcon from '@mui/icons-material/Storefront'
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
-import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlined'
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
-import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined'
 import { useAppContext } from '../context/app.context'
+import { IconMenus } from '../components/icon'
 
 const drawerWidth = 240
 
@@ -123,11 +119,11 @@ export default function AppLayout() {
   }
 
   const menuItems = [
-    { title: 'Dashboard', link: '/', icon: <SpaceDashboardOutlinedIcon /> },
-    { title: 'Products', link: '/products', icon: <StorefrontIcon /> },
-    { title: 'Customers', link: '/customers', icon: <PeopleAltOutlinedIcon /> },
-    { title: 'Orders', link: '/orders', icon: <AddShoppingCartIcon /> },
-    { title: 'Profile', link: '/profile', icon: <PersonOutlineOutlinedIcon /> }
+    { title: 'Dashboard', link: '/', icon: <IconMenus.dashboard /> },
+    { title: 'Products', link: '/products', icon: <IconMenus.products /> },
+    { title: 'Customers', link: '/customers', icon: <IconMenus.customers /> },
+    { title: 'Orders', link: '/orders', icon: <IconMenus.orders /> },
+    { title: 'Profile', link: '/profile', icon: <IconMenus.profile /> }
   ]
 
   const [activeLink, setActiveLink] = useState('/')
@@ -307,12 +303,12 @@ export default function AppLayout() {
               setAppAlert({
                 isDisplayAlert: false,
                 message: '',
-                alertType: 'success'
+                alertType: undefined
               })
             }}
           >
             <Alert severity={appAlert.alertType}>
-              <AlertTitle>{appAlert.alertType.toUpperCase()}</AlertTitle>
+              <AlertTitle>{appAlert?.alertType?.toUpperCase()}</AlertTitle>
               {appAlert.message}
             </Alert>
           </Snackbar>

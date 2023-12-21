@@ -41,8 +41,8 @@ export const useHttp = () => {
   const serviceHttp = new ServiceHttp()
 
   const handleGetRequest = async ({ path }: GetRequestTypes) => {
-    setIsLoading(true)
     try {
+      setIsLoading(true)
       const result = await serviceHttp.get({
         path
       })
@@ -50,12 +50,14 @@ export const useHttp = () => {
     } catch (error: any) {
       console.error(error?.message)
       setAppAlert({ isDisplayAlert: true, message: error?.message, alertType: 'error' })
+    } finally {
+      setIsLoading(false)
     }
-    setIsLoading(false)
   }
 
   const handlePostRequest = async ({ path, body }: PostRequestTypes) => {
     try {
+      setIsLoading(true)
       const result = await serviceHttp.post({
         path,
         body
@@ -64,6 +66,8 @@ export const useHttp = () => {
     } catch (error: any) {
       console.error(error?.message)
       setAppAlert({ isDisplayAlert: true, message: error?.message, alertType: 'error' })
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -81,6 +85,7 @@ export const useHttp = () => {
 
   const handleUpdateRequest = async ({ path, body }: UpdateRequestTypes) => {
     try {
+      setIsLoading(true)
       const result = await serviceHttp.patch({
         path,
         body
@@ -89,6 +94,8 @@ export const useHttp = () => {
     } catch (error: any) {
       console.error(error?.message)
       setAppAlert({ isDisplayAlert: true, message: error?.message, alertType: 'error' })
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -107,9 +114,7 @@ export const useHttp = () => {
       console.error(error?.message)
       setAppAlert({ isDisplayAlert: true, message: error?.message, alertType: 'error' })
     } finally {
-      setTimeout(() => {
-        setIsLoading(false)
-      }, 500)
+      setIsLoading(false)
     }
   }
 
