@@ -1,7 +1,7 @@
 import { CONFIGS } from '../configs'
 
 export const useToken = () => {
-  const TOKEN_KEY = CONFIGS.tokenKey
+  const TOKEN_KEY = CONFIGS.localStorageKey
 
   const getToken = (): string | null => {
     return localStorage.getItem(TOKEN_KEY)

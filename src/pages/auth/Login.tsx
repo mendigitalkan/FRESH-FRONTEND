@@ -1,13 +1,36 @@
 import { useState } from 'react'
 import { Button, Card, Typography, Container, Stack, Box, TextField } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useHttp } from '../../hooks/http'
+import { useToken } from '../../hooks/token'
 
 const LoginView = () => {
+  const { handlePostRequest } = useHttp()
+  const { setToken } = useToken()
+  const navigate = useNavigate()
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [errorMessageEmail, setErrorMessageEmail] = useState('')
-  const [errorMessagePassword, setErrorMessagePassword] = useState('')
-  const [isError, setIsError] = useState(false)
+
+  const handleSubmit = async () => {
+    try {
+      const result = await handlePostRequest({
+        path: '/users/login',
+        body: {
+          userEmail: email,
+          userPassword: password
+        }
+      })
+      if (result !== null) {
+        setToken(result.data.token)
+      }
+
+      navigate('/')
+      window.location.reload()
+    } catch (error: unknown) {
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -34,8 +57,8 @@ const LoginView = () => {
             }}
           >
             <TextField
-              error={isError}
-              helperText={errorMessageEmail}
+              // error={isError}
+              // helperText={errorMessageEmail}
               label='E-mail'
               id='outlined-start-adornment'
               sx={{ m: 1, width: '36ch' }}
@@ -43,14 +66,14 @@ const LoginView = () => {
               type='email'
               onChange={(e) => {
                 setEmail(e.target.value)
-                setIsError(false)
-                setErrorMessageEmail('')
+                // setIsError(false)
+                // setErrorMessageEmail('')
               }}
             />
 
             <TextField
-              error={isError}
-              helperText={errorMessagePassword}
+              // error={isError}
+              // helperText={errorMessagePassword}
               label='Password'
               id='outlined-start-adornment'
               sx={{ m: 1, width: '36ch' }}
@@ -58,13 +81,11 @@ const LoginView = () => {
               type='password'
               onChange={(e) => {
                 setPassword(e.target.value)
-                setIsError(false)
-                setErrorMessagePassword('')
+                // setIsError(false)
+                // setErrorMessagePassword('')
               }}
             />
-
             <Button
-              type='submit'
               sx={{
                 m: 1,
                 width: '39ch',
@@ -73,6 +94,7 @@ const LoginView = () => {
                 fontWeight: 'bold'
               }}
               variant={'contained'}
+              onClick={handleSubmit}
             >
               Login
             </Button>
@@ -80,7 +102,7 @@ const LoginView = () => {
           <Stack direction='row' alignItems='center' mt={5}>
             <Typography>Belum punya akun?</Typography>
             <Link style={{ paddingLeft: '10px', textDecoration: 'none' }} to='sign-up'>
-              Buat akun
+              Sign Up
             </Link>
           </Stack>
         </Card>

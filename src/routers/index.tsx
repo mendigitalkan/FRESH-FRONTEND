@@ -9,6 +9,8 @@ import OrderView from '../pages/orders/Index'
 import ProfileView from '../pages/profile/Index'
 import WaBlasView from '../pages/waBlas/Index'
 import SignUpView from '../pages/auth/SignUp'
+import AuthLayout from '../layouts/AuthLayout'
+import { useToken } from '../hooks/token'
 // import { AppContextTypes, useAppContext } from '../context/app.context'
 
 export default function AppRouters() {
@@ -16,6 +18,10 @@ export default function AppRouters() {
 
   const routers: { path: string; element: JSX.Element }[] = []
   const authRouters: { path: string; element: JSX.Element }[] = [
+    {
+      path: '/',
+      element: <LoginView />
+    },
     {
       path: '/login',
       element: <LoginView />
@@ -65,7 +71,9 @@ export default function AppRouters() {
       break
   }
 
-  const isAuth = false
+  const { getToken } = useToken()
+
+  const isAuth = getToken()
 
   if (isAuth) {
     routers.push(...mainRouters)
@@ -76,7 +84,7 @@ export default function AppRouters() {
   const appRouters = createBrowserRouter([
     {
       path: '/',
-      element: isAuth ?? <AppLayout />,
+      element: isAuth ? <AppLayout /> : <AuthLayout />,
       errorElement: <ErrorPage />,
       children: routers
     }

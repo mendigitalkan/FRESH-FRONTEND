@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { Button, Card, Typography, Container, Stack, Box, TextField } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 
 const SignUpView = () => {
   const { handlePostRequest } = useHttp()
+  const navigate = useNavigate()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -12,16 +13,20 @@ const SignUpView = () => {
   const [phoneNumber, setPhoneNumber] = useState('')
 
   const handleSubmit = async () => {
-    const result = await handlePostRequest({
-      path: '/users/register',
-      body: {
-        userName: userName,
-        userEmail: email,
-        userPassword: password,
-        userPhoneNumber: phoneNumber
-      }
-    })
-    return result
+    try {
+      await handlePostRequest({
+        path: '/users/register',
+        body: {
+          userName: userName,
+          userEmail: email,
+          userPassword: password,
+          userPhoneNumber: phoneNumber
+        }
+      })
+      navigate('/login')
+    } catch (error: unknown) {
+      console.log(error)
+    }
   }
 
   return (
@@ -106,7 +111,6 @@ const SignUpView = () => {
             />
 
             <Button
-              type='submit'
               sx={{
                 m: 1,
                 width: '39ch',

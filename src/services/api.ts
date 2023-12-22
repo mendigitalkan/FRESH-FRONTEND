@@ -11,13 +11,9 @@ export interface GetTableDataTypes {
 }
 
 export const getHeaders = () => {
-  const user = localStorage.getItem(CONFIGS.localStorageKey) || ''
-  const result: any = JSON.parse(user)
+  const token = localStorage.getItem(CONFIGS.localStorageKey) || ''
   return {
-    'x-user-id': result.userId,
-    'x-department-id': result.departmentId,
-    'x-study-program-id': result.studyProgramId,
-    'x-user-role': result.userRole
+    'x-token': token
   }
 }
 
@@ -108,7 +104,7 @@ export class ServiceHttp {
             password: CONFIGS.authorization.passsword
           },
           headers: {
-            // ...getHeaders()
+            ...getHeaders()
           }
         }
       )
