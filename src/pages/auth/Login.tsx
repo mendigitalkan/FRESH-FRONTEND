@@ -25,8 +25,8 @@ const LoginView = () => {
         setToken(result.data.token)
       }
 
-      navigate('/')
       window.location.reload()
+      navigate('/')
     } catch (error: unknown) {
       console.log(error)
     }

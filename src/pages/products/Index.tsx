@@ -8,6 +8,7 @@ import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { usePagenation } from '../../hooks/pagination'
 import { IconMenus } from '../../components/icon'
 import { SearchField } from '../../components/search/Index'
+import { useNavigate } from 'react-router-dom'
 
 const ProductView = () => {
   const { getTableData, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } =
@@ -15,6 +16,7 @@ const ProductView = () => {
 
   const [productsData, setProductsData] = useState<IProductModel[]>([])
   const [filterData, setFilterData] = useState<any>({})
+  const navigate = useNavigate()
 
   const getData = async () => {
     try {
@@ -58,6 +60,7 @@ const ProductView = () => {
           size='medium'
           sx={{ width: 200 }}
           startIcon={<AddIcon />}
+          onClick={() => navigate('/products/create')}
         >
           Add Product
         </Button>

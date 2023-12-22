@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useNavigate } from 'react-router-dom'
 import { CONFIGS } from '../configs'
 import { AppContextTypes, useAppContext } from '../context/app.context'
 import { ServiceHttp } from '../services/api'
+import { useToken } from './token'
 
 interface PostRequestTypes {
   path: string
@@ -30,17 +32,22 @@ interface GetTabelDataRequestTypes {
 }
 
 export interface HttpRequestTypes {
-  handleGetRequest: (value: GetRequestTypes) => void
-  handlePostRequest: (value: PostRequestTypes) => void
-  handleRemoveRequest: (value: RemoveRequestTypes) => void
-  handleGetTableDataRequest: (value: GetTabelDataRequestTypes) => void
+  handleGetRequest: (value: GetRequestTypes) => any
+  handlePostRequest: (value: PostRequestTypes) => any
+  handleRemoveRequest: (value: RemoveRequestTypes) => any
+  handleGetTableDataRequest: (value: GetTabelDataRequestTypes) => any
 }
 
 export const useHttp = () => {
   const { setAppAlert, setIsLoading }: AppContextTypes = useAppContext()
   const serviceHttp = new ServiceHttp()
+  const isAuth = useToken()
+  const navigate = useNavigate()
 
   const handleGetRequest = async ({ path }: GetRequestTypes) => {
+    if (isAuth === null) {
+      navigate('/')
+    }
     try {
       setIsLoading(true)
       const result = await serviceHttp.get({
@@ -56,6 +63,9 @@ export const useHttp = () => {
   }
 
   const handlePostRequest = async ({ path, body }: PostRequestTypes) => {
+    if (isAuth === null) {
+      navigate('/')
+    }
     try {
       setIsLoading(true)
       const result = await serviceHttp.post({
@@ -72,6 +82,9 @@ export const useHttp = () => {
   }
 
   const handleRemoveRequest = async ({ path }: RemoveRequestTypes) => {
+    if (isAuth === null) {
+      navigate('/')
+    }
     try {
       const result = await serviceHttp.remove({
         path
@@ -84,6 +97,9 @@ export const useHttp = () => {
   }
 
   const handleUpdateRequest = async ({ path, body }: UpdateRequestTypes) => {
+    if (isAuth === null) {
+      navigate('/')
+    }
     try {
       setIsLoading(true)
       const result = await serviceHttp.patch({
@@ -100,6 +116,9 @@ export const useHttp = () => {
   }
 
   const handleGetTableDataRequest = async (props: GetTabelDataRequestTypes) => {
+    if (isAuth === null) {
+      navigate('/')
+    }
     try {
       setIsLoading(true)
       const result = await serviceHttp.getTableData({

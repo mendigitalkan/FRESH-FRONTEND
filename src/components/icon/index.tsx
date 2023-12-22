@@ -4,6 +4,7 @@ import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlin
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
+import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined'
 
 export const IconMenus = {
   dashboard: SpaceDashboardOutlinedIcon,
@@ -11,5 +12,6 @@ export const IconMenus = {
   customers: PeopleAltOutlinedIcon,
   orders: AddShoppingCartIcon,
   waBlas: WhatsAppIcon,
-  profile: PersonOutlineOutlinedIcon
+  profile: PersonOutlineOutlinedIcon,
+  payment: PaymentsOutlinedIcon
 }

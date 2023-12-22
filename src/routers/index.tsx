@@ -11,6 +11,8 @@ import WaBlasView from '../pages/waBlas/Index'
 import SignUpView from '../pages/auth/SignUp'
 import AuthLayout from '../layouts/AuthLayout'
 import { useToken } from '../hooks/token'
+import ProductCreateView from '../pages/products/ProductCreateView'
+import ProductDetailView from '../pages/products/ProductDetailView'
 // import { AppContextTypes, useAppContext } from '../context/app.context'
 
 export default function AppRouters() {
@@ -47,6 +49,14 @@ export default function AppRouters() {
           {
             path: '/products',
             element: <ProductView />
+          },
+          {
+            path: '/products/create',
+            element: <ProductCreateView />
+          },
+          {
+            path: '/products/detail',
+            element: <ProductDetailView />
           },
           {
             path: '/customers',

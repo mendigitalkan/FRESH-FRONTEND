@@ -18,8 +18,19 @@ const DashboardView = () => {
       <Stack direction='row' flexWrap='wrap' spacing={5} my={3}>
         <Card sx={{ p: 3, minWidth: 200 }}>
           <Stack direction='row' spacing={2}>
+            <IconMenus.payment fontSize='large' color={'inherit'} />
+            <Stack justifyContent='center'>
+              <Typography>Saldo</Typography>
+              <Typography fontSize='large' fontWeight='bold'>
+                Rp1000.000
+              </Typography>
+            </Stack>
+          </Stack>
+        </Card>
+        <Card sx={{ p: 3, minWidth: 200 }}>
+          <Stack direction='row' spacing={2}>
             <IconMenus.products fontSize='large' color={'inherit'} />
-            <Stack justifyContent='center' alignItems='center'>
+            <Stack justifyContent='center'>
               <Typography>Products</Typography>
               <Typography fontSize='large' fontWeight='bold'>
                 10
@@ -30,11 +41,11 @@ const DashboardView = () => {
 
         <Card sx={{ p: 3, minWidth: 200 }}>
           <Stack direction='row' spacing={2}>
-            <IconMenus.products fontSize='large' color={'inherit'} />
-            <Stack justifyContent='center' alignItems='center'>
-              <Typography>Products</Typography>
+            <IconMenus.orders fontSize='large' color={'inherit'} />
+            <Stack justifyContent='center'>
+              <Typography>Orders</Typography>
               <Typography fontSize='large' fontWeight='bold'>
-                10
+                5
               </Typography>
             </Stack>
           </Stack>
@@ -42,21 +53,9 @@ const DashboardView = () => {
 
         <Card sx={{ p: 3, minWidth: 200 }}>
           <Stack direction='row' spacing={2}>
-            <IconMenus.products fontSize='large' color={'inherit'} />
-            <Stack justifyContent='center' alignItems='center'>
-              <Typography>Products</Typography>
-              <Typography fontSize='large' fontWeight='bold'>
-                10
-              </Typography>
-            </Stack>
-          </Stack>
-        </Card>
-
-        <Card sx={{ p: 3, minWidth: 200 }}>
-          <Stack direction='row' spacing={2}>
-            <IconMenus.products fontSize='large' color={'inherit'} />
-            <Stack justifyContent='center' alignItems='center'>
-              <Typography>Products</Typography>
+            <IconMenus.customers fontSize='large' color={'inherit'} />
+            <Stack justifyContent='center'>
+              <Typography>Users</Typography>
               <Typography fontSize='large' fontWeight='bold'>
                 10
               </Typography>

@@ -15,7 +15,7 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { grey } from '@mui/material/colors'
 import {
@@ -34,6 +34,7 @@ import {
 import AdbIcon from '@mui/icons-material/Adb'
 import { useAppContext } from '../context/app.context'
 import { IconMenus } from '../components/icon'
+import { useToken } from '../hooks/token'
 
 const drawerWidth = 240
 
@@ -109,6 +110,8 @@ export default function AppLayout() {
   const theme = useTheme()
   const [open, setOpen] = useState(false)
   const { appAlert, setAppAlert, isLoading, setIsLoading } = useAppContext()
+  const { removeToken } = useToken()
+  const navigate = useNavigate()
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -137,8 +140,6 @@ export default function AppLayout() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
   }
-
-  const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 
   return (
     <Box sx={{ display: 'flex', bgcolor: grey[50], minHeight: window.innerHeight }}>
@@ -220,11 +221,24 @@ export default function AppLayout() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign='center'>{setting}</Typography>
-                  </MenuItem>
-                ))}
+                <MenuItem
+                  onClick={() => {
+                    handleCloseUserMenu()
+                    navigate('/profile')
+                  }}
+                >
+                  <Typography textAlign='center'>Profile</Typography>
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleCloseUserMenu()
+                    removeToken()
+                    navigate('/')
+                    window.location.reload()
+                  }}
+                >
+                  <Typography textAlign='center'>Logout</Typography>
+                </MenuItem>
               </Menu>
             </Box>
           </Toolbar>
