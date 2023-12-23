@@ -1,8 +1,20 @@
-import './App.css'
 import AppRouters from './routers'
 
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'light'
+  }
+})
+
 function App() {
-  return <AppRouters />
+  return (
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline /> <AppRouters />
+    </ThemeProvider>
+  )
 }
 
 export default App
