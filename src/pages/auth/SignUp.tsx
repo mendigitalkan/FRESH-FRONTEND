@@ -23,7 +23,7 @@ const SignUpView = () => {
           userPhoneNumber: phoneNumber
         }
       })
-      navigate('/login')
+      navigate('/')
     } catch (error: unknown) {
       console.log(error)
     }
