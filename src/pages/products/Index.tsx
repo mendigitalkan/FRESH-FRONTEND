@@ -56,7 +56,7 @@ const ProductView = () => {
           }}
         />
         <Button
-          variant='contained'
+          variant='outlined'
           size='medium'
           sx={{ width: 200 }}
           startIcon={<AddIcon />}

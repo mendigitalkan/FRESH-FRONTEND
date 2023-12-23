@@ -41,7 +41,8 @@ export interface HttpRequestTypes {
 export const useHttp = () => {
   const { setAppAlert, setIsLoading }: AppContextTypes = useAppContext()
   const serviceHttp = new ServiceHttp()
-  const isAuth = useToken()
+  const { getToken } = useToken()
+  const isAuth = getToken()
   const navigate = useNavigate()
 
   const handleGetRequest = async ({ path }: GetRequestTypes) => {
@@ -119,6 +120,7 @@ export const useHttp = () => {
     if (isAuth === null) {
       navigate('/')
     }
+
     try {
       const result = await serviceHttp.getTableData({
         url: CONFIGS.baseUrl + props.path,

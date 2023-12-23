@@ -17,7 +17,7 @@ import { Stack, TextField } from '@mui/material'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 
-const OrderView = () => {
+const CustomersView = () => {
   const [search, setSearch] = useState<string>('')
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest } = useHttp()
@@ -123,9 +123,9 @@ const OrderView = () => {
       <BreadCrumberStyle
         navigation={[
           {
-            label: 'Orders',
-            link: '/orders',
-            icon: <IconMenus.orders fontSize='small' />
+            label: 'Customers',
+            link: '/customers',
+            icon: <IconMenus.customers fontSize='small' />
           }
         ]}
       />
@@ -160,4 +160,4 @@ const OrderView = () => {
   )
 }
 
-export default OrderView
+export default CustomersView

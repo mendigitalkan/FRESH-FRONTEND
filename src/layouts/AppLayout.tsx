@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import MuiDrawer from '@mui/material/Drawer'
@@ -16,7 +17,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import { grey } from '@mui/material/colors'
+import { blue, grey } from '@mui/material/colors'
 import {
   Alert,
   AlertTitle,
@@ -34,6 +35,8 @@ import AdbIcon from '@mui/icons-material/Adb'
 import { useAppContext } from '../context/app.context'
 import { IconMenus } from '../components/icon'
 import { useToken } from '../hooks/token'
+import { jwtDecode } from 'jwt-decode'
+import { IUserRoleModel } from '../models/userRoleModel'
 
 const drawerWidth = 240
 
@@ -109,23 +112,61 @@ export default function AppLayout() {
   const theme = useTheme()
   const [openDrawer, setOpenDrawer] = useState(true)
   const { appAlert, setAppAlert, isLoading, setIsLoading } = useAppContext()
-  const { removeToken } = useToken()
+  const { removeToken, getToken } = useToken()
   const navigate = useNavigate()
 
-  const handleDrawer = () => {
-    setOpenDrawer(!openDrawer)
-  }
+  const menuItems = []
 
-  const menuItems = [
+  const adminMenus = [
     { title: 'Dashboard', link: '/', icon: <IconMenus.dashboard /> },
     { title: 'Products', link: '/products', icon: <IconMenus.products /> },
     { title: 'Customers', link: '/customers', icon: <IconMenus.customers /> },
     { title: 'Orders', link: '/orders', icon: <IconMenus.orders /> },
-    { title: 'Transactions', link: '/transactions', icon: <IconMenus.transaction /> },
-    { title: 'Wa Blas', link: '/wa-blas', icon: <IconMenus.waBlas /> },
-    { title: 'Settings', link: '/settings', icon: <IconMenus.setting /> },
-    { title: 'Profile', link: '/profile', icon: <IconMenus.profile /> }
+    {
+      title: 'Transactions',
+      link: '/transactions',
+      icon: <IconMenus.transaction />
+    }
   ]
+
+  const superAdminMenus = [
+    ...adminMenus,
+    {
+      title: 'Wa Blas',
+      link: '/wa-blas',
+      icon: <IconMenus.waBlas />
+    },
+    {
+      title: 'Admins',
+      link: '/admins',
+      icon: <IconMenus.waBlas />
+    }
+  ]
+
+  const token = getToken()
+
+  if (token !== null) {
+    const resultToken: IUserRoleModel = jwtDecode(token)
+    switch (resultToken.userRole) {
+      case 'admin':
+        menuItems.push(...adminMenus)
+        break
+      case 'superAdmin':
+        menuItems.push(...superAdminMenus)
+        break
+      default:
+        break
+    }
+
+    menuItems.push(
+      { title: 'Settings', link: '/settings', icon: <IconMenus.setting /> },
+      { title: 'Profile', link: '/profile', icon: <IconMenus.profile /> }
+    )
+  }
+
+  const handleDrawer = () => {
+    setOpenDrawer(!openDrawer)
+  }
 
   const [activeLink, setActiveLink] = useState('/')
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
@@ -253,7 +294,7 @@ export default function AppLayout() {
               disablePadding
               sx={{
                 display: 'block',
-                backgroundColor: activeLink === item.link ? grey[200] : 'inherit'
+                backgroundColor: activeLink === item.link ? blue[50] : 'inherit'
               }}
               key={index}
               onClick={() => setActiveLink(item.link)}
@@ -276,14 +317,18 @@ export default function AppLayout() {
                     sx={{
                       minWidth: 0,
                       mr: openDrawer ? 3 : 'auto',
-                      justifyContent: 'center'
+                      justifyContent: 'center',
+                      color: activeLink === item.link ? blue[800] : 'inherit'
                     }}
                   >
                     {item.icon}
                   </ListItemIcon>
                   <ListItemText
                     primary={item.title}
-                    sx={{ opacity: openDrawer ? 1 : 0 }}
+                    sx={{
+                      opacity: openDrawer ? 1 : 0,
+                      color: activeLink === item.link ? blue[800] : 'inherit'
+                    }}
                   />
                 </ListItemButton>
               </Link>
