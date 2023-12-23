@@ -120,7 +120,6 @@ export const useHttp = () => {
       navigate('/')
     }
     try {
-      setIsLoading(true)
       const result = await serviceHttp.getTableData({
         url: CONFIGS.baseUrl + props.path,
         pagination: true,
@@ -132,8 +131,6 @@ export const useHttp = () => {
     } catch (error: any) {
       console.error(error?.message)
       setAppAlert({ isDisplayAlert: true, message: error?.message, alertType: 'error' })
-    } finally {
-      setIsLoading(false)
     }
   }
 
