@@ -13,6 +13,8 @@ import AuthLayout from '../layouts/AuthLayout'
 import { useToken } from '../hooks/token'
 import ProductCreateView from '../pages/products/ProductCreateView'
 import ProductDetailView from '../pages/products/ProductDetailView'
+import SettingsView from '../pages/settings/Index'
+import TransactionView from '../pages/transactions/Index'
 // import { AppContextTypes, useAppContext } from '../context/app.context'
 
 export default function AppRouters() {
@@ -67,8 +69,16 @@ export default function AppRouters() {
             element: <OrderView />
           },
           {
+            path: '/transactions',
+            element: <TransactionView />
+          },
+          {
             path: '/wa-blas',
             element: <WaBlasView />
+          },
+          {
+            path: '/settings',
+            element: <SettingsView />
           },
           {
             path: '/profile',

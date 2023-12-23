@@ -15,10 +15,10 @@ const DashboardView = () => {
           }
         ]}
       />
-      <Stack direction='row' flexWrap='wrap' spacing={5} my={3}>
+      <Stack direction='row' flexWrap='wrap' spacing={3} my={3}>
         <Card sx={{ p: 3, minWidth: 200 }}>
           <Stack direction='row' spacing={2}>
-            <IconMenus.payment fontSize='large' color={'inherit'} />
+            <IconMenus.transaction fontSize='large' color={'inherit'} />
             <Stack justifyContent='center'>
               <Typography>Saldo</Typography>
               <Typography fontSize='large' fontWeight='bold'>

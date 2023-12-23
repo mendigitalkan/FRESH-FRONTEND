@@ -108,17 +108,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function AppLayout() {
   const theme = useTheme()
-  const [open, setOpen] = useState(false)
+  const [openDrawer, setOpenDrawer] = useState(true)
   const { appAlert, setAppAlert, isLoading, setIsLoading } = useAppContext()
   const { removeToken } = useToken()
   const navigate = useNavigate()
 
-  const handleDrawerOpen = () => {
-    setOpen(true)
-  }
-
-  const handleDrawerClose = () => {
-    setOpen(false)
+  const handleDrawer = () => {
+    setOpenDrawer(!openDrawer)
   }
 
   const menuItems = [
@@ -126,7 +122,9 @@ export default function AppLayout() {
     { title: 'Products', link: '/products', icon: <IconMenus.products /> },
     { title: 'Customers', link: '/customers', icon: <IconMenus.customers /> },
     { title: 'Orders', link: '/orders', icon: <IconMenus.orders /> },
+    { title: 'Transactions', link: '/transactions', icon: <IconMenus.transaction /> },
     { title: 'Wa Blas', link: '/wa-blas', icon: <IconMenus.waBlas /> },
+    { title: 'Settings', link: '/settings', icon: <IconMenus.setting /> },
     { title: 'Profile', link: '/profile', icon: <IconMenus.profile /> }
   ]
 
@@ -144,17 +142,17 @@ export default function AppLayout() {
   return (
     <Box sx={{ display: 'flex', bgcolor: grey[50], minHeight: window.innerHeight }}>
       <CssBaseline />
-      <AppBar position='fixed' open={open}>
+      <AppBar position='fixed' open={openDrawer}>
         <Container maxWidth='xl'>
           <Toolbar disableGutters>
             <IconButton
               color='inherit'
               aria-label='open drawer'
-              onClick={handleDrawerOpen}
+              onClick={handleDrawer}
               edge='start'
               sx={{
                 marginRight: 5,
-                ...(open && { display: 'none' })
+                ...(openDrawer && { display: 'none' })
               }}
             >
               <MenuIcon />
@@ -244,13 +242,13 @@ export default function AppLayout() {
           </Toolbar>
         </Container>
       </AppBar>
-      <Drawer variant='permanent' open={open}>
+      <Drawer variant='permanent' open={openDrawer}>
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawer}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
-        <Divider />
+        {/* <Divider /> */}
         <List>
           {menuItems.map((item, index) => (
             <ListItem
@@ -272,20 +270,23 @@ export default function AppLayout() {
                 <ListItemButton
                   sx={{
                     minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
+                    justifyContent: openDrawer ? 'initial' : 'center',
                     px: 2.5
                   }}
                 >
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      mr: open ? 3 : 'auto',
+                      mr: openDrawer ? 3 : 'auto',
                       justifyContent: 'center'
                     }}
                   >
                     {item.icon}
                   </ListItemIcon>
-                  <ListItemText primary={item.title} sx={{ opacity: open ? 1 : 0 }} />
+                  <ListItemText
+                    primary={item.title}
+                    sx={{ opacity: openDrawer ? 1 : 0 }}
+                  />
                 </ListItemButton>
               </Link>
             </ListItem>
