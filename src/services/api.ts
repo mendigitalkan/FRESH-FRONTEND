@@ -13,7 +13,7 @@ export interface GetTableDataTypes {
 export const getHeaders = () => {
   const token = localStorage.getItem(CONFIGS.localStorageKey) || ''
   return {
-    'x-token': token
+    Authorization: `Bearer ${token}`
   }
 }
 
@@ -23,10 +23,6 @@ export class ServiceHttp {
   public async get({ path }: { path: string }) {
     try {
       const result = await axios.get(this.baseUrl + path, {
-        auth: {
-          username: CONFIGS.authorization.username,
-          password: CONFIGS.authorization.passsword
-        },
         headers: {
           ...getHeaders()
         }
@@ -34,6 +30,11 @@ export class ServiceHttp {
       return result.data.data
     } catch (error: any) {
       console.log(error.response.data.error_message || error.message)
+
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem(CONFIGS.localStorageKey)
+      }
+
       throw Error(error.response.data.error_message || error.message)
     }
   }
@@ -41,10 +42,6 @@ export class ServiceHttp {
   public async post({ path, body }: { path: string; body: any }) {
     try {
       const result = await axios.post(this.baseUrl + path, body, {
-        auth: {
-          username: CONFIGS.authorization.username,
-          password: CONFIGS.authorization.passsword
-        },
         headers: {
           ...getHeaders()
         }
@@ -52,6 +49,11 @@ export class ServiceHttp {
       return result.data
     } catch (error: any) {
       console.log(error.response.data.error_message || error.message)
+
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem(CONFIGS.localStorageKey)
+      }
+
       throw Error(error.response.data.error_message || error.message)
     }
   }
@@ -59,10 +61,6 @@ export class ServiceHttp {
   public async patch({ path, body }: { path: string; body: any }) {
     try {
       const result = await axios.patch(this.baseUrl + path, body, {
-        auth: {
-          username: CONFIGS.authorization.username,
-          password: CONFIGS.authorization.passsword
-        },
         headers: {
           ...getHeaders()
         }
@@ -70,6 +68,11 @@ export class ServiceHttp {
       return result.data
     } catch (error: any) {
       console.log(error.response.data.error_message || error.message)
+
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem(CONFIGS.localStorageKey)
+      }
+
       throw Error(error.response.data.error_message || error.message)
     }
   }
@@ -77,10 +80,6 @@ export class ServiceHttp {
   public async remove({ path }: { path: string }) {
     try {
       const result = await axios.delete(this.baseUrl + path, {
-        auth: {
-          username: CONFIGS.authorization.username,
-          password: CONFIGS.authorization.passsword
-        },
         headers: {
           ...getHeaders()
         }
@@ -88,6 +87,11 @@ export class ServiceHttp {
       return result.data
     } catch (error: any) {
       console.log(error.response.data.error_message || error.message)
+
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem(CONFIGS.localStorageKey)
+      }
+
       throw Error(error.response.data.error_message || error.message)
     }
   }
@@ -99,10 +103,6 @@ export class ServiceHttp {
       const result = await axios.get(
         `${url}?pagination=${pagination}&page=${page}&size=${size}&${queryFilter}`,
         {
-          auth: {
-            username: CONFIGS.authorization.username,
-            password: CONFIGS.authorization.passsword
-          },
           headers: {
             ...getHeaders()
           }
@@ -116,6 +116,11 @@ export class ServiceHttp {
       }
     } catch (error: any) {
       console.log(error.response.data.error_message || error.message)
+
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem(CONFIGS.localStorageKey)
+      }
+
       throw Error(error.response.data.error_message || error.message)
     }
   }

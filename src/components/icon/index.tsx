@@ -6,14 +6,18 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined'
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined'
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined'
 
 export const IconMenus = {
   dashboard: SpaceDashboardOutlinedIcon,
   products: StorefrontIcon,
+  category: CategoryOutlinedIcon,
   customers: PeopleAltOutlinedIcon,
   orders: AddShoppingCartIcon,
   waBlas: WhatsAppIcon,
+  admin: AdminPanelSettingsOutlinedIcon,
   profile: PersonOutlineOutlinedIcon,
   transaction: PaymentsOutlinedIcon,
-  setting: SettingsOutlinedIcon
+  settings: SettingsOutlinedIcon
 }

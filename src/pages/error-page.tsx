@@ -1,26 +1,39 @@
-import { Link, useRouteError } from 'react-router-dom'
+import { Box, Button, Container, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import { useNavigate } from "react-router-dom";
 
 export default function ErrorPage() {
-  const error: unknown = useRouteError()
-  console.error(error)
-
+  const navigation = useNavigate();
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gray-100'>
-      <div className='bg-white p-8 rounded-lg shadow-md'>
-        <h1 className='text-3xl font-semibold mb-4'>Oops! Terjadi Kesalahan</h1>
-        <p className='text-gray-500 mb-6'>
-          Maaf, halaman yang Anda cari tidak ditemukan.
-        </p>
-        <button
-          className='bg-teal-500 text-white py-2 px-4 rounded-md hover:bg-teal-600 focus:outline-none focus:ring-teal-400'
-          onClick={() => window.location.reload()}
-        >
-          Coba Lagi
-        </button>
-        <button className='bg-teal-500 mx-5 text-white py-2 px-4 rounded-md hover:bg-teal-600 focus:outline-none focus:ring-teal-400'>
-          <Link to={'/'}>Kembali ke Home</Link>
-        </button>
-      </div>
-    </div>
-  )
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+      }}
+    >
+      <Container maxWidth="md">
+        <Grid container spacing={2}>
+          <Grid xs={6}>
+            <Typography variant="h1">404</Typography>
+            <Typography variant="h6">
+              The page you’re looking for doesn’t exist.
+            </Typography>
+            <Button variant="contained" onClick={() => navigation("/")}>
+              Back Home
+            </Button>
+          </Grid>
+          <Grid xs={6}>
+            <img
+              src="https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569__340.jpg"
+              alt=""
+              width={500}
+              height={250}
+            />
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
+  );
 }

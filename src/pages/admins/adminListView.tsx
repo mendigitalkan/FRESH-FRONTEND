@@ -10,17 +10,25 @@ import {
   GridToolbarContainer,
   GridToolbarExport
 } from '@mui/x-data-grid'
-import { MoreOutlined } from '@mui/icons-material'
+import { Add, MoreOutlined } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
 import { useHttp } from '../../hooks/http'
-import { Stack, TextField } from '@mui/material'
+import { Button, Stack, TextField } from '@mui/material'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
+import { useNavigate } from 'react-router-dom'
+import ModalStyle from '../../components/modal'
+import { IUserModel } from '../../models/userModel'
 
-const OrderView = () => {
+const AdminListView = () => {
   const [search, setSearch] = useState<string>('')
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
-  const { handleGetTableDataRequest } = useHttp()
+  const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
+  const navigation = useNavigate()
+
+  const [modalDeleteData, setModalDeleteData] = useState<IUserModel>()
+  const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
+
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 25,
     page: 0
@@ -29,13 +37,13 @@ const OrderView = () => {
   const getTableData = async () => {
     try {
       const result = await handleGetTableDataRequest({
-        path: '/products/list',
+        path: '/users',
         page: paginationModel.page ?? 0,
         size: paginationModel.pageSize ?? 10,
         filter: { search }
       })
+
       if (result) {
-        console.log(result)
         setTableData(result.items)
       }
     } catch (error: any) {
@@ -43,59 +51,73 @@ const OrderView = () => {
     }
   }
 
+  const handleDeleteAdmin = async (userId: string) => {
+    await handleRemoveRequest({
+      path: '/users?userId=' + userId
+    })
+    window.location.reload()
+  }
+
+  const handleOpenModalDelete = (data: IUserModel) => {
+    setModalDeleteData(data)
+    setOpenModalDelete(!openModalDelete)
+  }
+
   useEffect(() => {
     getTableData()
   }, [paginationModel])
 
   const columns: GridColDef[] = [
-    {
-      field: 'productName',
-      flex: 1,
-      renderHeader: () => <strong>{'PRODUCT NAME'}</strong>,
-      editable: true
-    },
-    {
-      field: 'productDescription',
-      renderHeader: () => <strong>{'DESCRIPTION'}</strong>,
-      flex: 1,
-      editable: true,
-      type: 'singleSelect',
-      valueOptions: ['Market', 'Finance', 'Development']
-    },
-    {
-      field: 'productPrice',
-      renderHeader: () => <strong>{'PRICE'}</strong>,
-      type: 'number',
-      flex: 1,
-      align: 'left',
-      headerAlign: 'left',
-      editable: true
-    },
+    // {
+    //   field: 'userName',
+    //   flex: 1,
+    //   renderHeader: () => <strong>{'NAMA'}</strong>,
+    //   editable: true
+    // },
+    // {
+    //   field: 'userPhoneNumber',
+    //   renderHeader: () => <strong>{'TELEPON'}</strong>,
+    //   flex: 1,
+    //   editable: true
+    // },
+    // {
+    //   field: 'userRole',
+    //   renderHeader: () => <strong>{'Role'}</strong>,
+    //   flex: 1,
+    //   editable: true,
+    //   type: 'singleSelect',
+    //   valueOptions: ['admin', 'superAdmin']
+    // },
+    // {
+    //   field: 'createdAt',
+    //   renderHeader: () => <strong>{'DIBUAT PADA'}</strong>,
+    //   editable: true
+    // },
     {
       field: 'actions',
       type: 'actions',
       renderHeader: () => <strong>{'ACTION'}</strong>,
       flex: 1,
       cellClassName: 'actions',
-      getActions: () => {
+      getActions: ({ row }) => {
         return [
           <GridActionsCellItem
             icon={<EditIcon />}
             label='Edit'
             className='textPrimary'
-            // onClick={handleEditClick(id)}
+            onClick={() => navigation('/admins/edit/' + row.adminId)}
             color='inherit'
           />,
           <GridActionsCellItem
             icon={<DeleteIcon color='error' />}
             label='Delete'
-            // onClick={handleDeleteClick(id)}
+            onClick={() => handleOpenModalDelete(row)}
             color='inherit'
           />,
           <GridActionsCellItem
             icon={<MoreOutlined color='info' />}
             label='Detail'
-            // onClick={handleDeleteClick(id)}
+            onClick={() => navigation('/admins/detail/' + row.adminId)}
             color='inherit'
           />
         ]
@@ -108,6 +130,13 @@ const OrderView = () => {
       <GridToolbarContainer sx={{ justifyContent: 'space-between', mb: 2 }}>
         <Stack direction='row' spacing={2}>
           <GridToolbarExport />
+          <Button
+            startIcon={<Add />}
+            variant='outlined'
+            onClick={() => navigation('/admins/create')}
+          >
+            Tambah Admin
+          </Button>
         </Stack>
         <TextField
           size='small'
@@ -123,9 +152,9 @@ const OrderView = () => {
       <BreadCrumberStyle
         navigation={[
           {
-            label: 'Orders',
-            link: '/orders',
-            icon: <IconMenus.orders fontSize='small' />
+            label: 'Admin',
+            link: '/admins',
+            icon: <IconMenus.admin fontSize='small' />
           }
         ]}
       />
@@ -156,8 +185,20 @@ const OrderView = () => {
           }}
         />
       </Box>
+
+      <ModalStyle
+        openModal={openModalDelete}
+        handleModalOnCancel={() => setOpenModalDelete(false)}
+        message={
+          'Apakah anda yakin ingin menghapus postingan ' + modalDeleteData?.userName
+        }
+        handleModal={() => {
+          handleDeleteAdmin(modalDeleteData?.userId ?? '')
+          setOpenModalDelete(!openModalDelete)
+        }}
+      />
     </Box>
   )
 }
 
-export default OrderView
+export default AdminListView

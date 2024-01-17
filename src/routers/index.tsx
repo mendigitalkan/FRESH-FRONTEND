@@ -1,25 +1,27 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
 import ErrorPage from '../pages/error-page'
-import DashboardView from '../pages/dashboard/Index'
+import DashboardView from '../pages/dashboard/DashboardView'
 import LoginView from '../pages/auth/Login'
-import ProductView from '../pages/products/Index'
-import CustomersView from '../pages/customers/Index'
-import OrderView from '../pages/orders/Index'
 import ProfileView from '../pages/profile/Index'
-import WaBlasView from '../pages/waBlas/Index'
 import SignUpView from '../pages/auth/SignUp'
 import AuthLayout from '../layouts/AuthLayout'
 import { useToken } from '../hooks/token'
-import ProductCreateView from '../pages/products/ProductCreateView'
-import ProductDetailView from '../pages/products/ProductDetailView'
 import SettingsView from '../pages/settings/Index'
-import TransactionView from '../pages/transactions/Index'
-// import { AppContextTypes, useAppContext } from '../context/app.context'
+import AdminListView from '../pages/admins/adminListView'
+import AdminCreateView from '../pages/admins/adminCreateView'
+import AdminEditView from '../pages/admins/adminEditView'
+import AdminDetailView from '../pages/admins/adminDetailView'
+import ProductListView from '../pages/products/productListView'
+import CustomersListView from '../pages/customers/customersListView'
+import OrderListView from '../pages/orders/orderListView'
+import TransactionListView from '../pages/transactions/transactionListView'
+import WablasListView from '../pages/wablas/wablasListView'
+import CategoryListView from '../pages/category/categoryListView'
+import CategoryCreateView from '../pages/category/categoryCreateView'
+import CategoryEditView from '../pages/category/categoryEditView'
 
 export default function AppRouters() {
-  //   const { currentUser }: AppContextTypes = useAppContext()
-
   const routers: { path: string; element: JSX.Element }[] = []
   const authRouters: { path: string; element: JSX.Element }[] = [
     {
@@ -50,38 +52,58 @@ export default function AppRouters() {
           },
           {
             path: '/products',
-            element: <ProductView />
+            element: <ProductListView />
           },
           {
-            path: '/products/create',
-            element: <ProductCreateView />
+            path: '/categories',
+            element: <CategoryListView />
           },
           {
-            path: '/products/detail',
-            element: <ProductDetailView />
+            path: '/categories/create',
+            element: <CategoryCreateView />
+          },
+          {
+            path: '/categories/edit/:categoryId',
+            element: <CategoryEditView />
           },
           {
             path: '/customers',
-            element: <CustomersView />
+            element: <CustomersListView />
           },
           {
             path: '/orders',
-            element: <OrderView />
+            element: <OrderListView />
           },
           {
             path: '/transactions',
-            element: <TransactionView />
+            element: <TransactionListView />
           },
           {
             path: '/wa-blas',
-            element: <WaBlasView />
+            element: <WablasListView />
+          },
+          {
+            path: '/admins',
+            element: <AdminListView />
+          },
+          {
+            path: '/admins/create',
+            element: <AdminCreateView />
+          },
+          {
+            path: '/admins/detail/:adminId',
+            element: <AdminDetailView />
+          },
+          {
+            path: '/admins/edit/:adminId',
+            element: <AdminEditView />
           },
           {
             path: '/settings',
             element: <SettingsView />
           },
           {
-            path: '/profile',
+            path: '/my-profile',
             element: <ProfileView />
           }
         ]

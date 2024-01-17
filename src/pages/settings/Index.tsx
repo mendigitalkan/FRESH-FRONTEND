@@ -11,7 +11,7 @@ export default function SettingsView() {
           {
             label: 'Settings',
             link: '/settings',
-            icon: <IconMenus.setting fontSize='small' />
+            icon: <IconMenus.settings fontSize='small' />
           }
         ]}
       />

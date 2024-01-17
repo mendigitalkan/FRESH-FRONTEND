@@ -8,8 +8,26 @@ import ListItemText from '@mui/material/ListItemText'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import EmailIcon from '@mui/icons-material/Email'
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone'
+import { useHttp } from '../../hooks/http'
+import { useEffect, useState } from 'react'
 
 const ProfileView = () => {
+  const { handleGetRequest } = useHttp()
+  const [detailProfile, setDetailProfile] = useState<any>()
+
+  const getStatistic = async () => {
+    const result = await handleGetRequest({
+      path: '/my-profile'
+    })
+
+    console.log(result)
+    setDetailProfile(result)
+  }
+
+  useEffect(() => {
+    getStatistic()
+  }, [])
+
   return (
     <Box>
       <BreadCrumberStyle
@@ -17,7 +35,7 @@ const ProfileView = () => {
           {
             label: 'Profile',
             link: '/profile',
-            icon: <IconMenus.customers fontSize='small' />
+            icon: <IconMenus.profile fontSize='small' />
           }
         ]}
       />
