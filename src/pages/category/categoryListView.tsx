@@ -19,6 +19,7 @@ import { IconMenus } from '../../components/icon'
 import { useNavigate } from 'react-router-dom'
 import Modal from '../../components/modal'
 import { ICategoryModel } from '../../models/categoryModel'
+import { convertTime } from '../../utilities/convertTime'
 
 export default function CategoryListView() {
   const navigation = useNavigate()
@@ -77,7 +78,8 @@ export default function CategoryListView() {
       field: 'createdAt',
       flex: 1,
       renderHeader: () => <strong>{'Dibuat Pada'}</strong>,
-      editable: true
+      editable: true,
+      valueFormatter: (item) => convertTime(item.value)
     },
     {
       field: 'actions',

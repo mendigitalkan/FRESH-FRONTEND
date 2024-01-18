@@ -33,6 +33,7 @@ export class ServiceHttp {
 
       if (error.response && error.response.status === 401) {
         localStorage.removeItem(CONFIGS.localStorageKey)
+        window.location.pathname = '/'
       }
 
       throw Error(error.response.data.error_message || error.message)
@@ -52,6 +53,7 @@ export class ServiceHttp {
 
       if (error.response && error.response.status === 401) {
         localStorage.removeItem(CONFIGS.localStorageKey)
+        window.location.pathname = '/'
       }
 
       throw Error(error.response.data.error_message || error.message)
@@ -71,6 +73,7 @@ export class ServiceHttp {
 
       if (error.response && error.response.status === 401) {
         localStorage.removeItem(CONFIGS.localStorageKey)
+        window.location.pathname = '/'
       }
 
       throw Error(error.response.data.error_message || error.message)
@@ -90,6 +93,7 @@ export class ServiceHttp {
 
       if (error.response && error.response.status === 401) {
         localStorage.removeItem(CONFIGS.localStorageKey)
+        window.location.pathname = '/'
       }
 
       throw Error(error.response.data.error_message || error.message)
@@ -119,6 +123,7 @@ export class ServiceHttp {
 
       if (error.response && error.response.status === 401) {
         localStorage.removeItem(CONFIGS.localStorageKey)
+        window.location.pathname = '/'
       }
 
       throw Error(error.response.data.error_message || error.message)
