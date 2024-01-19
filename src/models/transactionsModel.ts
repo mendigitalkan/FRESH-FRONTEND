@@ -1,4 +1,6 @@
+import { IOrdersModel } from './ordersModel'
 import { IRootModel } from './rootModel'
+import { IUserModel } from './userModel'
 
 export interface ITransactionsModel extends IRootModel {
   transactionId: string
@@ -6,6 +8,8 @@ export interface ITransactionsModel extends IRootModel {
   transactionOrderId: string
   transactionUserId: string
   transactionOngkirPrice: number
+  user: IUserModel
+  order: IOrdersModel
 }
 
 export interface ITransactionsUpdateRequestModel {

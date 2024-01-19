@@ -59,7 +59,7 @@ export default function DetailOrderView() {
       <Grid container spacing={2} my={5}>
         <Grid item xs={12} md={3}>
           <img
-            src={detailOrder?.orderProductPhotos}
+            src={detailOrder?.orderProductImages}
             style={{
               marginTop: 10,
               width: 200,

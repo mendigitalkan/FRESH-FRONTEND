@@ -9,7 +9,6 @@ import AuthLayout from '../layouts/AuthLayout'
 import { useToken } from '../hooks/token'
 import SettingsView from '../pages/settings/Index'
 import ProductListView from '../pages/products/listProductView'
-import TransactionListView from '../pages/transactions/transactionListView'
 import CategoryListView from '../pages/category/categoryListView'
 import CategoryCreateView from '../pages/category/categoryCreateView'
 import CategoryEditView from '../pages/category/categoryEditView'
@@ -25,6 +24,8 @@ import ListOrderView from '../pages/orders/listOrderView'
 import ListCustomersView from '../pages/customers/listCustomersView'
 import DetailCustomersView from '../pages/customers/detailCustomersView'
 import ListWablasView from '../pages/wablas/listWablasView'
+import ListTransactionView from '../pages/transactions/listTransactionView'
+import DetailTransactionView from '../pages/transactions/detailTransactionView'
 
 export default function AppRouters() {
   const routers: { path: string; element: JSX.Element }[] = []
@@ -101,7 +102,11 @@ export default function AppRouters() {
           },
           {
             path: '/transactions',
-            element: <TransactionListView />
+            element: <ListTransactionView />
+          },
+          {
+            path: '/transactions/detail/:transactionId',
+            element: <DetailTransactionView />
           },
           {
             path: '/wa-blas',

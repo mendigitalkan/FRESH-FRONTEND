@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Button, Card, Typography, Container, Stack, Box, TextField } from '@mui/material'
-import { Link, useNavigate } from 'react-router-dom'
+import { Button, Card, Typography, Container, Box, TextField } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { useToken } from '../../hooks/token'
 import { IUserLoginRequestModel } from '../../models/userModel'
@@ -95,12 +95,12 @@ const LoginView = () => {
               Login
             </Button>
           </Box>
-          <Stack direction='row' alignItems='center' mt={5}>
+          {/* <Stack direction='row' alignItems='center' mt={5}>
             <Typography>Belum punya akun?</Typography>
             <Link style={{ paddingLeft: '10px', textDecoration: 'none' }} to='sign-up'>
               Sign Up
             </Link>
-          </Stack>
+          </Stack> */}
         </Card>
       </Container>
     </>

@@ -17,7 +17,7 @@ import { IconMenus } from '../../components/icon'
 import { useNavigate } from 'react-router-dom'
 import { convertTime } from '../../utilities/convertTime'
 
-export default function TransactionListView() {
+export default function ListTransactionView() {
   const navigation = useNavigate()
   const [search, setSearch] = useState<string>('')
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
@@ -31,7 +31,7 @@ export default function TransactionListView() {
   const getTableData = async () => {
     try {
       const result = await handleGetTableDataRequest({
-        path: '/orders',
+        path: '/transactions',
         page: paginationModel.page ?? 0,
         size: paginationModel.pageSize ?? 10,
         filter: { search }
@@ -50,24 +50,24 @@ export default function TransactionListView() {
   }, [paginationModel])
 
   const columns: GridColDef[] = [
-    {
-      field: 'orderProductName',
-      flex: 1,
-      renderHeader: () => <strong>{'Nama'}</strong>,
-      editable: true
-    },
-    {
-      field: 'orderProductPrice',
-      flex: 1,
-      renderHeader: () => <strong>{'Harga'}</strong>,
-      editable: true
-    },
-    {
-      field: 'orderStatus',
-      flex: 1,
-      renderHeader: () => <strong>{'Status'}</strong>,
-      editable: true
-    },
+    // {
+    //   field: 'orderProductName',
+    //   flex: 1,
+    //   renderHeader: () => <strong>{'Nama'}</strong>,
+    //   editable: true
+    // },
+    // {
+    //   field: 'orderProductPrice',
+    //   flex: 1,
+    //   renderHeader: () => <strong>{'Harga'}</strong>,
+    //   editable: true
+    // },
+    // {
+    //   field: 'orderStatus',
+    //   flex: 1,
+    //   renderHeader: () => <strong>{'Status'}</strong>,
+    //   editable: true
+    // },
     {
       field: 'createdAt',
       flex: 1,
@@ -86,7 +86,7 @@ export default function TransactionListView() {
           <GridActionsCellItem
             icon={<MoreOutlined color='info' />}
             label='Detail'
-            onClick={() => navigation('/product/detail/' + row.productId)}
+            onClick={() => navigation('/transactions/detail/' + row.transactionId)}
             color='inherit'
           />
         ]

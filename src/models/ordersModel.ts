@@ -6,7 +6,7 @@ export interface IOrdersModel extends IRootModel {
   orderProductId: string
   orderProductName: string
   orderProductPrice: number
-  orderProductPhotos: string
+  orderProductImages: string
   orderProductDescription: string
   orderStatus: 'waiting' | 'process' | 'delivery' | 'done' | 'cancel'
 }
@@ -17,7 +17,7 @@ export interface IOrdersUpdateRequestModel {
   orderProductId?: string
   orderProductName?: string
   orderProductPrice?: number
-  orderProductPhotos?: string
+  orderProductImages?: string
   orderProductDescription?: string
   orderStatus?: 'waiting' | 'process' | 'delivery' | 'done' | 'cancel' | string
 }

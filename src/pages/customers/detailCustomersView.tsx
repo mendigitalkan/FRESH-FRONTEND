@@ -3,6 +3,7 @@ import { useHttp } from '../../hooks/http'
 import { useEffect, useState } from 'react'
 import { Card, Typography } from '@mui/material'
 import { IUserModel } from '../../models/userModel'
+import { convertTime } from '../../utilities/convertTime'
 
 export default function DetailCustomersView() {
   const { handleGetRequest } = useHttp()
@@ -69,6 +70,15 @@ export default function DetailCustomersView() {
             <td>:</td>
             <td>
               <Typography>{detailCustomer?.userRole}</Typography>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Typography fontWeight={'Bold'}>Bergabung</Typography>
+            </td>
+            <td>:</td>
+            <td>
+              <Typography>{convertTime(detailCustomer?.createdAt ?? '')}</Typography>
             </td>
           </tr>
         </tbody>
