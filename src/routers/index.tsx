@@ -8,11 +8,8 @@ import SignUpView from '../pages/auth/SignUp'
 import AuthLayout from '../layouts/AuthLayout'
 import { useToken } from '../hooks/token'
 import SettingsView from '../pages/settings/Index'
-import ProductListView from '../pages/products/ listProductView'
-import CustomersListView from '../pages/customers/customersListView'
-import OrderListView from '../pages/orders/orderListView'
+import ProductListView from '../pages/products/listProductView'
 import TransactionListView from '../pages/transactions/transactionListView'
-import WablasListView from '../pages/wablas/wablasListView'
 import CategoryListView from '../pages/category/categoryListView'
 import CategoryCreateView from '../pages/category/categoryCreateView'
 import CategoryEditView from '../pages/category/categoryEditView'
@@ -23,6 +20,11 @@ import ListAdminView from '../pages/admins/listAdminView'
 import CreateAdminView from '../pages/admins/createAdminView'
 import DetailAdminView from '../pages/admins/detailAdminView'
 import EditAdminView from '../pages/admins/editAdminView'
+import DetailOrderView from '../pages/orders/detailOrderView'
+import ListOrderView from '../pages/orders/listOrderView'
+import ListCustomersView from '../pages/customers/listCustomersView'
+import DetailCustomersView from '../pages/customers/detailCustomersView'
+import ListWablasView from '../pages/wablas/listWablasView'
 
 export default function AppRouters() {
   const routers: { path: string; element: JSX.Element }[] = []
@@ -83,11 +85,19 @@ export default function AppRouters() {
           },
           {
             path: '/customers',
-            element: <CustomersListView />
+            element: <ListCustomersView />
+          },
+          {
+            path: '/customers/detail/:customerId',
+            element: <DetailCustomersView />
           },
           {
             path: '/orders',
-            element: <OrderListView />
+            element: <ListOrderView />
+          },
+          {
+            path: '/orders/detail/:orderId',
+            element: <DetailOrderView />
           },
           {
             path: '/transactions',
@@ -95,7 +105,7 @@ export default function AppRouters() {
           },
           {
             path: '/wa-blas',
-            element: <WablasListView />
+            element: <ListWablasView />
           },
           {
             path: '/admins',

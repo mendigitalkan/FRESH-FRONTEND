@@ -8,6 +8,7 @@ import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined'
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined'
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined'
+import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined'
 
 export const IconMenus = {
   dashboard: SpaceDashboardOutlinedIcon,
@@ -19,5 +20,6 @@ export const IconMenus = {
   admin: AdminPanelSettingsOutlinedIcon,
   profile: PersonOutlineOutlinedIcon,
   transaction: PaymentsOutlinedIcon,
-  settings: SettingsOutlinedIcon
+  settings: SettingsOutlinedIcon,
+  shoppingCart: AddShoppingCartOutlinedIcon
 }

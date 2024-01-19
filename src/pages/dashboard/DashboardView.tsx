@@ -37,9 +37,9 @@ const DashboardView = () => {
           <Stack direction='row' spacing={2}>
             <IconMenus.transaction fontSize='large' color={'inherit'} />
             <Stack justifyContent='center'>
-              <Typography>Saldo</Typography>
+              <Typography>Penjualan</Typography>
               <Typography fontSize='large' fontWeight='bold'>
-                Rp1000.000
+                {statisticTotal?.totalTransaction}
               </Typography>
             </Stack>
           </Stack>

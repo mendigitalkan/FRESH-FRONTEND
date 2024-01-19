@@ -39,7 +39,7 @@ function a11yProps(index: number) {
   }
 }
 
-export default function SettingsView() {
+export default function ListWablasView() {
   const [value, setValue] = useState(0)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -52,28 +52,28 @@ export default function SettingsView() {
       <BreadCrumberStyle
         navigation={[
           {
-            label: 'Settings',
-            link: '/settings',
-            icon: <IconMenus.settings fontSize='small' />
+            label: 'WA Blas',
+            link: '/wa-blas',
+            icon: <IconMenus.waBlas fontSize='small' />
           }
         ]}
       />
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange}>
-            <Tab label='Umum' {...a11yProps(0)} />
-            <Tab label='Banner' {...a11yProps(1)} />
-            <Tab label='Sistem' {...a11yProps(2)} />
+            <Tab label='Customers' {...a11yProps(0)} />
+            <Tab label='History' {...a11yProps(1)} />
+            <Tab label='Settings' {...a11yProps(2)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          umum
+          customers
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          banner
+          history
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          sistem
+          settings
         </CustomTabPanel>
       </Box>
     </>

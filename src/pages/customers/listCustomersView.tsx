@@ -17,7 +17,7 @@ import { IconMenus } from '../../components/icon'
 import { useNavigate } from 'react-router-dom'
 import { convertTime } from '../../utilities/convertTime'
 
-export default function CustomersListView() {
+export default function ListCustomersView() {
   const navigation = useNavigate()
   const [search, setSearch] = useState<string>('')
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
@@ -86,7 +86,7 @@ export default function CustomersListView() {
           <GridActionsCellItem
             icon={<MoreOutlined color='info' />}
             label='Detail'
-            onClick={() => navigation('/product/detail/' + row.productId)}
+            onClick={() => navigation('/customers/detail/' + row.userId)}
             color='inherit'
           />
         ]
@@ -116,7 +116,7 @@ export default function CustomersListView() {
           {
             label: 'Customers',
             link: '/customers',
-            icon: <IconMenus.products fontSize='small' />
+            icon: <IconMenus.customers fontSize='small' />
           }
         ]}
       />

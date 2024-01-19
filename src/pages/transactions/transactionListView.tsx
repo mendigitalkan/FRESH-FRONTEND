@@ -116,7 +116,7 @@ export default function TransactionListView() {
           {
             label: 'Customers',
             link: '/customers',
-            icon: <IconMenus.products fontSize='small' />
+            icon: <IconMenus.transaction fontSize='small' />
           }
         ]}
       />

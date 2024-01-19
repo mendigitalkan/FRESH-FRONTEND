@@ -16,8 +16,9 @@ import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 import { useNavigate } from 'react-router-dom'
 import { convertTime } from '../../utilities/convertTime'
+import { convertNumberToCurrency } from '../../utilities/convertNumberToCurrency'
 
-export default function OrderListView() {
+export default function ListOrderView() {
   const navigation = useNavigate()
   const [search, setSearch] = useState<string>('')
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
@@ -60,7 +61,8 @@ export default function OrderListView() {
       field: 'orderProductPrice',
       flex: 1,
       renderHeader: () => <strong>{'Harga'}</strong>,
-      editable: true
+      editable: true,
+      valueFormatter: (item) => 'Rp' + convertNumberToCurrency(item.value)
     },
     {
       field: 'orderStatus',
@@ -86,7 +88,7 @@ export default function OrderListView() {
           <GridActionsCellItem
             icon={<MoreOutlined color='info' />}
             label='Detail'
-            onClick={() => navigation('/product/detail/' + row.productId)}
+            onClick={() => navigation('/orders/detail/' + row.orderId)}
             color='inherit'
           />
         ]
@@ -114,9 +116,9 @@ export default function OrderListView() {
       <BreadCrumberStyle
         navigation={[
           {
-            label: 'Customers',
-            link: '/customers',
-            icon: <IconMenus.products fontSize='small' />
+            label: 'Orders',
+            link: '/orders',
+            icon: <IconMenus.orders fontSize='small' />
           }
         ]}
       />
