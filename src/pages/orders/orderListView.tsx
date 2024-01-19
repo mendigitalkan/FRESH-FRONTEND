@@ -63,9 +63,15 @@ export default function OrderListView() {
       editable: true
     },
     {
+      field: 'orderStatus',
+      flex: 1,
+      renderHeader: () => <strong>{'Status'}</strong>,
+      editable: true
+    },
+    {
       field: 'createdAt',
       flex: 1,
-      renderHeader: () => <strong>{'Dibuat Pada'}</strong>,
+      renderHeader: () => <strong>{'Dipesan pada'}</strong>,
       editable: true,
       valueFormatter: (item) => convertTime(item.value)
     },

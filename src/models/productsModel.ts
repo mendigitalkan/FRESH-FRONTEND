@@ -30,7 +30,6 @@ export interface IProductCreateRequestModel {
   productImages: string
   productPrice: number
   productCategoryId: string
-  productTotalSale: number
   productStock: number
   productVariant: string
 }

@@ -37,7 +37,7 @@ const AdminListView = () => {
   const getTableData = async () => {
     try {
       const result = await handleGetTableDataRequest({
-        path: '/users',
+        path: '/users/admins',
         page: paginationModel.page ?? 0,
         size: paginationModel.pageSize ?? 10,
         filter: { search }
@@ -68,31 +68,31 @@ const AdminListView = () => {
   }, [paginationModel])
 
   const columns: GridColDef[] = [
-    // {
-    //   field: 'userName',
-    //   flex: 1,
-    //   renderHeader: () => <strong>{'NAMA'}</strong>,
-    //   editable: true
-    // },
-    // {
-    //   field: 'userPhoneNumber',
-    //   renderHeader: () => <strong>{'TELEPON'}</strong>,
-    //   flex: 1,
-    //   editable: true
-    // },
-    // {
-    //   field: 'userRole',
-    //   renderHeader: () => <strong>{'Role'}</strong>,
-    //   flex: 1,
-    //   editable: true,
-    //   type: 'singleSelect',
-    //   valueOptions: ['admin', 'superAdmin']
-    // },
-    // {
-    //   field: 'createdAt',
-    //   renderHeader: () => <strong>{'DIBUAT PADA'}</strong>,
-    //   editable: true
-    // },
+    {
+      field: 'userName',
+      flex: 1,
+      renderHeader: () => <strong>{'NAMA'}</strong>,
+      editable: true
+    },
+    {
+      field: 'userPhoneNumber',
+      renderHeader: () => <strong>{'TELEPON'}</strong>,
+      flex: 1,
+      editable: true
+    },
+    {
+      field: 'userRole',
+      renderHeader: () => <strong>{'Role'}</strong>,
+      flex: 1,
+      editable: true,
+      type: 'singleSelect',
+      valueOptions: ['admin', 'superAdmin']
+    },
+    {
+      field: 'createdAt',
+      renderHeader: () => <strong>{'DIBUAT PADA'}</strong>,
+      editable: true
+    },
     {
       field: 'actions',
       type: 'actions',

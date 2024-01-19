@@ -12,7 +12,7 @@ import AdminListView from '../pages/admins/adminListView'
 import AdminCreateView from '../pages/admins/adminCreateView'
 import AdminEditView from '../pages/admins/adminEditView'
 import AdminDetailView from '../pages/admins/adminDetailView'
-import ProductListView from '../pages/products/productListView'
+import ProductListView from '../pages/products/ listProductView'
 import CustomersListView from '../pages/customers/customersListView'
 import OrderListView from '../pages/orders/orderListView'
 import TransactionListView from '../pages/transactions/transactionListView'
@@ -20,6 +20,9 @@ import WablasListView from '../pages/wablas/wablasListView'
 import CategoryListView from '../pages/category/categoryListView'
 import CategoryCreateView from '../pages/category/categoryCreateView'
 import CategoryEditView from '../pages/category/categoryEditView'
+import DetailProductView from '../pages/products/detailProductView'
+import CreateProductView from '../pages/products/createProductView'
+import EditProductView from '../pages/products/editProductView'
 
 export default function AppRouters() {
   const routers: { path: string; element: JSX.Element }[] = []
@@ -53,6 +56,18 @@ export default function AppRouters() {
           {
             path: '/products',
             element: <ProductListView />
+          },
+          {
+            path: '/products/create',
+            element: <CreateProductView />
+          },
+          {
+            path: '/products/detail/:productId',
+            element: <DetailProductView />
+          },
+          {
+            path: '/products/edit/:productId',
+            element: <EditProductView />
           },
           {
             path: '/categories',
