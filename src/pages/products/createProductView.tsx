@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react'
 import {
   Button,
@@ -9,12 +10,14 @@ import {
   Select,
   MenuItem,
   Grid,
-  InputLabel
+  InputLabel,
+  FormControl
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { IProductCreateRequestModel } from '../../models/productsModel'
 import { ICategoryModel } from '../../models/categoryModel'
+import { handleUploadImageToFirebase } from '../../utilities/uploadImageToFirebase'
 
 export default function CreateProductView() {
   const { handlePostRequest, handleGetRequest } = useHttp()
@@ -26,9 +29,24 @@ export default function CreateProductView() {
   const [productPrice, setProductPrice] = useState(0)
   const [productCategoryId, setProductCategoryId] = useState('')
   const [productStock, setProductStock] = useState(0)
-  const [productVariant, setProductVariant] = useState('')
+  // const [productVariant, setProductVariant] = useState('')
 
   const [categories, setCategories] = useState<ICategoryModel[]>([])
+
+  const getCategories = async () => {
+    const result = await handleGetRequest({
+      path: '/categories'
+    })
+    setCategories(result.items)
+  }
+
+  const handleUploadImage = (event: any) => {
+    const image = event.target.files[0]
+    handleUploadImageToFirebase({
+      selectedFile: image,
+      getImageUrl: setProductImages
+    })
+  }
 
   const handleSubmit = async () => {
     try {
@@ -38,8 +56,8 @@ export default function CreateProductView() {
         productImages,
         productPrice,
         productCategoryId,
-        productStock,
-        productVariant
+        productStock
+        // productVariant
       }
 
       await handlePostRequest({
@@ -51,13 +69,6 @@ export default function CreateProductView() {
     } catch (error: unknown) {
       console.log(error)
     }
-  }
-
-  const getCategories = async () => {
-    const result = await handleGetRequest({
-      path: '/categories'
-    })
-    setCategories(result.items)
   }
 
   useEffect(() => {
@@ -74,6 +85,8 @@ export default function CreateProductView() {
       <Typography variant='h4' marginBottom={5} color='primary' fontWeight={'bold'}>
         Tambah Product
       </Typography>
+
+      <Typography color={'gray'}>Info Product</Typography>
       <Box
         component='form'
         style={{
@@ -87,7 +100,6 @@ export default function CreateProductView() {
             <TextField
               label='Nama'
               id='outlined-start-adornment'
-              sx={{ m: 1 }}
               fullWidth
               value={productName}
               type='text'
@@ -100,7 +112,6 @@ export default function CreateProductView() {
             <TextField
               label='Deskripsi'
               id='outlined-start-adornment'
-              sx={{ m: 1 }}
               fullWidth
               value={productDescription}
               type='text'
@@ -109,25 +120,12 @@ export default function CreateProductView() {
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label='Images'
-              id='outlined-start-adornment'
-              sx={{ m: 1 }}
-              fullWidth
-              value={productImages}
-              type='text'
-              onChange={(e) => {
-                setProductImages(e.target.value)
-              }}
-            />
-          </Grid>
+
           <Grid item xs={12} sm={6}>
             <TextField
               label='Harga'
               fullWidth
               id='outlined-start-adornment'
-              sx={{ m: 1 }}
               value={productPrice}
               type='number'
               onChange={(e) => {
@@ -140,7 +138,6 @@ export default function CreateProductView() {
               label='Stok'
               fullWidth
               id='outlined-start-adornment'
-              sx={{ m: 1 }}
               value={productStock}
               type='number'
               onChange={(e) => {
@@ -148,43 +145,62 @@ export default function CreateProductView() {
               }}
             />
           </Grid>
+
           <Grid item xs={12} sm={6}>
-            <TextField
-              label='Variant'
-              id='outlined-start-adornment'
-              sx={{ m: 1 }}
-              fullWidth
-              value={productVariant}
-              type='text'
-              onChange={(e) => {
-                setProductVariant(e.target.value)
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputLabel sx={{ mx: 1 }} id='demo-multiple-name-label'>
-              Kategori
-            </InputLabel>
-            <Select
-              labelId='demo-select-small-label'
-              id='demo-select-small'
-              fullWidth
-              value={productCategoryId}
-              sx={{ m: 1 }}
-              onChange={(e) => setProductCategoryId(e.target.value)}
-            >
-              {categories.map((item) => (
-                <MenuItem key={item.categoryId} value={item.categoryId}>
-                  {item.categoryName}
-                </MenuItem>
-              ))}
-            </Select>
+            <FormControl fullWidth>
+              <InputLabel id='demo-controlled-open-select-label'>Kategori</InputLabel>
+              <Select
+                labelId='demo-select-small-label'
+                id='demo-select-small'
+                fullWidth
+                value={productCategoryId}
+                onChange={(e) => setProductCategoryId(e.target.value)}
+              >
+                {categories.map((item) => (
+                  <MenuItem key={item.categoryId} value={item.categoryId}>
+                    {item.categoryName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
         </Grid>
+
+        <Box sx={{ my: 3 }}>
+          <Typography color={'gray'}>Foto Product</Typography>
+          <Stack>
+            <TextField fullWidth type='file' onChange={handleUploadImage} />
+            {productImages && (
+              <img
+                src={productImages}
+                style={{
+                  marginTop: 10,
+                  width: 200,
+                  height: 200
+                }}
+              />
+            )}
+          </Stack>
+        </Box>
+
+        {/* <Box sx={{ mt: 3 }}>
+          <Typography color={'gray'}>Varian Product</Typography>
+          <TextField
+            label='Variant'
+            id='outlined-start-adornment'
+            fullWidth
+            value={productVariant}
+            type='text'
+            onChange={(e) => {
+              setProductVariant(e.target.value)
+            }}
+          />
+        </Box> */}
+
         <Stack direction={'row'} justifyContent='flex-end'>
           <Button
             sx={{
-              m: 1,
+              my: 1,
               width: '25ch',
               backgroundColor: 'dodgerblue',
               color: '#FFF',

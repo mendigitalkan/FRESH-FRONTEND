@@ -31,5 +31,5 @@ export interface IProductCreateRequestModel {
   productPrice: number
   productCategoryId: string
   productStock: number
-  productVariant: string
+  productVariant?: string
 }

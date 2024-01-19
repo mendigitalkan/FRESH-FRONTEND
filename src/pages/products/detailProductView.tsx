@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { useEffect, useState } from 'react'
-import { Card, Typography } from '@mui/material'
+import { Card, Grid, Typography } from '@mui/material'
 import { IProductModel } from '../../models/productsModel'
 
 export default function DetailProductView() {
@@ -25,64 +25,78 @@ export default function DetailProductView() {
 
   return (
     <Card sx={{ p: 5 }}>
-      <table>
-        <thead>
-          <th></th>
-          <th></th>
-          <th></th>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <Typography fontWeight={'Bold'}>Nama</Typography>
-            </td>
-            <td>:</td>
-            <td>
-              <Typography>{productDetail?.productName}</Typography>
-            </td>
-          </tr>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={3}>
+          <img
+            src={productDetail?.productImages}
+            style={{
+              marginTop: 10,
+              width: 200,
+              height: 200
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} md={9}>
+          <table>
+            <thead>
+              <th></th>
+              <th></th>
+              <th></th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <Typography fontWeight={'Bold'}>Nama</Typography>
+                </td>
+                <td>:</td>
+                <td>
+                  <Typography>{productDetail?.productName}</Typography>
+                </td>
+              </tr>
 
-          <tr>
-            <td>
-              <Typography fontWeight={'Bold'}>Deskripsi</Typography>
-            </td>
-            <td>:</td>
-            <td>
-              <Typography>{productDetail?.productDescription}</Typography>
-            </td>
-          </tr>
+              <tr>
+                <td>
+                  <Typography fontWeight={'Bold'}>Deskripsi</Typography>
+                </td>
+                <td>:</td>
+                <td>
+                  <Typography>{productDetail?.productDescription}</Typography>
+                </td>
+              </tr>
 
-          <tr>
-            <td>
-              <Typography fontWeight={'Bold'}>Kategori</Typography>
-            </td>
-            <td>:</td>
-            <td>
-              <Typography>{productDetail?.productCategoryId}</Typography>
-            </td>
-          </tr>
+              <tr>
+                <td>
+                  <Typography fontWeight={'Bold'}>Kategori</Typography>
+                </td>
+                <td>:</td>
+                <td>
+                  <Typography>{productDetail?.productCategoryId}</Typography>
+                </td>
+              </tr>
 
-          <tr>
-            <td>
-              <Typography fontWeight={'Bold'}>Stok</Typography>
-            </td>
-            <td>:</td>
-            <td>
-              <Typography>{productDetail?.productStock}</Typography>
-            </td>
-          </tr>
+              <tr>
+                <td>
+                  <Typography fontWeight={'Bold'}>Stok</Typography>
+                </td>
+                <td>:</td>
+                <td>
+                  <Typography>{productDetail?.productStock}</Typography>
+                </td>
+              </tr>
 
-          <tr>
-            <td>
-              <Typography fontWeight={'Bold'}>Terjual</Typography>
-            </td>
-            <td>:</td>
-            <td>
-              <Typography>{productDetail?.productTotalSale}</Typography>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <tr>
+                <td>
+                  <Typography fontWeight={'Bold'}>Terjual</Typography>
+                </td>
+                <td>:</td>
+                <td>
+                  <Typography>{productDetail?.productTotalSale}</Typography>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </Grid>
+      </Grid>
     </Card>
   )
 }
