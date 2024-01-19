@@ -16,7 +16,7 @@ const ProfileView = () => {
   const { handleGetRequest } = useHttp()
   const [detailProfile, setDetailProfile] = useState<IUserModel>()
 
-  const getStatistic = async () => {
+  const getMyProfile = async () => {
     const result = await handleGetRequest({
       path: '/my-profile'
     })
@@ -26,7 +26,7 @@ const ProfileView = () => {
   }
 
   useEffect(() => {
-    getStatistic()
+    getMyProfile()
   }, [])
 
   return (

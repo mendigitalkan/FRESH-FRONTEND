@@ -17,7 +17,7 @@ export interface IUserUpdateRequestModel {
   userPassword?: string
   userPhoneNumber?: string
   userPhoto?: string
-  userRole?: 'user' | 'admin' | 'superAdmin'
+  userRole?: 'user' | 'admin' | 'superAdmin' | string
 }
 
 export interface IUserCreateRequestModel {
@@ -26,7 +26,7 @@ export interface IUserCreateRequestModel {
   userPassword: string
   userPhoneNumber: string
   userPhoto: string
-  userRole: 'user' | 'admin' | 'superAdmin'
+  userRole: 'user' | 'admin' | 'superAdmin' | string
 }
 
 export interface IUserLoginRequestModel {

@@ -8,10 +8,6 @@ import SignUpView from '../pages/auth/SignUp'
 import AuthLayout from '../layouts/AuthLayout'
 import { useToken } from '../hooks/token'
 import SettingsView from '../pages/settings/Index'
-import AdminListView from '../pages/admins/adminListView'
-import AdminCreateView from '../pages/admins/adminCreateView'
-import AdminEditView from '../pages/admins/adminEditView'
-import AdminDetailView from '../pages/admins/adminDetailView'
 import ProductListView from '../pages/products/ listProductView'
 import CustomersListView from '../pages/customers/customersListView'
 import OrderListView from '../pages/orders/orderListView'
@@ -23,6 +19,10 @@ import CategoryEditView from '../pages/category/categoryEditView'
 import DetailProductView from '../pages/products/detailProductView'
 import CreateProductView from '../pages/products/createProductView'
 import EditProductView from '../pages/products/editProductView'
+import ListAdminView from '../pages/admins/listAdminView'
+import CreateAdminView from '../pages/admins/createAdminView'
+import DetailAdminView from '../pages/admins/detailAdminView'
+import EditAdminView from '../pages/admins/editAdminView'
 
 export default function AppRouters() {
   const routers: { path: string; element: JSX.Element }[] = []
@@ -99,19 +99,19 @@ export default function AppRouters() {
           },
           {
             path: '/admins',
-            element: <AdminListView />
+            element: <ListAdminView />
           },
           {
             path: '/admins/create',
-            element: <AdminCreateView />
+            element: <CreateAdminView />
           },
           {
             path: '/admins/detail/:adminId',
-            element: <AdminDetailView />
+            element: <DetailAdminView />
           },
           {
             path: '/admins/edit/:adminId',
-            element: <AdminEditView />
+            element: <EditAdminView />
           },
           {
             path: '/settings',

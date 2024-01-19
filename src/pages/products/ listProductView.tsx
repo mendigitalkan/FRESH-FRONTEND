@@ -117,7 +117,7 @@ export default function ProductListView() {
           <GridActionsCellItem
             icon={<MoreOutlined color='info' />}
             label='Detail'
-            onClick={() => navigation('/product/detail/' + row.productId)}
+            onClick={() => navigation('detail/' + row.productId)}
             color='inherit'
           />
         ]

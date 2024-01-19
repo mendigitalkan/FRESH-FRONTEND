@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router-dom'
 import ModalStyle from '../../components/modal'
 import { IUserModel } from '../../models/userModel'
 
-const AdminListView = () => {
+export default function ListAdminView() {
   const [search, setSearch] = useState<string>('')
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
@@ -105,7 +105,7 @@ const AdminListView = () => {
             icon={<EditIcon />}
             label='Edit'
             className='textPrimary'
-            onClick={() => navigation('/admins/edit/' + row.adminId)}
+            onClick={() => navigation('/admins/edit/' + row.userId)}
             color='inherit'
           />,
           <GridActionsCellItem
@@ -117,7 +117,7 @@ const AdminListView = () => {
           <GridActionsCellItem
             icon={<MoreOutlined color='info' />}
             label='Detail'
-            onClick={() => navigation('/admins/detail/' + row.adminId)}
+            onClick={() => navigation('/admins/detail/' + row.userId)}
             color='inherit'
           />
         ]
@@ -189,9 +189,7 @@ const AdminListView = () => {
       <ModalStyle
         openModal={openModalDelete}
         handleModalOnCancel={() => setOpenModalDelete(false)}
-        message={
-          'Apakah anda yakin ingin menghapus postingan ' + modalDeleteData?.userName
-        }
+        message={'Apakah anda yakin ingin menghapus ' + modalDeleteData?.userName}
         handleModal={() => {
           handleDeleteAdmin(modalDeleteData?.userId ?? '')
           setOpenModalDelete(!openModalDelete)
@@ -200,5 +198,3 @@ const AdminListView = () => {
     </Box>
   )
 }
-
-export default AdminListView
