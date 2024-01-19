@@ -9,7 +9,8 @@ import {
   Select,
   MenuItem,
   InputLabel,
-  Grid
+  Grid,
+  FormControl
 } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
@@ -67,9 +68,10 @@ export default function EditAdminView() {
     if (result) {
       setUserEmail(result.userEmail)
       setUserName(result.userName)
-      setUserRole(result.userPassword)
+      setUserRole(result.userRole)
       setUserPhoneNumber(result.userPhoneNumber)
       setUserPhoto(result.userPhoto)
+      setUserPassword(result.userPassword)
     }
   }
 
@@ -161,23 +163,23 @@ export default function EditAdminView() {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <InputLabel sx={{ mx: 1 }} id='demo-multiple-name-label'>
-                Pilih Role
-              </InputLabel>
-              <Select
-                labelId='demo-select-small-label'
-                id='demo-select-small'
-                value={userRole}
-                fullWidth
-                sx={{ m: 1 }}
-                onChange={(e) => setUserRole(e.target.value)}
-              >
-                <MenuItem selected value={userRole}>
-                  {userRole}
-                </MenuItem>
-                <MenuItem value={'admin'}>Admin</MenuItem>
-                <MenuItem value={'superAdmin'}>Super Admin</MenuItem>
-              </Select>
+              <FormControl fullWidth>
+                <InputLabel id='demo-multiple-name-label'>Pilih Role</InputLabel>
+                <Select
+                  labelId='demo-select-small-label'
+                  id='demo-select-small'
+                  value={userRole}
+                  fullWidth
+                  sx={{ m: 1 }}
+                  onChange={(e) => setUserRole(e.target.value)}
+                >
+                  <MenuItem selected value={userRole}>
+                    {userRole}
+                  </MenuItem>
+                  <MenuItem value={'admin'}>Admin</MenuItem>
+                  <MenuItem value={'superAdmin'}>Super Admin</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
           </Grid>
           <Stack direction={'row'} justifyContent='flex-end'>

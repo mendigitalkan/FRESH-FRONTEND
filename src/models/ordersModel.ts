@@ -19,5 +19,5 @@ export interface IOrdersUpdateRequestModel {
   orderProductPrice?: number
   orderProductPhotos?: string
   orderProductDescription?: string
-  orderStatus?: 'waiting' | 'process' | 'delivery' | 'done' | 'cancel'
+  orderStatus?: 'waiting' | 'process' | 'delivery' | 'done' | 'cancel' | string
 }
