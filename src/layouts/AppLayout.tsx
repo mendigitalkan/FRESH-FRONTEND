@@ -263,7 +263,7 @@ export default function AppLayout() {
                 <MenuItem
                   onClick={() => {
                     handleCloseUserMenu()
-                    navigate('/profile')
+                    navigate('/my-profile')
                   }}
                 >
                   <Typography textAlign='center'>Profile</Typography>
