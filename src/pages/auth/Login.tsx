@@ -1,26 +1,30 @@
 import { useState } from 'react'
-import { Button, Card, Typography, Container, Stack, Box, TextField } from '@mui/material'
-import { Link, useNavigate } from 'react-router-dom'
+import { Button, Card, Typography, Container, Box, TextField } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { useToken } from '../../hooks/token'
+import { IUserLoginRequestModel } from '../../models/userModel'
 
 const LoginView = () => {
   const { handlePostRequest } = useHttp()
   const { setToken } = useToken()
   const navigate = useNavigate()
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [userEmail, setUserEmail] = useState('')
+  const [userPassword, setUserPassword] = useState('')
 
   const handleSubmit = async () => {
     try {
+      const payload: IUserLoginRequestModel = {
+        userEmail,
+        userPassword
+      }
+
       const result = await handlePostRequest({
         path: '/users/login',
-        body: {
-          userEmail: email,
-          userPassword: password
-        }
+        body: payload
       })
+
       if (result !== null) {
         setToken(result.data.token)
       }
@@ -57,32 +61,24 @@ const LoginView = () => {
             }}
           >
             <TextField
-              // error={isError}
-              // helperText={errorMessageEmail}
               label='E-mail'
               id='outlined-start-adornment'
               sx={{ m: 1, width: '36ch' }}
-              value={email}
+              value={userEmail}
               type='email'
               onChange={(e) => {
-                setEmail(e.target.value)
-                // setIsError(false)
-                // setErrorMessageEmail('')
+                setUserEmail(e.target.value)
               }}
             />
 
             <TextField
-              // error={isError}
-              // helperText={errorMessagePassword}
               label='Password'
               id='outlined-start-adornment'
               sx={{ m: 1, width: '36ch' }}
-              value={password}
+              value={userPassword}
               type='password'
               onChange={(e) => {
-                setPassword(e.target.value)
-                // setIsError(false)
-                // setErrorMessagePassword('')
+                setUserPassword(e.target.value)
               }}
             />
             <Button
@@ -99,12 +95,12 @@ const LoginView = () => {
               Login
             </Button>
           </Box>
-          <Stack direction='row' alignItems='center' mt={5}>
+          {/* <Stack direction='row' alignItems='center' mt={5}>
             <Typography>Belum punya akun?</Typography>
             <Link style={{ paddingLeft: '10px', textDecoration: 'none' }} to='sign-up'>
               Sign Up
             </Link>
-          </Stack>
+          </Stack> */}
         </Card>
       </Container>
     </>

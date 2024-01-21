@@ -10,17 +10,25 @@ import {
   GridToolbarContainer,
   GridToolbarExport
 } from '@mui/x-data-grid'
-import { MoreOutlined } from '@mui/icons-material'
+import { Add, MoreOutlined } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
 import { useHttp } from '../../hooks/http'
-import { Stack, TextField } from '@mui/material'
+import { Button, Stack, TextField } from '@mui/material'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
+import { useNavigate } from 'react-router-dom'
+import ModalStyle from '../../components/modal'
+import { IUserModel } from '../../models/userModel'
 
-const TransactionView = () => {
+export default function ListAdminView() {
   const [search, setSearch] = useState<string>('')
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
-  const { handleGetTableDataRequest } = useHttp()
+  const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
+  const navigation = useNavigate()
+
+  const [modalDeleteData, setModalDeleteData] = useState<IUserModel>()
+  const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
+
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 25,
     page: 0
@@ -29,18 +37,30 @@ const TransactionView = () => {
   const getTableData = async () => {
     try {
       const result = await handleGetTableDataRequest({
-        path: '/products/list',
+        path: '/users/admins',
         page: paginationModel.page ?? 0,
         size: paginationModel.pageSize ?? 10,
         filter: { search }
       })
+
       if (result) {
-        console.log(result)
         setTableData(result.items)
       }
     } catch (error: any) {
       console.log(error)
     }
+  }
+
+  const handleDeleteAdmin = async (userId: string) => {
+    await handleRemoveRequest({
+      path: '/users?userId=' + userId
+    })
+    window.location.reload()
+  }
+
+  const handleOpenModalDelete = (data: IUserModel) => {
+    setModalDeleteData(data)
+    setOpenModalDelete(!openModalDelete)
   }
 
   useEffect(() => {
@@ -49,26 +69,28 @@ const TransactionView = () => {
 
   const columns: GridColDef[] = [
     {
-      field: 'productName',
+      field: 'userName',
       flex: 1,
-      renderHeader: () => <strong>{'PRODUCT NAME'}</strong>,
+      renderHeader: () => <strong>{'NAMA'}</strong>,
       editable: true
     },
     {
-      field: 'productDescription',
-      renderHeader: () => <strong>{'DESCRIPTION'}</strong>,
+      field: 'userPhoneNumber',
+      renderHeader: () => <strong>{'TELEPON'}</strong>,
+      flex: 1,
+      editable: true
+    },
+    {
+      field: 'userRole',
+      renderHeader: () => <strong>{'Role'}</strong>,
       flex: 1,
       editable: true,
       type: 'singleSelect',
-      valueOptions: ['Market', 'Finance', 'Development']
+      valueOptions: ['admin', 'superAdmin']
     },
     {
-      field: 'productPrice',
-      renderHeader: () => <strong>{'PRICE'}</strong>,
-      type: 'number',
-      flex: 1,
-      align: 'left',
-      headerAlign: 'left',
+      field: 'createdAt',
+      renderHeader: () => <strong>{'DIBUAT PADA'}</strong>,
       editable: true
     },
     {
@@ -77,25 +99,25 @@ const TransactionView = () => {
       renderHeader: () => <strong>{'ACTION'}</strong>,
       flex: 1,
       cellClassName: 'actions',
-      getActions: () => {
+      getActions: ({ row }) => {
         return [
           <GridActionsCellItem
             icon={<EditIcon />}
             label='Edit'
             className='textPrimary'
-            // onClick={handleEditClick(id)}
+            onClick={() => navigation('/admins/edit/' + row.userId)}
             color='inherit'
           />,
           <GridActionsCellItem
             icon={<DeleteIcon color='error' />}
             label='Delete'
-            // onClick={handleDeleteClick(id)}
+            onClick={() => handleOpenModalDelete(row)}
             color='inherit'
           />,
           <GridActionsCellItem
             icon={<MoreOutlined color='info' />}
             label='Detail'
-            // onClick={handleDeleteClick(id)}
+            onClick={() => navigation('/admins/detail/' + row.userId)}
             color='inherit'
           />
         ]
@@ -108,6 +130,13 @@ const TransactionView = () => {
       <GridToolbarContainer sx={{ justifyContent: 'space-between', mb: 2 }}>
         <Stack direction='row' spacing={2}>
           <GridToolbarExport />
+          <Button
+            startIcon={<Add />}
+            variant='outlined'
+            onClick={() => navigation('/admins/create')}
+          >
+            Tambah Admin
+          </Button>
         </Stack>
         <TextField
           size='small'
@@ -123,9 +152,9 @@ const TransactionView = () => {
       <BreadCrumberStyle
         navigation={[
           {
-            label: 'Transactions',
-            link: '/transactions',
-            icon: <IconMenus.transaction fontSize='small' />
+            label: 'Admin',
+            link: '/admins',
+            icon: <IconMenus.admin fontSize='small' />
           }
         ]}
       />
@@ -156,8 +185,16 @@ const TransactionView = () => {
           }}
         />
       </Box>
+
+      <ModalStyle
+        openModal={openModalDelete}
+        handleModalOnCancel={() => setOpenModalDelete(false)}
+        message={'Apakah anda yakin ingin menghapus ' + modalDeleteData?.userName}
+        handleModal={() => {
+          handleDeleteAdmin(modalDeleteData?.userId ?? '')
+          setOpenModalDelete(!openModalDelete)
+        }}
+      />
     </Box>
   )
 }
-
-export default TransactionView

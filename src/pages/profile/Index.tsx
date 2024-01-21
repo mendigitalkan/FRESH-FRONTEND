@@ -8,8 +8,27 @@ import ListItemText from '@mui/material/ListItemText'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import EmailIcon from '@mui/icons-material/Email'
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone'
+import { useHttp } from '../../hooks/http'
+import { useEffect, useState } from 'react'
+import { IUserModel } from '../../models/userModel'
 
 const ProfileView = () => {
+  const { handleGetRequest } = useHttp()
+  const [detailProfile, setDetailProfile] = useState<IUserModel>()
+
+  const getMyProfile = async () => {
+    const result = await handleGetRequest({
+      path: '/my-profile'
+    })
+
+    console.log(result)
+    setDetailProfile(result)
+  }
+
+  useEffect(() => {
+    getMyProfile()
+  }, [])
+
   return (
     <Box>
       <BreadCrumberStyle
@@ -17,7 +36,7 @@ const ProfileView = () => {
           {
             label: 'Profile',
             link: '/profile',
-            icon: <IconMenus.customers fontSize='small' />
+            icon: <IconMenus.profile fontSize='small' />
           }
         ]}
       />
@@ -36,19 +55,19 @@ const ProfileView = () => {
             <ListItemIcon>
               <AccountBoxIcon />
             </ListItemIcon>
-            <ListItemText primary={'user name'} />
+            <ListItemText primary={detailProfile?.userName} />
           </ListItemButton>
           <ListItemButton>
             <ListItemIcon>
               <EmailIcon />
             </ListItemIcon>
-            <ListItemText primary={'e-mail'} />
+            <ListItemText primary={detailProfile?.userEmail} />
           </ListItemButton>
           <ListItemButton>
             <ListItemIcon>
               <LocalPhoneIcon />
             </ListItemIcon>
-            <ListItemText primary='+62813-1678-3223' />
+            <ListItemText primary={detailProfile?.userPhoneNumber} />
           </ListItemButton>
         </List>
       </Card>

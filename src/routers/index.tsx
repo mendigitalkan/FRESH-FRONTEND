@@ -1,25 +1,33 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
 import ErrorPage from '../pages/error-page'
-import DashboardView from '../pages/dashboard/Index'
+import DashboardView from '../pages/dashboard/DashboardView'
 import LoginView from '../pages/auth/Login'
-import ProductView from '../pages/products/Index'
-import CustomersView from '../pages/customers/Index'
-import OrderView from '../pages/orders/Index'
 import ProfileView from '../pages/profile/Index'
-import WaBlasView from '../pages/waBlas/Index'
 import SignUpView from '../pages/auth/SignUp'
 import AuthLayout from '../layouts/AuthLayout'
 import { useToken } from '../hooks/token'
-import ProductCreateView from '../pages/products/ProductCreateView'
-import ProductDetailView from '../pages/products/ProductDetailView'
 import SettingsView from '../pages/settings/Index'
-import TransactionView from '../pages/transactions/Index'
-// import { AppContextTypes, useAppContext } from '../context/app.context'
+import ProductListView from '../pages/products/listProductView'
+import CategoryListView from '../pages/category/categoryListView'
+import CategoryCreateView from '../pages/category/categoryCreateView'
+import CategoryEditView from '../pages/category/categoryEditView'
+import DetailProductView from '../pages/products/detailProductView'
+import CreateProductView from '../pages/products/createProductView'
+import EditProductView from '../pages/products/editProductView'
+import ListAdminView from '../pages/admins/listAdminView'
+import CreateAdminView from '../pages/admins/createAdminView'
+import DetailAdminView from '../pages/admins/detailAdminView'
+import EditAdminView from '../pages/admins/editAdminView'
+import DetailOrderView from '../pages/orders/detailOrderView'
+import ListOrderView from '../pages/orders/listOrderView'
+import ListCustomersView from '../pages/customers/listCustomersView'
+import DetailCustomersView from '../pages/customers/detailCustomersView'
+import ListWablasView from '../pages/wablas/listWablasView'
+import ListTransactionView from '../pages/transactions/listTransactionView'
+import DetailTransactionView from '../pages/transactions/detailTransactionView'
 
 export default function AppRouters() {
-  //   const { currentUser }: AppContextTypes = useAppContext()
-
   const routers: { path: string; element: JSX.Element }[] = []
   const authRouters: { path: string; element: JSX.Element }[] = [
     {
@@ -50,38 +58,82 @@ export default function AppRouters() {
           },
           {
             path: '/products',
-            element: <ProductView />
+            element: <ProductListView />
           },
           {
             path: '/products/create',
-            element: <ProductCreateView />
+            element: <CreateProductView />
           },
           {
-            path: '/products/detail',
-            element: <ProductDetailView />
+            path: '/products/detail/:productId',
+            element: <DetailProductView />
+          },
+          {
+            path: '/products/edit/:productId',
+            element: <EditProductView />
+          },
+          {
+            path: '/categories',
+            element: <CategoryListView />
+          },
+          {
+            path: '/categories/create',
+            element: <CategoryCreateView />
+          },
+          {
+            path: '/categories/edit/:categoryId',
+            element: <CategoryEditView />
           },
           {
             path: '/customers',
-            element: <CustomersView />
+            element: <ListCustomersView />
+          },
+          {
+            path: '/customers/detail/:customerId',
+            element: <DetailCustomersView />
           },
           {
             path: '/orders',
-            element: <OrderView />
+            element: <ListOrderView />
+          },
+          {
+            path: '/orders/detail/:orderId',
+            element: <DetailOrderView />
           },
           {
             path: '/transactions',
-            element: <TransactionView />
+            element: <ListTransactionView />
+          },
+          {
+            path: '/transactions/detail/:transactionId',
+            element: <DetailTransactionView />
           },
           {
             path: '/wa-blas',
-            element: <WaBlasView />
+            element: <ListWablasView />
+          },
+          {
+            path: '/admins',
+            element: <ListAdminView />
+          },
+          {
+            path: '/admins/create',
+            element: <CreateAdminView />
+          },
+          {
+            path: '/admins/detail/:adminId',
+            element: <DetailAdminView />
+          },
+          {
+            path: '/admins/edit/:adminId',
+            element: <EditAdminView />
           },
           {
             path: '/settings',
             element: <SettingsView />
           },
           {
-            path: '/profile',
+            path: '/my-profile',
             element: <ProfileView />
           }
         ]

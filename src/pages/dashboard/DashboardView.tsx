@@ -2,8 +2,25 @@ import { Card, Grid, Box, Stack, Typography } from '@mui/material'
 import ReactApexChart from 'react-apexcharts'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
+import { useEffect, useState } from 'react'
+import { IStatisticTotalModel } from '../../models/statisticModel'
+import { useHttp } from '../../hooks/http'
 
 const DashboardView = () => {
+  const { handleGetRequest } = useHttp()
+  const [statisticTotal, setStatisticTotal] = useState<IStatisticTotalModel>()
+
+  const getStatistic = async () => {
+    const result: IStatisticTotalModel = await handleGetRequest({
+      path: '/statistic/total'
+    })
+    console.log(result)
+    setStatisticTotal(result)
+  }
+
+  useEffect(() => {
+    getStatistic()
+  }, [])
   return (
     <Box>
       <BreadCrumberStyle
@@ -20,9 +37,9 @@ const DashboardView = () => {
           <Stack direction='row' spacing={2}>
             <IconMenus.transaction fontSize='large' color={'inherit'} />
             <Stack justifyContent='center'>
-              <Typography>Saldo</Typography>
+              <Typography>Penjualan</Typography>
               <Typography fontSize='large' fontWeight='bold'>
-                Rp1000.000
+                {statisticTotal?.totalTransaction}
               </Typography>
             </Stack>
           </Stack>
@@ -33,7 +50,7 @@ const DashboardView = () => {
             <Stack justifyContent='center'>
               <Typography>Products</Typography>
               <Typography fontSize='large' fontWeight='bold'>
-                10
+                {statisticTotal?.totalProduct}
               </Typography>
             </Stack>
           </Stack>
@@ -45,7 +62,7 @@ const DashboardView = () => {
             <Stack justifyContent='center'>
               <Typography>Orders</Typography>
               <Typography fontSize='large' fontWeight='bold'>
-                5
+                {statisticTotal?.totalOrder}
               </Typography>
             </Stack>
           </Stack>
@@ -57,7 +74,7 @@ const DashboardView = () => {
             <Stack justifyContent='center'>
               <Typography>Users</Typography>
               <Typography fontSize='large' fontWeight='bold'>
-                10
+                {statisticTotal?.totalUser}
               </Typography>
             </Stack>
           </Stack>

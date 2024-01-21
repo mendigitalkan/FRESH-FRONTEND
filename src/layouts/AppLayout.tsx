@@ -36,7 +36,7 @@ import { useAppContext } from '../context/app.context'
 import { IconMenus } from '../components/icon'
 import { useToken } from '../hooks/token'
 import { jwtDecode } from 'jwt-decode'
-import { IUserRoleModel } from '../models/userRoleModel'
+import { IUserModel } from '../models/userModel'
 
 const drawerWidth = 240
 
@@ -120,6 +120,7 @@ export default function AppLayout() {
   const adminMenus = [
     { title: 'Dashboard', link: '/', icon: <IconMenus.dashboard /> },
     { title: 'Products', link: '/products', icon: <IconMenus.products /> },
+    { title: 'Category', link: '/categories', icon: <IconMenus.category /> },
     { title: 'Customers', link: '/customers', icon: <IconMenus.customers /> },
     { title: 'Orders', link: '/orders', icon: <IconMenus.orders /> },
     {
@@ -139,14 +140,14 @@ export default function AppLayout() {
     {
       title: 'Admins',
       link: '/admins',
-      icon: <IconMenus.waBlas />
+      icon: <IconMenus.admin />
     }
   ]
 
   const token = getToken()
 
   if (token !== null) {
-    const resultToken: IUserRoleModel = jwtDecode(token)
+    const resultToken: IUserModel = jwtDecode(token)
     switch (resultToken.userRole) {
       case 'admin':
         menuItems.push(...adminMenus)
@@ -159,8 +160,8 @@ export default function AppLayout() {
     }
 
     menuItems.push(
-      { title: 'Settings', link: '/settings', icon: <IconMenus.setting /> },
-      { title: 'Profile', link: '/profile', icon: <IconMenus.profile /> }
+      { title: 'Settings', link: '/settings', icon: <IconMenus.settings /> },
+      { title: 'Profile', link: '/my-profile', icon: <IconMenus.profile /> }
     )
   }
 
@@ -262,7 +263,7 @@ export default function AppLayout() {
                 <MenuItem
                   onClick={() => {
                     handleCloseUserMenu()
-                    navigate('/profile')
+                    navigate('/my-profile')
                   }}
                 >
                   <Typography textAlign='center'>Profile</Typography>

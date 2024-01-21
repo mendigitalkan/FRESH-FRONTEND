@@ -10,26 +10,46 @@ import {
   GridToolbarContainer,
   GridToolbarExport
 } from '@mui/x-data-grid'
-import { MoreOutlined } from '@mui/icons-material'
+import { Add } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
 import { useHttp } from '../../hooks/http'
-import { Stack, TextField } from '@mui/material'
+import { Button, Stack, TextField } from '@mui/material'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
+import { useNavigate } from 'react-router-dom'
+import Modal from '../../components/modal'
+import { ICategoryModel } from '../../models/categoryModel'
+import { convertTime } from '../../utilities/convertTime'
 
-const OrderView = () => {
+export default function CategoryListView() {
+  const navigation = useNavigate()
   const [search, setSearch] = useState<string>('')
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
-  const { handleGetTableDataRequest } = useHttp()
+  const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
+  const [modalDeleteData, setModalDeleteData] = useState<ICategoryModel>()
+  const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
+
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 25,
     page: 0
   })
 
+  const handleDeleteCategory = async (categoryId: string) => {
+    await handleRemoveRequest({
+      path: '/categories?categoryId=' + categoryId
+    })
+    window.location.reload()
+  }
+
+  const handleOpenModalDelete = (data: ICategoryModel) => {
+    setModalDeleteData(data)
+    setOpenModalDelete(!openModalDelete)
+  }
+
   const getTableData = async () => {
     try {
       const result = await handleGetTableDataRequest({
-        path: '/products/list',
+        path: '/categories',
         page: paginationModel.page ?? 0,
         size: paginationModel.pageSize ?? 10,
         filter: { search }
@@ -49,27 +69,17 @@ const OrderView = () => {
 
   const columns: GridColDef[] = [
     {
-      field: 'productName',
+      field: 'categoryName',
       flex: 1,
-      renderHeader: () => <strong>{'PRODUCT NAME'}</strong>,
+      renderHeader: () => <strong>{'Nama'}</strong>,
       editable: true
     },
     {
-      field: 'productDescription',
-      renderHeader: () => <strong>{'DESCRIPTION'}</strong>,
+      field: 'createdAt',
       flex: 1,
+      renderHeader: () => <strong>{'Dibuat Pada'}</strong>,
       editable: true,
-      type: 'singleSelect',
-      valueOptions: ['Market', 'Finance', 'Development']
-    },
-    {
-      field: 'productPrice',
-      renderHeader: () => <strong>{'PRICE'}</strong>,
-      type: 'number',
-      flex: 1,
-      align: 'left',
-      headerAlign: 'left',
-      editable: true
+      valueFormatter: (item) => convertTime(item.value)
     },
     {
       field: 'actions',
@@ -77,25 +87,19 @@ const OrderView = () => {
       renderHeader: () => <strong>{'ACTION'}</strong>,
       flex: 1,
       cellClassName: 'actions',
-      getActions: () => {
+      getActions: ({ row }) => {
         return [
           <GridActionsCellItem
             icon={<EditIcon />}
             label='Edit'
             className='textPrimary'
-            // onClick={handleEditClick(id)}
+            onClick={() => navigation('edit/' + row.categoryId)}
             color='inherit'
           />,
           <GridActionsCellItem
             icon={<DeleteIcon color='error' />}
             label='Delete'
-            // onClick={handleDeleteClick(id)}
-            color='inherit'
-          />,
-          <GridActionsCellItem
-            icon={<MoreOutlined color='info' />}
-            label='Detail'
-            // onClick={handleDeleteClick(id)}
+            onClick={() => handleOpenModalDelete(row)}
             color='inherit'
           />
         ]
@@ -108,6 +112,13 @@ const OrderView = () => {
       <GridToolbarContainer sx={{ justifyContent: 'space-between', mb: 2 }}>
         <Stack direction='row' spacing={2}>
           <GridToolbarExport />
+          <Button
+            onClick={() => navigation('create')}
+            startIcon={<Add />}
+            variant='outlined'
+          >
+            Tambah Kategori
+          </Button>
         </Stack>
         <TextField
           size='small'
@@ -119,13 +130,13 @@ const OrderView = () => {
   }
 
   return (
-    <Box>
+    <>
       <BreadCrumberStyle
         navigation={[
           {
-            label: 'Orders',
-            link: '/orders',
-            icon: <IconMenus.orders fontSize='small' />
+            label: 'Category',
+            link: '/catgories',
+            icon: <IconMenus.category fontSize='small' />
           }
         ]}
       />
@@ -156,8 +167,18 @@ const OrderView = () => {
           }}
         />
       </Box>
-    </Box>
+
+      <Modal
+        openModal={openModalDelete}
+        handleModalOnCancel={() => setOpenModalDelete(false)}
+        message={
+          'Apakah anda yakin ingin menghapus kategori ' + modalDeleteData?.categoryName
+        }
+        handleModal={() => {
+          handleDeleteCategory(modalDeleteData?.categoryId ?? '')
+          setOpenModalDelete(!openModalDelete)
+        }}
+      />
+    </>
   )
 }
-
-export default OrderView
