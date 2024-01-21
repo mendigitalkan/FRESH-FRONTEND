@@ -9,6 +9,7 @@ export const usePagenation = () => {
   const [page, setPage] = useState(0)
 
   const handleChangePage = (event: unknown, newPage: number) => {
+    console.log(event)
     setPage(newPage)
   }
 
