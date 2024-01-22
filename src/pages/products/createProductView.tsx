@@ -18,6 +18,7 @@ import { useHttp } from '../../hooks/http'
 import { IProductCreateRequestModel } from '../../models/productsModel'
 import { ICategoryModel } from '../../models/categoryModel'
 import { handleUploadImageToFirebase } from '../../utilities/uploadImageToFirebase'
+import ModalVariantProductView from './modalVariantProduct'
 
 export default function CreateProductView() {
   const { handlePostRequest, handleGetRequest } = useHttp()
@@ -25,11 +26,13 @@ export default function CreateProductView() {
 
   const [productName, setProductName] = useState('')
   const [productDescription, setProductDescription] = useState('')
-  const [productImages, setProductImages] = useState('')
+  const [productImages, setProductImages] = useState<string[]>([])
   const [productPrice, setProductPrice] = useState(0)
   const [productCategoryId, setProductCategoryId] = useState('')
   const [productStock, setProductStock] = useState(0)
-  // const [productVariant, setProductVariant] = useState('')
+  const [productVariant, setProductVariant] = useState('')
+
+  const [openModalVariantProduct, setOpenModalVariantProduct] = useState(false)
 
   const [categories, setCategories] = useState<ICategoryModel[]>([])
 
@@ -44,7 +47,7 @@ export default function CreateProductView() {
     const image = event.target.files[0]
     handleUploadImageToFirebase({
       selectedFile: image,
-      getImageUrl: setProductImages
+      getImageUrl: (image) => setProductImages([...productImages, image])
     })
   }
 
@@ -53,11 +56,11 @@ export default function CreateProductView() {
       const payload: IProductCreateRequestModel = {
         productName,
         productDescription,
-        productImages,
+        productImages: JSON.stringify(productImages),
         productPrice,
         productCategoryId,
-        productStock
-        // productVariant
+        productStock,
+        productVariant
       }
 
       await handlePostRequest({
@@ -168,34 +171,33 @@ export default function CreateProductView() {
 
         <Box sx={{ my: 3 }}>
           <Typography color={'gray'}>Foto Product</Typography>
-          <Stack>
+          <Stack direction={'row'} flexWrap='wrap' spacing={2}>
             <TextField fullWidth type='file' onChange={handleUploadImage} />
-            {productImages && (
+            {productImages.map((image, index) => (
               <img
-                src={productImages}
+                key={index}
+                src={image}
                 style={{
                   marginTop: 10,
                   width: 200,
                   height: 200
                 }}
               />
-            )}
+            ))}
           </Stack>
         </Box>
 
-        {/* <Box sx={{ mt: 3 }}>
+        <Box sx={{ mt: 3 }}>
           <Typography color={'gray'}>Varian Product</Typography>
-          <TextField
-            label='Variant'
-            id='outlined-start-adornment'
-            fullWidth
-            value={productVariant}
-            type='text'
-            onChange={(e) => {
-              setProductVariant(e.target.value)
-            }}
+          <Button onClick={() => setOpenModalVariantProduct(true)} variant='outlined'>
+            Tambah Varian Produk
+          </Button>
+          <ModalVariantProductView
+            open={openModalVariantProduct}
+            setOpen={setOpenModalVariantProduct}
+            onSelect={setProductVariant}
           />
-        </Box> */}
+        </Box>
 
         <Stack direction={'row'} justifyContent='flex-end'>
           <Button
