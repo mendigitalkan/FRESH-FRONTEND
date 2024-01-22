@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 import {
   Button,
   Card,
@@ -14,42 +14,42 @@ import {
   FormControl,
   FormGroup,
   FormControlLabel,
-  Checkbox,
-} from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useHttp } from "../../hooks/http";
-import { IProductCreateRequestModel } from "../../models/productsModel";
-import { ICategoryModel } from "../../models/categoryModel";
-import { handleUploadImageToFirebase } from "../../utilities/uploadImageToFirebase";
+  Checkbox
+} from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import { useHttp } from '../../hooks/http'
+import { IProductCreateRequestModel } from '../../models/productsModel'
+import { ICategoryModel } from '../../models/categoryModel'
+import { handleUploadImageToFirebase } from '../../utilities/uploadImageToFirebase'
 
 export default function CreateProductView() {
-  const { handlePostRequest, handleGetRequest } = useHttp();
-  const navigate = useNavigate();
+  const { handlePostRequest, handleGetRequest } = useHttp()
+  const navigate = useNavigate()
 
-  const [productName, setProductName] = useState("");
-  const [productDescription, setProductDescription] = useState("");
-  const [productImages, setProductImages] = useState<string[]>([]);
-  const [productPrice, setProductPrice] = useState(0);
-  const [productCategoryId, setProductCategoryId] = useState("");
-  const [productStock, setProductStock] = useState(0);
-  const [productVariant, setProductVariant] = useState("");
+  const [productName, setProductName] = useState('')
+  const [productDescription, setProductDescription] = useState('')
+  const [productImages, setProductImages] = useState<string[]>([])
+  const [productPrice, setProductPrice] = useState(0)
+  const [productCategoryId, setProductCategoryId] = useState('')
+  const [productStock, setProductStock] = useState(0)
+  const [productVariant, setProductVariant] = useState('')
 
-  const [categories, setCategories] = useState<ICategoryModel[]>([]);
+  const [categories, setCategories] = useState<ICategoryModel[]>([])
 
   const getCategories = async () => {
     const result = await handleGetRequest({
-      path: "/categories",
-    });
-    setCategories(result.items);
-  };
+      path: '/categories'
+    })
+    setCategories(result.items)
+  }
 
   const handleUploadImage = (event: any) => {
-    const image = event.target.files[0];
+    const image = event.target.files[0]
     handleUploadImageToFirebase({
       selectedFile: image,
-      getImageUrl: (image) => setProductImages([...productImages, image]),
-    });
-  };
+      getImageUrl: (image) => setProductImages([...productImages, image])
+    })
+  }
 
   const handleSubmit = async () => {
     try {
@@ -60,110 +60,103 @@ export default function CreateProductView() {
         productPrice,
         productCategoryId,
         productStock,
-        productVariant,
-      };
+        productVariant
+      }
 
       await handlePostRequest({
-        path: "/products",
-        body: payload,
-      });
+        path: '/products',
+        body: payload
+      })
 
-      navigate("/products");
+      navigate('/products')
     } catch (error: unknown) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   useEffect(() => {
-    getCategories();
-  }, []);
+    getCategories()
+  }, [])
 
   return (
     <Card
       sx={{
         mt: 5,
-        p: { xs: 3, md: 5 },
+        p: { xs: 3, md: 5 }
       }}
     >
-      <Typography
-        variant="h4"
-        marginBottom={5}
-        color="primary"
-        fontWeight={"bold"}
-      >
+      <Typography variant='h4' marginBottom={5} color='primary' fontWeight={'bold'}>
         Tambah Product
       </Typography>
 
       <Box
-        component="form"
+        component='form'
         style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center'
         }}
       >
-        <Typography fontWeight={"bold"} my={2}>
+        <Typography fontWeight={'bold'} my={2}>
           Info Product
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Nama"
-              id="outlined-start-adornment"
+              label='Nama'
+              id='outlined-start-adornment'
               fullWidth
               value={productName}
-              type="text"
+              type='text'
               onChange={(e) => {
-                setProductName(e.target.value);
+                setProductName(e.target.value)
               }}
             />
           </Grid>
 
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Harga: masukan dalam angka tanpa persen (Rp)"
+              label='Harga: masukan dalam angka tanpa Rp'
               fullWidth
-              id="outlined-start-adornment"
+              id='outlined-start-adornment'
               value={productPrice}
-              type="number"
+              type='number'
               onChange={(e) => {
-                setProductPrice(+e.target.value);
+                setProductPrice(+e.target.value)
               }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Diskon: masukan dalam angka tanpa persen (%)"
+              label='Diskon: masukan dalam angka tanpa persen (%)'
               fullWidth
-              id="outlined-start-adornment"
+              id='outlined-start-adornment'
               value={productPrice}
-              type="number"
+              type='number'
               onChange={(e) => {
-                setProductPrice(+e.target.value);
+                setProductPrice(+e.target.value)
               }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Stok"
+              label='Stok'
               fullWidth
-              id="outlined-start-adornment"
+              id='outlined-start-adornment'
               value={productStock}
-              type="number"
+              type='number'
               onChange={(e) => {
-                setProductStock(+e.target.value);
+                setProductStock(+e.target.value)
               }}
             />
           </Grid>
 
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
-              <InputLabel id="demo-controlled-open-select-label">
-                Kategori
-              </InputLabel>
+              <InputLabel id='demo-controlled-open-select-label'>Kategori</InputLabel>
               <Select
-                labelId="demo-select-small-label"
-                id="demo-select-small"
+                labelId='demo-select-small-label'
+                id='demo-select-small'
                 fullWidth
                 value={productCategoryId}
                 onChange={(e) => setProductCategoryId(e.target.value)}
@@ -179,9 +172,9 @@ export default function CreateProductView() {
         </Grid>
 
         <Box sx={{ my: 3 }}>
-          <Typography color={"gray"}>Foto Product</Typography>
-          <Stack direction={"row"} flexWrap="wrap" spacing={2}>
-            <TextField fullWidth type="file" onChange={handleUploadImage} />
+          <Typography color={'gray'}>Foto Product</Typography>
+          <Stack direction={'row'} flexWrap='wrap' spacing={2}>
+            <TextField fullWidth type='file' onChange={handleUploadImage} />
             {productImages.map((image, index) => (
               <img
                 key={index}
@@ -189,7 +182,7 @@ export default function CreateProductView() {
                 style={{
                   marginTop: 10,
                   width: 200,
-                  height: 200,
+                  height: 200
                 }}
               />
             ))}
@@ -197,40 +190,40 @@ export default function CreateProductView() {
         </Box>
 
         <Box sx={{ my: 3 }}>
-          <Typography fontWeight={"bold"} mb={2}>
+          <Typography fontWeight={'bold'} mb={2}>
             Deskripsi
           </Typography>
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Deskripsi"
-              id="outlined-start-adornment"
+              label='Deskripsi'
+              id='outlined-start-adornment'
               multiline
               fullWidth
               rows={4}
               value={productDescription}
-              type="text"
+              type='text'
               onChange={(e) => {
-                setProductDescription(e.target.value);
+                setProductDescription(e.target.value)
               }}
             />
           </Grid>
         </Box>
 
         <Box sx={{ mt: 3 }}>
-          <Typography fontWeight={"bold"}>Varian Product</Typography>
+          <Typography fontWeight={'bold'}>Varian Product</Typography>
           <VariantProductSection />
         </Box>
 
-        <Stack direction={"row"} justifyContent="flex-end">
+        <Stack direction={'row'} justifyContent='flex-end'>
           <Button
             sx={{
               my: 1,
-              width: "25ch",
-              backgroundColor: "dodgerblue",
-              color: "#FFF",
-              fontWeight: "bold",
+              width: '25ch',
+              backgroundColor: 'dodgerblue',
+              color: '#FFF',
+              fontWeight: 'bold'
             }}
-            variant={"contained"}
+            variant={'contained'}
             onClick={handleSubmit}
           >
             Submit
@@ -238,224 +231,222 @@ export default function CreateProductView() {
         </Stack>
       </Box>
     </Card>
-  );
+  )
 }
 
 interface IVariantTypes {
-  type: string;
-  values: string[];
+  type: string
+  values: string[]
 }
 
 const VariantProductSection = () => {
-  const [variantList, setVariantList] = useState<IVariantTypes[]>([]);
-  const [colors, setColors] = useState<string[]>([]);
-  const [sizes, setSizes] = useState<string[]>([]);
-  const [conditions, setConditions] = useState<string[]>([]);
-  const [weight, setWeight] = useState<string[]>([]);
+  const [variantList, setVariantList] = useState<IVariantTypes[]>([])
+  const [colors, setColors] = useState<string[]>([])
+  const [sizes, setSizes] = useState<string[]>([])
+  const [conditions, setConditions] = useState<string[]>([])
+  const [weight, setWeight] = useState<string[]>([])
 
   const handleSelectColor = (inputColor: string) => {
     if (colors.includes(inputColor)) {
-      const newColors = colors.filter((color) => color !== inputColor);
-      setColors(newColors);
+      const newColors = colors.filter((color) => color !== inputColor)
+      setColors(newColors)
     } else {
-      setColors([...colors, inputColor]);
+      setColors([...colors, inputColor])
     }
-  };
+  }
 
   const handleSelectSizes = (inputValue: string) => {
     if (sizes.includes(inputValue)) {
-      const newSizes = sizes.filter((size) => size !== inputValue);
-      setSizes(newSizes);
+      const newSizes = sizes.filter((size) => size !== inputValue)
+      setSizes(newSizes)
     } else {
-      setSizes([...sizes, inputValue]);
+      setSizes([...sizes, inputValue])
     }
-  };
+  }
 
   const handleSelectConditions = (inputValue: string) => {
-    console.log(inputValue);
+    console.log(inputValue)
     if (conditions.includes(inputValue)) {
-      const newConditions = conditions.filter(
-        (condition) => condition !== inputValue
-      );
-      setConditions(newConditions);
+      const newConditions = conditions.filter((condition) => condition !== inputValue)
+      setConditions(newConditions)
     } else {
-      setConditions([...conditions, inputValue]);
+      setConditions([...conditions, inputValue])
     }
-  };
+  }
 
   const handleSubmit = () => {
     const variantsData: IVariantTypes[] = [
       {
-        type: "colors",
-        values: colors,
+        type: 'colors',
+        values: colors
       },
       {
-        type: "sizes",
-        values: sizes,
+        type: 'sizes',
+        values: sizes
       },
       {
-        type: "conditions",
-        values: conditions,
-      },
-    ];
+        type: 'conditions',
+        values: conditions
+      }
+    ]
 
-    setVariantList(variantsData);
-  };
+    setVariantList(variantsData)
+  }
 
-  console.log(variantList);
+  console.log(variantList)
 
   return (
     <>
-      <Typography color={"gray"}>Ukuran</Typography>
+      <Typography color={'gray'}>Ukuran</Typography>
       <Stack spacing={2}>
         <FormGroup>
-          <Stack direction={"row"} flexWrap={"wrap"} spacing={2}>
+          <Stack direction={'row'} flexWrap={'wrap'} spacing={2}>
             <FormControlLabel
               control={
                 <Checkbox
-                  value={"S"}
+                  value={'S'}
                   onChange={(e) => handleSelectSizes(e.target.value)}
                 />
               }
-              label="S"
+              label='S'
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  value={"M"}
+                  value={'M'}
                   onChange={(e) => handleSelectSizes(e.target.value)}
                 />
               }
-              label="M"
+              label='M'
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  value={"L"}
+                  value={'L'}
                   onChange={(e) => handleSelectSizes(e.target.value)}
                 />
               }
-              label="L"
+              label='L'
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  value={"XL"}
+                  value={'XL'}
                   onChange={(e) => handleSelectSizes(e.target.value)}
                 />
               }
-              label="XL"
+              label='XL'
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  value={"XXL"}
+                  value={'XXL'}
                   onChange={(e) => handleSelectSizes(e.target.value)}
                 />
               }
-              label="XXL"
+              label='XXL'
             />
           </Stack>
         </FormGroup>
-        <Typography color={"gray"}>Warna</Typography>
+        <Typography color={'gray'}>Warna</Typography>
         <FormGroup>
-          <Stack direction={"row"} flexWrap={"wrap"} spacing={2}>
+          <Stack direction={'row'} flexWrap={'wrap'} spacing={2}>
             <FormControlLabel
               control={
                 <Checkbox
-                  value={"Hitam"}
+                  value={'Hitam'}
                   onChange={(e) => handleSelectColor(e.target.value)}
                 />
               }
-              label="Hitam"
+              label='Hitam'
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  value={"Merah"}
+                  value={'Merah'}
                   onChange={(e) => handleSelectColor(e.target.value)}
                 />
               }
-              label="Merah"
+              label='Merah'
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  value={"Putih"}
+                  value={'Putih'}
                   onChange={(e) => handleSelectColor(e.target.value)}
                 />
               }
-              label="Putih"
+              label='Putih'
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  value={"Kuning"}
+                  value={'Kuning'}
                   onChange={(e) => handleSelectColor(e.target.value)}
                 />
               }
-              label="Kuning"
+              label='Kuning'
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  value={"Hijau"}
+                  value={'Hijau'}
                   onChange={(e) => handleSelectColor(e.target.value)}
                 />
               }
-              label="Hijau"
+              label='Hijau'
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  value={"Biru"}
+                  value={'Biru'}
                   onChange={(e) => handleSelectColor(e.target.value)}
                 />
               }
-              label="Biru"
+              label='Biru'
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  value={"Abu-Abu"}
+                  value={'Abu-Abu'}
                   onChange={(e) => handleSelectColor(e.target.value)}
                 />
               }
-              label="Abu-Abu"
+              label='Abu-Abu'
             />
           </Stack>
         </FormGroup>
-        <Typography color={"gray"}>Kondisi</Typography>
+        <Typography color={'gray'}>Kondisi</Typography>
         <FormGroup>
-          <Stack direction={"row"} flexWrap={"wrap"} spacing={2}>
+          <Stack direction={'row'} flexWrap={'wrap'} spacing={2}>
             <FormControlLabel
               control={
                 <Checkbox
-                  value={"Baru"}
+                  value={'Baru'}
                   onChange={(e) => handleSelectConditions(e.target.value)}
                 />
               }
-              label="Baru"
+              label='Baru'
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  value={"Bekas"}
+                  value={'Bekas'}
                   onChange={(e) => handleSelectConditions(e.target.value)}
                 />
               }
-              label="Bekas"
+              label='Bekas'
             />
           </Stack>
         </FormGroup>
-        <Typography color={"gray"}>Berat</Typography>
+        <Typography color={'gray'}>Berat</Typography>
         <TextField
-          label="Berat: masukan angkat dalam gram tanpa (g)"
-          id="outlined-start-adornment"
-          type="number"
+          label='Berat: masukan angkat dalam gram tanpa (g)'
+          id='outlined-start-adornment'
+          type='number'
         />
         <Button onClick={handleSubmit}>Submit</Button>
       </Stack>
     </>
-  );
-};
+  )
+}
