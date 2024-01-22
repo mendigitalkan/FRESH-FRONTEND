@@ -248,6 +248,61 @@ interface IVariantTypes {
 
 const VariantProductSection = () => {
   const [variantList, setVariantList] = useState<IVariantTypes[]>([]);
+  const [colors, setColors] = useState<string[]>([]);
+  const [sizes, setSizes] = useState<string[]>([]);
+  const [conditions, setConditions] = useState<string[]>([]);
+  const [weight, setWeight] = useState<string[]>([]);
+
+  const handleSelectColor = (inputColor: string) => {
+    if (colors.includes(inputColor)) {
+      const newColors = colors.filter((color) => color !== inputColor);
+      setColors(newColors);
+    } else {
+      setColors([...colors, inputColor]);
+    }
+  };
+
+  const handleSelectSizes = (inputValue: string) => {
+    if (sizes.includes(inputValue)) {
+      const newSizes = sizes.filter((size) => size !== inputValue);
+      setSizes(newSizes);
+    } else {
+      setSizes([...sizes, inputValue]);
+    }
+  };
+
+  const handleSelectConditions = (inputValue: string) => {
+    console.log(inputValue);
+    if (conditions.includes(inputValue)) {
+      const newConditions = conditions.filter(
+        (condition) => condition !== inputValue
+      );
+      setConditions(newConditions);
+    } else {
+      setConditions([...conditions, inputValue]);
+    }
+  };
+
+  const handleSubmit = () => {
+    const variantsData: IVariantTypes[] = [
+      {
+        type: "colors",
+        values: colors,
+      },
+      {
+        type: "sizes",
+        values: sizes,
+      },
+      {
+        type: "conditions",
+        values: conditions,
+      },
+    ];
+
+    setVariantList(variantsData);
+  };
+
+  console.log(variantList);
 
   return (
     <>
@@ -256,33 +311,141 @@ const VariantProductSection = () => {
         <FormGroup>
           <Stack direction={"row"} flexWrap={"wrap"} spacing={2}>
             <FormControlLabel
-              onChange={(e) => setVariantList([...{ vari }])}
-              control={<Checkbox />}
+              control={
+                <Checkbox
+                  value={"S"}
+                  onChange={(e) => handleSelectSizes(e.target.value)}
+                />
+              }
               label="S"
             />
-            <FormControlLabel control={<Checkbox />} label="M" />
-            <FormControlLabel control={<Checkbox />} label="L" />
-            <FormControlLabel control={<Checkbox />} label="XL" />
-            <FormControlLabel control={<Checkbox />} label="XXL" />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"M"}
+                  onChange={(e) => handleSelectSizes(e.target.value)}
+                />
+              }
+              label="M"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"L"}
+                  onChange={(e) => handleSelectSizes(e.target.value)}
+                />
+              }
+              label="L"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"XL"}
+                  onChange={(e) => handleSelectSizes(e.target.value)}
+                />
+              }
+              label="XL"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"XXL"}
+                  onChange={(e) => handleSelectSizes(e.target.value)}
+                />
+              }
+              label="XXL"
+            />
           </Stack>
         </FormGroup>
         <Typography color={"gray"}>Warna</Typography>
         <FormGroup>
           <Stack direction={"row"} flexWrap={"wrap"} spacing={2}>
-            <FormControlLabel control={<Checkbox />} label="Hitam" />
-            <FormControlLabel control={<Checkbox />} label="Merah" />
-            <FormControlLabel control={<Checkbox />} label="Putih" />
-            <FormControlLabel control={<Checkbox />} label="Kuning" />
-            <FormControlLabel control={<Checkbox />} label="Hijau" />
-            <FormControlLabel control={<Checkbox />} label="Biru" />
-            <FormControlLabel control={<Checkbox />} label="Abu-Abu" />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"Hitam"}
+                  onChange={(e) => handleSelectColor(e.target.value)}
+                />
+              }
+              label="Hitam"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"Merah"}
+                  onChange={(e) => handleSelectColor(e.target.value)}
+                />
+              }
+              label="Merah"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"Putih"}
+                  onChange={(e) => handleSelectColor(e.target.value)}
+                />
+              }
+              label="Putih"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"Kuning"}
+                  onChange={(e) => handleSelectColor(e.target.value)}
+                />
+              }
+              label="Kuning"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"Hijau"}
+                  onChange={(e) => handleSelectColor(e.target.value)}
+                />
+              }
+              label="Hijau"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"Biru"}
+                  onChange={(e) => handleSelectColor(e.target.value)}
+                />
+              }
+              label="Biru"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"Abu-Abu"}
+                  onChange={(e) => handleSelectColor(e.target.value)}
+                />
+              }
+              label="Abu-Abu"
+            />
           </Stack>
         </FormGroup>
         <Typography color={"gray"}>Kondisi</Typography>
         <FormGroup>
           <Stack direction={"row"} flexWrap={"wrap"} spacing={2}>
-            <FormControlLabel control={<Checkbox />} label="Baru" />
-            <FormControlLabel control={<Checkbox />} label="Bekas" />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"Baru"}
+                  onChange={(e) => handleSelectConditions(e.target.value)}
+                />
+              }
+              label="Baru"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value={"Bekas"}
+                  onChange={(e) => handleSelectConditions(e.target.value)}
+                />
+              }
+              label="Bekas"
+            />
           </Stack>
         </FormGroup>
         <Typography color={"gray"}>Berat</Typography>
@@ -291,6 +454,7 @@ const VariantProductSection = () => {
           id="outlined-start-adornment"
           type="number"
         />
+        <Button onClick={handleSubmit}>Submit</Button>
       </Stack>
     </>
   );
