@@ -2,7 +2,7 @@
 import { useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { useEffect, useState } from 'react'
-import { Box, Card, Grid, Typography } from '@mui/material'
+import { Box, Card, Chip, Grid, Typography } from '@mui/material'
 import { IProductModel } from '../../models/productsModel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
 import { Carousel } from 'react-responsive-carousel'
@@ -18,9 +18,8 @@ export default function DetailProductView() {
   const [productImages, setProductImages] = useState<string[]>([])
 
   const [productDetail, setProductDetail] = useState<IProductModel>()
-  const [productVariantList, setProductVariantList] = useState<IVariantTypes[]>([])
-  const [productColors, setProductColors] = useState<IVariantTypes>()
-  const [productSizes, setProductSizes] = useState<IVariantTypes>()
+  const [productColors, setProductColors] = useState<string[]>([])
+  const [productSizes, setProductSizes] = useState<string[]>([])
 
   const getDetailUser = async () => {
     const result: IProductModel = await handleGetRequest({
@@ -29,27 +28,20 @@ export default function DetailProductView() {
     if (result) {
       const images = JSON.parse(result.productImages || '[]')
       const productVariants: IVariantTypes[] = JSON.parse(result.productVariant || '[]')
-      const colors: IVariantTypes | any = productVariants.filter(
+      const colors: IVariantTypes | any = productVariants.find(
         (value) => value.type === 'colors'
       )
-      const sizes: IVariantTypes | any = productVariants.filter(
+      const sizes: IVariantTypes | any = productVariants.find(
         (value) => value.type === 'sizes'
       )
 
-      console.log('___color and size')
-      console.log(colors)
-      console.log(sizes)
+      setProductColors(colors?.values)
+      setProductSizes(sizes?.values)
 
-      setProductColors(colors)
-      setProductSizes(sizes)
       setProductImages(images)
-      setProductVariantList(productVariants)
       setProductDetail(result)
     }
   }
-
-  console.log(productColors)
-  console.log(productSizes)
 
   useEffect(() => {
     getDetailUser()
@@ -137,16 +129,36 @@ export default function DetailProductView() {
                 <Typography>{productDetail?.productCondition}</Typography>
               </td>
             </tr>
-
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Berat</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{productDetail?.productWeight} gram</Typography>
+              </td>
+            </tr>
             <tr>
               <td>
                 <Typography fontWeight={'Bold'}>warna</Typography>
               </td>
               <td>:</td>
               <td>
-                {/* {productColors?.values.map((color, index) => (
-                  <Typography key={index}>{color}</Typography>
-                ))} */}
+                {productColors.map((color, index) => (
+                  <Chip key={index} label={color} sx={{ mx: 0.2 }} />
+                ))}
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Ukuran</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                {productSizes.map((size, index) => (
+                  <Chip key={index} label={size} sx={{ mx: 0.2 }} />
+                ))}
               </td>
             </tr>
           </tbody>

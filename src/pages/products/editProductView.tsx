@@ -11,13 +11,18 @@ import {
   MenuItem,
   Grid,
   InputLabel,
-  FormControl
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup
 } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { IProductModel, IProductUpdateRequestModel } from '../../models/productsModel'
 import { ICategoryModel } from '../../models/categoryModel'
 import { handleUploadImageToFirebase } from '../../utilities/uploadImageToFirebase'
+import VariantProductSection from './productVariantView'
 
 export default function EditProductView() {
   const { handleUpdateRequest, handleGetRequest } = useHttp()
@@ -30,7 +35,10 @@ export default function EditProductView() {
   const [productPrice, setProductPrice] = useState(0)
   const [productCategoryId, setProductCategoryId] = useState('')
   const [productStock, setProductStock] = useState(0)
-  // const [productVariant, setProductVariant] = useState('')
+  const [productDiscount, setProductDiscount] = useState(0)
+  const [productWeight, setProductWeight] = useState(0)
+  const [productVariant, setProductVariant] = useState('')
+  const [productCondition, setProductCondition] = useState('')
 
   const [categories, setCategories] = useState<ICategoryModel[]>([])
 
@@ -43,8 +51,11 @@ export default function EditProductView() {
         productImages,
         productPrice,
         productCategoryId,
-        productStock
-        // productVariant
+        productStock,
+        productDiscount,
+        productWeight,
+        productVariant,
+        productCondition
       }
 
       await handleUpdateRequest({
@@ -81,7 +92,7 @@ export default function EditProductView() {
     if (result) {
       setProductName(result.productName)
       setProductDescription(result.productDescription)
-      setProductImages(result.productImages)
+      setProductImages(JSON.stringify(result.productImages))
       setProductPrice(result.productPrice)
       setProductCategoryId(result.productCategoryId)
       setProductStock(result.productStock)
@@ -154,6 +165,30 @@ export default function EditProductView() {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
+              label='Diskon: masukan dalam angka tanpa persen (%)'
+              fullWidth
+              id='outlined-start-adornment'
+              value={productDiscount}
+              type='number'
+              onChange={(e) => {
+                setProductDiscount(+e.target.value)
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label='Berat: masukan angka dalam gram tanpa (g)'
+              fullWidth
+              id='outlined-start-adornment'
+              value={productWeight}
+              type='number'
+              onChange={(e) => {
+                setProductWeight(+e.target.value)
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
               label='Stok'
               fullWidth
               id='outlined-start-adornment'
@@ -202,19 +237,71 @@ export default function EditProductView() {
           </Stack>
         </Box>
 
-        {/* <Box sx={{ mt: 3 }}>
-          <Typography color={'gray'}>Varian Product</Typography>
-          <TextField
-            label='Variant'
-            id='outlined-start-adornment'
-            fullWidth
-            value={productVariant}
-            type='text'
-            onChange={(e) => {
-              setProductVariant(e.target.value)
-            }}
-          />
-        </Box> */}
+        <Box sx={{ my: 3 }}>
+          <Typography color={'gray'}>Foto Product</Typography>
+          <Stack direction={'row'} flexWrap='wrap' spacing={2}>
+            <TextField fullWidth type='file' onChange={handleUploadImage} />
+            {productImages.map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                style={{
+                  marginTop: 10,
+                  width: 200,
+                  height: 200
+                }}
+              />
+            ))}
+          </Stack>
+        </Box>
+
+        <Box sx={{ my: 3 }}>
+          <Typography fontWeight={'bold'} mb={2}>
+            Deskripsi
+          </Typography>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label='Deskripsi'
+              id='outlined-start-adornment'
+              multiline
+              fullWidth
+              rows={4}
+              value={productDescription}
+              type='text'
+              onChange={(e) => {
+                setProductDescription(e.target.value)
+              }}
+            />
+          </Grid>
+        </Box>
+
+        <FormControl>
+          <FormLabel id='demo-radio-buttons-group-label'>Kondisi</FormLabel>
+
+          <RadioGroup
+            aria-labelledby='demo-radio-buttons-group-label'
+            defaultValue='female'
+            name='radio-buttons-group'
+          >
+            <Stack direction={'row'} flexWrap={'wrap'} spacing={2}>
+              <FormControlLabel
+                value='Baru'
+                control={<Radio onChange={(e) => setProductCondition(e.target.value)} />}
+                label='Baru'
+              />
+              <FormControlLabel
+                value='Bekas'
+                control={<Radio onChange={(e) => setProductCondition(e.target.value)} />}
+                label='Bekas'
+              />
+            </Stack>
+          </RadioGroup>
+        </FormControl>
+
+        <Box sx={{ mt: 3 }}>
+          <Typography fontWeight={'bold'}>Varian Product</Typography>
+          <VariantProductSection onChange={setProductVariant} />
+        </Box>
 
         <Stack direction={'row'} justifyContent='flex-end'>
           <Button
