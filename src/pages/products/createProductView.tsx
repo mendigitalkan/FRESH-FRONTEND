@@ -12,15 +12,17 @@ import {
   Grid,
   InputLabel,
   FormControl,
-  FormGroup,
+  RadioGroup,
   FormControlLabel,
-  Checkbox
+  FormLabel,
+  Radio
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { IProductCreateRequestModel } from '../../models/productsModel'
 import { ICategoryModel } from '../../models/categoryModel'
 import { handleUploadImageToFirebase } from '../../utilities/uploadImageToFirebase'
+import VariantProductSection from './productVariantView'
 
 export default function CreateProductView() {
   const { handlePostRequest, handleGetRequest } = useHttp()
@@ -30,9 +32,12 @@ export default function CreateProductView() {
   const [productDescription, setProductDescription] = useState('')
   const [productImages, setProductImages] = useState<string[]>([])
   const [productPrice, setProductPrice] = useState(0)
+  const [productDiscount, setProductDiscount] = useState(0)
   const [productCategoryId, setProductCategoryId] = useState('')
   const [productStock, setProductStock] = useState(0)
+  const [productWeight, setProductWeight] = useState(0)
   const [productVariant, setProductVariant] = useState('')
+  const [productCondition, setProductCondition] = useState('')
 
   const [categories, setCategories] = useState<ICategoryModel[]>([])
 
@@ -60,9 +65,13 @@ export default function CreateProductView() {
         productPrice,
         productCategoryId,
         productStock,
+        productWeight,
+        productCondition,
+        productDiscount,
         productVariant
       }
 
+      console.log(payload)
       await handlePostRequest({
         path: '/products',
         body: payload
@@ -131,10 +140,22 @@ export default function CreateProductView() {
               label='Diskon: masukan dalam angka tanpa persen (%)'
               fullWidth
               id='outlined-start-adornment'
-              value={productPrice}
+              value={productDiscount}
               type='number'
               onChange={(e) => {
-                setProductPrice(+e.target.value)
+                setProductDiscount(+e.target.value)
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label='Berat: masukan angka dalam gram tanpa (g)'
+              fullWidth
+              id='outlined-start-adornment'
+              value={productWeight}
+              type='number'
+              onChange={(e) => {
+                setProductWeight(+e.target.value)
               }}
             />
           </Grid>
@@ -209,9 +230,32 @@ export default function CreateProductView() {
           </Grid>
         </Box>
 
+        <FormControl>
+          <FormLabel id='demo-radio-buttons-group-label'>Kondisi</FormLabel>
+
+          <RadioGroup
+            aria-labelledby='demo-radio-buttons-group-label'
+            defaultValue='female'
+            name='radio-buttons-group'
+          >
+            <Stack direction={'row'} flexWrap={'wrap'} spacing={2}>
+              <FormControlLabel
+                value='Baru'
+                control={<Radio onChange={(e) => setProductCondition(e.target.value)} />}
+                label='Baru'
+              />
+              <FormControlLabel
+                value='Bekas'
+                control={<Radio onChange={(e) => setProductCondition(e.target.value)} />}
+                label='Bekas'
+              />
+            </Stack>
+          </RadioGroup>
+        </FormControl>
+
         <Box sx={{ mt: 3 }}>
           <Typography fontWeight={'bold'}>Varian Product</Typography>
-          <VariantProductSection />
+          <VariantProductSection onChange={setProductVariant} />
         </Box>
 
         <Stack direction={'row'} justifyContent='flex-end'>
@@ -231,222 +275,5 @@ export default function CreateProductView() {
         </Stack>
       </Box>
     </Card>
-  )
-}
-
-interface IVariantTypes {
-  type: string
-  values: string[]
-}
-
-const VariantProductSection = () => {
-  const [variantList, setVariantList] = useState<IVariantTypes[]>([])
-  const [colors, setColors] = useState<string[]>([])
-  const [sizes, setSizes] = useState<string[]>([])
-  const [conditions, setConditions] = useState<string[]>([])
-  const [weight, setWeight] = useState<string[]>([])
-
-  const handleSelectColor = (inputColor: string) => {
-    if (colors.includes(inputColor)) {
-      const newColors = colors.filter((color) => color !== inputColor)
-      setColors(newColors)
-    } else {
-      setColors([...colors, inputColor])
-    }
-  }
-
-  const handleSelectSizes = (inputValue: string) => {
-    if (sizes.includes(inputValue)) {
-      const newSizes = sizes.filter((size) => size !== inputValue)
-      setSizes(newSizes)
-    } else {
-      setSizes([...sizes, inputValue])
-    }
-  }
-
-  const handleSelectConditions = (inputValue: string) => {
-    console.log(inputValue)
-    if (conditions.includes(inputValue)) {
-      const newConditions = conditions.filter((condition) => condition !== inputValue)
-      setConditions(newConditions)
-    } else {
-      setConditions([...conditions, inputValue])
-    }
-  }
-
-  const handleSubmit = () => {
-    const variantsData: IVariantTypes[] = [
-      {
-        type: 'colors',
-        values: colors
-      },
-      {
-        type: 'sizes',
-        values: sizes
-      },
-      {
-        type: 'conditions',
-        values: conditions
-      }
-    ]
-
-    setVariantList(variantsData)
-  }
-
-  console.log(variantList)
-
-  return (
-    <>
-      <Typography color={'gray'}>Ukuran</Typography>
-      <Stack spacing={2}>
-        <FormGroup>
-          <Stack direction={'row'} flexWrap={'wrap'} spacing={2}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'S'}
-                  onChange={(e) => handleSelectSizes(e.target.value)}
-                />
-              }
-              label='S'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'M'}
-                  onChange={(e) => handleSelectSizes(e.target.value)}
-                />
-              }
-              label='M'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'L'}
-                  onChange={(e) => handleSelectSizes(e.target.value)}
-                />
-              }
-              label='L'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'XL'}
-                  onChange={(e) => handleSelectSizes(e.target.value)}
-                />
-              }
-              label='XL'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'XXL'}
-                  onChange={(e) => handleSelectSizes(e.target.value)}
-                />
-              }
-              label='XXL'
-            />
-          </Stack>
-        </FormGroup>
-        <Typography color={'gray'}>Warna</Typography>
-        <FormGroup>
-          <Stack direction={'row'} flexWrap={'wrap'} spacing={2}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'Hitam'}
-                  onChange={(e) => handleSelectColor(e.target.value)}
-                />
-              }
-              label='Hitam'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'Merah'}
-                  onChange={(e) => handleSelectColor(e.target.value)}
-                />
-              }
-              label='Merah'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'Putih'}
-                  onChange={(e) => handleSelectColor(e.target.value)}
-                />
-              }
-              label='Putih'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'Kuning'}
-                  onChange={(e) => handleSelectColor(e.target.value)}
-                />
-              }
-              label='Kuning'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'Hijau'}
-                  onChange={(e) => handleSelectColor(e.target.value)}
-                />
-              }
-              label='Hijau'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'Biru'}
-                  onChange={(e) => handleSelectColor(e.target.value)}
-                />
-              }
-              label='Biru'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'Abu-Abu'}
-                  onChange={(e) => handleSelectColor(e.target.value)}
-                />
-              }
-              label='Abu-Abu'
-            />
-          </Stack>
-        </FormGroup>
-        <Typography color={'gray'}>Kondisi</Typography>
-        <FormGroup>
-          <Stack direction={'row'} flexWrap={'wrap'} spacing={2}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'Baru'}
-                  onChange={(e) => handleSelectConditions(e.target.value)}
-                />
-              }
-              label='Baru'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'Bekas'}
-                  onChange={(e) => handleSelectConditions(e.target.value)}
-                />
-              }
-              label='Bekas'
-            />
-          </Stack>
-        </FormGroup>
-        <Typography color={'gray'}>Berat</Typography>
-        <TextField
-          label='Berat: masukan angkat dalam gram tanpa (g)'
-          id='outlined-start-adornment'
-          type='number'
-        />
-        <Button onClick={handleSubmit}>Submit</Button>
-      </Stack>
-    </>
   )
 }

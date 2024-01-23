@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IRootModel } from './rootModel'
 
 export interface IProductModel extends IRootModel {
@@ -9,6 +10,9 @@ export interface IProductModel extends IRootModel {
   productCategoryId: string
   productTotalSale: number
   productStock: number
+  productDiscount: number
+  productCondition: 'Baru' | 'Bekas'
+  productWeight: number
   productVariant: string
 }
 
@@ -21,7 +25,10 @@ export interface IProductUpdateRequestModel {
   productCategoryId?: string
   productTotalSale?: number
   productStock?: number
-  productVariant?: string
+  productDiscount?: number
+  productCondition: 'Baru' | 'Bekas' | string
+  productWeight?: number
+  productVariant?: any
 }
 
 export interface IProductCreateRequestModel {
@@ -31,5 +38,8 @@ export interface IProductCreateRequestModel {
   productPrice: number
   productCategoryId: string
   productStock: number
-  productVariant?: string
+  productDiscount?: number
+  productCondition: 'Baru' | 'Bekas' | string
+  productWeight: number
+  productVariant?: any
 }
