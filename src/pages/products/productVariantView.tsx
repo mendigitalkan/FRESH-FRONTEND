@@ -2,13 +2,9 @@
 import { useEffect, useState } from 'react'
 import { Typography, Stack, FormGroup, FormControlLabel, Checkbox } from '@mui/material'
 
-interface IVariantTypes {
-  type: string
-  values: string[]
-}
-
 interface IVariantProductModel {
-  onChange: (value: any) => void
+  setProductColors: (value: string[]) => void
+  setProductSizes: (value: string[]) => void
 }
 
 export default function VariantProductSection(props: IVariantProductModel) {
@@ -34,18 +30,8 @@ export default function VariantProductSection(props: IVariantProductModel) {
   }
 
   useEffect(() => {
-    const variantsData: IVariantTypes[] = [
-      {
-        type: 'colors',
-        values: colors
-      },
-      {
-        type: 'sizes',
-        values: sizes
-      }
-    ]
-
-    props.onChange(variantsData)
+    props.setProductColors(colors)
+    props.setProductSizes(sizes)
   }, [colors, sizes, props])
 
   return (

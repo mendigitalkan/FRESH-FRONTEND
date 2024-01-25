@@ -12,10 +12,10 @@ import {
   Grid,
   InputLabel,
   FormControl,
+  RadioGroup,
   FormControlLabel,
   FormLabel,
-  Radio,
-  RadioGroup
+  Radio
 } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
@@ -31,16 +31,32 @@ export default function EditProductView() {
 
   const [productName, setProductName] = useState('')
   const [productDescription, setProductDescription] = useState('')
-  const [productImages, setProductImages] = useState('')
+  const [productImages, setProductImages] = useState<string[]>([])
   const [productPrice, setProductPrice] = useState(0)
+  const [productDiscount, setProductDiscount] = useState(0)
   const [productCategoryId, setProductCategoryId] = useState('')
   const [productStock, setProductStock] = useState(0)
-  const [productDiscount, setProductDiscount] = useState(0)
   const [productWeight, setProductWeight] = useState(0)
-  const [productVariant, setProductVariant] = useState('')
-  const [productCondition, setProductCondition] = useState('')
+  const [productCondition, setProductCondition] = useState<'Baru' | 'Bekas' | string>('')
+  const [productColors, setProductColors] = useState<string[]>([])
+  const [productSizes, setProductSizes] = useState<string[]>([])
 
   const [categories, setCategories] = useState<ICategoryModel[]>([])
+
+  const getCategories = async () => {
+    const result = await handleGetRequest({
+      path: '/categories'
+    })
+    setCategories(result.items)
+  }
+
+  const handleUploadImage = (event: any) => {
+    const image = event.target.files[0]
+    handleUploadImageToFirebase({
+      selectedFile: image,
+      getImageUrl: (image) => setProductImages([...productImages, image])
+    })
+  }
 
   const handleSubmit = async () => {
     try {
@@ -48,14 +64,16 @@ export default function EditProductView() {
         productId: productId ?? '',
         productName,
         productDescription,
-        productImages,
+        productImages: JSON.stringify(productImages),
         productPrice,
         productCategoryId,
         productStock,
-        productDiscount,
         productWeight,
-        productVariant,
-        productCondition
+        productCondition,
+        productDiscount,
+        productColors: JSON.stringify(productColors),
+        productSizes: JSON.stringify(productSizes),
+        productTotalSale: 0
       }
 
       await handleUpdateRequest({
@@ -69,40 +87,32 @@ export default function EditProductView() {
     }
   }
 
-  const getCategories = async () => {
-    const result = await handleGetRequest({
-      path: '/categories'
-    })
-    setCategories(result.items)
-  }
-
-  const handleUploadImage = (event: any) => {
-    const image = event.target.files[0]
-    handleUploadImageToFirebase({
-      selectedFile: image,
-      getImageUrl: setProductImages
-    })
-  }
-
-  const getDetaiProduct = async () => {
+  const getDetailProduct = async () => {
     const result: IProductModel = await handleGetRequest({
       path: '/products/detail/' + productId
     })
-    console.log(result)
     if (result) {
+      const images = JSON.parse(result.productImages || '[]')
+      const productColors = JSON.parse(result.productColors || '[]')
+      const productSizes = JSON.parse(result.productSizes || '[]')
+
       setProductName(result.productName)
       setProductDescription(result.productDescription)
-      setProductImages(JSON.stringify(result.productImages))
+      setProductCondition(result.productCondition)
+      setProductDiscount(result.productDiscount)
+      setProductWeight(result.productWeight)
       setProductPrice(result.productPrice)
       setProductCategoryId(result.productCategoryId)
-      setProductStock(result.productStock)
-      // setProductVariant(result.productVariant)
+
+      setProductImages(images)
+      setProductColors(productColors)
+      setProductSizes(productSizes)
     }
   }
 
   useEffect(() => {
     getCategories()
-    getDetaiProduct()
+    getDetailProduct()
   }, [])
 
   return (
@@ -116,7 +126,6 @@ export default function EditProductView() {
         Tambah Product
       </Typography>
 
-      <Typography color={'gray'}>Info Product</Typography>
       <Box
         component='form'
         style={{
@@ -125,6 +134,9 @@ export default function EditProductView() {
           justifyContent: 'center'
         }}
       >
+        <Typography fontWeight={'bold'} my={2}>
+          Info Product
+        </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -138,22 +150,10 @@ export default function EditProductView() {
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label='Deskripsi'
-              id='outlined-start-adornment'
-              fullWidth
-              value={productDescription}
-              type='text'
-              onChange={(e) => {
-                setProductDescription(e.target.value)
-              }}
-            />
-          </Grid>
 
           <Grid item xs={12} sm={6}>
             <TextField
-              label='Harga'
+              label='Harga: masukan dalam angka tanpa Rp'
               fullWidth
               id='outlined-start-adornment'
               value={productPrice}
@@ -222,23 +222,6 @@ export default function EditProductView() {
 
         <Box sx={{ my: 3 }}>
           <Typography color={'gray'}>Foto Product</Typography>
-          <Stack>
-            <TextField fullWidth type='file' onChange={handleUploadImage} />
-            {productImages && (
-              <img
-                src={productImages}
-                style={{
-                  marginTop: 10,
-                  width: 200,
-                  height: 200
-                }}
-              />
-            )}
-          </Stack>
-        </Box>
-
-        <Box sx={{ my: 3 }}>
-          <Typography color={'gray'}>Foto Product</Typography>
           <Stack direction={'row'} flexWrap='wrap' spacing={2}>
             <TextField fullWidth type='file' onChange={handleUploadImage} />
             {productImages.map((image, index) => (
@@ -300,7 +283,10 @@ export default function EditProductView() {
 
         <Box sx={{ mt: 3 }}>
           <Typography fontWeight={'bold'}>Varian Product</Typography>
-          <VariantProductSection onChange={setProductVariant} />
+          <VariantProductSection
+            setProductColors={setProductColors}
+            setProductSizes={setProductSizes}
+          />
         </Box>
 
         <Stack direction={'row'} justifyContent='flex-end'>

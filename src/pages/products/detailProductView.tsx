@@ -7,11 +7,6 @@ import { IProductModel } from '../../models/productsModel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
 import { Carousel } from 'react-responsive-carousel'
 
-interface IVariantTypes {
-  type: string
-  values: string[]
-}
-
 export default function DetailProductView() {
   const { handleGetRequest } = useHttp()
   const { productId } = useParams()
@@ -21,30 +16,24 @@ export default function DetailProductView() {
   const [productColors, setProductColors] = useState<string[]>([])
   const [productSizes, setProductSizes] = useState<string[]>([])
 
-  const getDetailUser = async () => {
+  const getDetailProduct = async () => {
     const result: IProductModel = await handleGetRequest({
       path: '/products/detail/' + productId
     })
     if (result) {
       const images = JSON.parse(result.productImages || '[]')
-      const productVariants: IVariantTypes[] = JSON.parse(result.productVariant || '[]')
-      const colors: IVariantTypes | any = productVariants.find(
-        (value) => value.type === 'colors'
-      )
-      const sizes: IVariantTypes | any = productVariants.find(
-        (value) => value.type === 'sizes'
-      )
-
-      setProductColors(colors?.values)
-      setProductSizes(sizes?.values)
+      const productColors = JSON.parse(result.productColors || '[]')
+      const productSizes = JSON.parse(result.productSizes || '[]')
 
       setProductImages(images)
+      setProductColors(productColors)
+      setProductSizes(productSizes)
       setProductDetail(result)
     }
   }
 
   useEffect(() => {
-    getDetailUser()
+    getDetailProduct()
   }, [])
 
   return (

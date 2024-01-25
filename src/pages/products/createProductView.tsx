@@ -36,8 +36,9 @@ export default function CreateProductView() {
   const [productCategoryId, setProductCategoryId] = useState('')
   const [productStock, setProductStock] = useState(0)
   const [productWeight, setProductWeight] = useState(0)
-  const [productVariant, setProductVariant] = useState('')
-  const [productCondition, setProductCondition] = useState('')
+  const [productCondition, setProductCondition] = useState<'Baru' | 'Bekas' | string>('')
+  const [productColors, setProductColors] = useState<string[]>([])
+  const [productSizes, setProductSizes] = useState<string[]>([])
 
   const [categories, setCategories] = useState<ICategoryModel[]>([])
 
@@ -68,7 +69,9 @@ export default function CreateProductView() {
         productWeight,
         productCondition,
         productDiscount,
-        productVariant
+        productColors: JSON.stringify(productColors),
+        productSizes: JSON.stringify(productSizes),
+        productTotalSale: 0
       }
 
       console.log(payload)
@@ -255,7 +258,10 @@ export default function CreateProductView() {
 
         <Box sx={{ mt: 3 }}>
           <Typography fontWeight={'bold'}>Varian Product</Typography>
-          <VariantProductSection onChange={setProductVariant} />
+          <VariantProductSection
+            setProductColors={setProductColors}
+            setProductSizes={setProductSizes}
+          />
         </Box>
 
         <Stack direction={'row'} justifyContent='flex-end'>
