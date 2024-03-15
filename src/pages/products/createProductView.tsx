@@ -11,14 +11,18 @@ import {
   MenuItem,
   Grid,
   InputLabel,
-  FormControl
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  FormLabel,
+  Radio
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { IProductCreateRequestModel } from '../../models/productsModel'
 import { ICategoryModel } from '../../models/categoryModel'
 import { handleUploadImageToFirebase } from '../../utilities/uploadImageToFirebase'
-import ModalVariantProductView from './modalVariantProduct'
+import VariantProductSection from './productVariantView'
 
 export default function CreateProductView() {
   const { handlePostRequest, handleGetRequest } = useHttp()
@@ -28,11 +32,13 @@ export default function CreateProductView() {
   const [productDescription, setProductDescription] = useState('')
   const [productImages, setProductImages] = useState<string[]>([])
   const [productPrice, setProductPrice] = useState(0)
+  const [productDiscount, setProductDiscount] = useState(0)
   const [productCategoryId, setProductCategoryId] = useState('')
   const [productStock, setProductStock] = useState(0)
-  const [productVariant, setProductVariant] = useState('')
-
-  const [openModalVariantProduct, setOpenModalVariantProduct] = useState(false)
+  const [productWeight, setProductWeight] = useState(0)
+  const [productCondition, setProductCondition] = useState<'Baru' | 'Bekas' | string>('')
+  const [productColors, setProductColors] = useState<string[]>([])
+  const [productSizes, setProductSizes] = useState<string[]>([])
 
   const [categories, setCategories] = useState<ICategoryModel[]>([])
 
@@ -60,9 +66,15 @@ export default function CreateProductView() {
         productPrice,
         productCategoryId,
         productStock,
-        productVariant
+        productWeight,
+        productCondition,
+        productDiscount,
+        productColors: JSON.stringify(productColors),
+        productSizes: JSON.stringify(productSizes),
+        productTotalSale: 0
       }
 
+      console.log(payload)
       await handlePostRequest({
         path: '/products',
         body: payload
@@ -89,7 +101,6 @@ export default function CreateProductView() {
         Tambah Product
       </Typography>
 
-      <Typography color={'gray'}>Info Product</Typography>
       <Box
         component='form'
         style={{
@@ -98,6 +109,9 @@ export default function CreateProductView() {
           justifyContent: 'center'
         }}
       >
+        <Typography fontWeight={'bold'} my={2}>
+          Info Product
+        </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -111,28 +125,40 @@ export default function CreateProductView() {
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label='Deskripsi'
-              id='outlined-start-adornment'
-              fullWidth
-              value={productDescription}
-              type='text'
-              onChange={(e) => {
-                setProductDescription(e.target.value)
-              }}
-            />
-          </Grid>
 
           <Grid item xs={12} sm={6}>
             <TextField
-              label='Harga'
+              label='Harga: masukan dalam angka tanpa Rp'
               fullWidth
               id='outlined-start-adornment'
               value={productPrice}
               type='number'
               onChange={(e) => {
                 setProductPrice(+e.target.value)
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label='Diskon: masukan dalam angka tanpa persen (%)'
+              fullWidth
+              id='outlined-start-adornment'
+              value={productDiscount}
+              type='number'
+              onChange={(e) => {
+                setProductDiscount(+e.target.value)
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label='Berat: masukan angka dalam gram tanpa (g)'
+              fullWidth
+              id='outlined-start-adornment'
+              value={productWeight}
+              type='number'
+              onChange={(e) => {
+                setProductWeight(+e.target.value)
               }}
             />
           </Grid>
@@ -187,15 +213,54 @@ export default function CreateProductView() {
           </Stack>
         </Box>
 
+        <Box sx={{ my: 3 }}>
+          <Typography fontWeight={'bold'} mb={2}>
+            Deskripsi
+          </Typography>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label='Deskripsi'
+              id='outlined-start-adornment'
+              multiline
+              fullWidth
+              rows={4}
+              value={productDescription}
+              type='text'
+              onChange={(e) => {
+                setProductDescription(e.target.value)
+              }}
+            />
+          </Grid>
+        </Box>
+
+        <FormControl>
+          <FormLabel id='demo-radio-buttons-group-label'>Kondisi</FormLabel>
+
+          <RadioGroup
+            aria-labelledby='demo-radio-buttons-group-label'
+            defaultValue='female'
+            name='radio-buttons-group'
+          >
+            <Stack direction={'row'} flexWrap={'wrap'} spacing={2}>
+              <FormControlLabel
+                value='Baru'
+                control={<Radio onChange={(e) => setProductCondition(e.target.value)} />}
+                label='Baru'
+              />
+              <FormControlLabel
+                value='Bekas'
+                control={<Radio onChange={(e) => setProductCondition(e.target.value)} />}
+                label='Bekas'
+              />
+            </Stack>
+          </RadioGroup>
+        </FormControl>
+
         <Box sx={{ mt: 3 }}>
-          <Typography color={'gray'}>Varian Product</Typography>
-          <Button onClick={() => setOpenModalVariantProduct(true)} variant='outlined'>
-            Tambah Varian Produk
-          </Button>
-          <ModalVariantProductView
-            open={openModalVariantProduct}
-            setOpen={setOpenModalVariantProduct}
-            onSelect={setProductVariant}
+          <Typography fontWeight={'bold'}>Varian Product</Typography>
+          <VariantProductSection
+            setProductColors={setProductColors}
+            setProductSizes={setProductSizes}
           />
         </Box>
 

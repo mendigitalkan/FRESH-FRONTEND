@@ -1,13 +1,9 @@
 export const CONFIGS = {
   env: import.meta.env.VITE_APP_STAGE || 'development',
-  baseUrl: 'http://localhost:8000/api/v1', //https://ecommerceapi.jasaapk.us/api/v1
+  baseUrl: 'https://jasaapk.us/ecommerce/api/v1', //'https://backend-ecommerce.jasaapk.us/api/v1/', //https://backend-ecommerce.jasaapk.us/api/v1
   localStorageKey: 'qwerty',
   tokenKeyLocalStorage: 'qwerty',
-  tokenSecret: 'qwerty',
-  authorization: {
-    username: import.meta.env.VITE_AUTHORIZATION_USERNAME,
-    passsword: import.meta.env.VITE_AUTHORIZATION_PASSWORD
-  }
+  tokenSecret: 'qwerty'
 }
 
 import { initializeApp } from 'firebase/app'
