@@ -1,6 +1,6 @@
 export const CONFIGS = {
   env: import.meta.env.VITE_APP_STAGE || 'development',
-  baseUrl: 'https://jasaapk.us/ecommerce/api/v1', //'https://backend-ecommerce.jasaapk.us/api/v1/', //https://backend-ecommerce.jasaapk.us/api/v1
+  baseUrl: 'http://localhost:8000/api/v1', //'https://backend-ecommerce.jasaapk.us/api/v1/', //https://backend-ecommerce.jasaapk.us/api/v1
   localStorageKey: 'qwerty',
   tokenKeyLocalStorage: 'qwerty',
   tokenSecret: 'qwerty'
