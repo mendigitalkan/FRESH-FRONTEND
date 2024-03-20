@@ -23,6 +23,7 @@ import { IProductCreateRequestModel } from '../../models/productsModel'
 import { ICategoryModel } from '../../models/categoryModel'
 import { handleUploadImageToFirebase } from '../../utilities/uploadImageToFirebase'
 import VariantProductSection from './productVariantView'
+import ButtonUploadFile from '../../components/buttons/buttonUpload'
 
 export default function CreateProductView() {
   const { handlePostRequest, handleGetRequest } = useHttp()
@@ -194,6 +195,8 @@ export default function CreateProductView() {
             </FormControl>
           </Grid>
         </Grid>
+
+        <ButtonUploadFile onUpload={console.log} />
 
         <Box sx={{ my: 3 }}>
           <Typography color={'gray'}>Foto Product</Typography>

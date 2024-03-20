@@ -31,12 +31,13 @@ import {
   Stack,
   Tooltip
 } from '@mui/material'
-import AdbIcon from '@mui/icons-material/Adb'
+
 import { useAppContext } from '../context/app.context'
 import { IconMenus } from '../components/icon'
 import { useToken } from '../hooks/token'
 import { jwtDecode } from 'jwt-decode'
 import { IUserModel } from '../models/userModel'
+import logo from '../assets/logo.jpg'
 
 const drawerWidth = 240
 
@@ -198,14 +199,14 @@ export default function AppLayout() {
             >
               <MenuIcon />
             </IconButton>
-            <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+            <img src={logo} width={30} height={30} />
             <Typography
               variant='h6'
               noWrap
               component='a'
               href='#app-bar-with-responsive-menu'
               sx={{
-                mr: 2,
+                ml: 2,
                 display: { xs: 'none', md: 'flex' },
                 fontFamily: 'monospace',
                 fontWeight: 700,
@@ -214,17 +215,16 @@ export default function AppLayout() {
                 textDecoration: 'none'
               }}
             >
-              LOGO
+              FRESH
             </Typography>
 
-            <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
             <Typography
               variant='h5'
               noWrap
               component='a'
               href='#app-bar-with-responsive-menu'
               sx={{
-                mr: 2,
+                ml: 2,
                 display: { xs: 'flex', md: 'none' },
                 flexGrow: 1,
                 fontFamily: 'monospace',
@@ -234,7 +234,7 @@ export default function AppLayout() {
                 textDecoration: 'none'
               }}
             >
-              LOGO
+              FRESH
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
 
@@ -276,7 +276,7 @@ export default function AppLayout() {
                     window.location.reload()
                   }}
                 >
-                  <Typography textAlign='center'>Logout</Typography>
+                  <Typography textAlign='center'>logout</Typography>
                 </MenuItem>
               </Menu>
             </Box>
