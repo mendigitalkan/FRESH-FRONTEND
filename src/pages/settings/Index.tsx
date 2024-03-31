@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
+import GeneralSettingsView from './GeneralSettingsView'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -67,7 +68,7 @@ export default function SettingsView() {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          umum
+          <GeneralSettingsView />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           banner

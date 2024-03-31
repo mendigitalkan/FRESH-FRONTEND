@@ -7,7 +7,7 @@ import {
   GridActionsCellItem,
   GridToolbarContainer
 } from '@mui/x-data-grid'
-import { Add, MoreOutlined } from '@mui/icons-material'
+import { Add } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
 import { useHttp } from '../../hooks/http'
 import { Button, Stack, TextField } from '@mui/material'
@@ -15,17 +15,35 @@ import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 import { useNavigate } from 'react-router-dom'
 import { convertTime } from '../../utilities/convertTime'
+import { INotificationModel } from '../../models/notificationsModel'
+import DeleteIcon from '@mui/icons-material/DeleteOutlined'
+import Modal from '../../components/modal'
 
 export default function ListNotificationView() {
   const navigation = useNavigate()
   const [search, setSearch] = useState<string>('')
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
-  const { handleGetTableDataRequest } = useHttp()
+  const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
+
+  const [modalDeleteData, setModalDeleteData] = useState<INotificationModel>()
+  const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
 
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 25,
     page: 0
   })
+
+  const handleDeleteNotification = async (notificationId: string) => {
+    await handleRemoveRequest({
+      path: '/notifications?notificationId=' + notificationId
+    })
+    window.location.reload()
+  }
+
+  const handleOpenModalDelete = (data: INotificationModel) => {
+    setModalDeleteData(data)
+    setOpenModalDelete(!openModalDelete)
+  }
 
   const getTableData = async () => {
     try {
@@ -77,9 +95,9 @@ export default function ListNotificationView() {
       getActions: ({ row }) => {
         return [
           <GridActionsCellItem
-            icon={<MoreOutlined color='info' />}
-            label='Detail'
-            onClick={() => navigation('/customers/detail/' + row.userId)}
+            icon={<DeleteIcon color='error' />}
+            label='Delete'
+            onClick={() => handleOpenModalDelete(row)}
             color='inherit'
           />
         ]
@@ -146,6 +164,18 @@ export default function ListNotificationView() {
           }}
         />
       </Box>
+      <Modal
+        openModal={openModalDelete}
+        handleModalOnCancel={() => setOpenModalDelete(false)}
+        message={
+          'Apakah anda yakin ingin menghapus history notifikasi ' +
+          modalDeleteData?.notificationName
+        }
+        handleModal={() => {
+          handleDeleteNotification(modalDeleteData?.notificationId ?? '')
+          setOpenModalDelete(!openModalDelete)
+        }}
+      />
     </>
   )
 }
