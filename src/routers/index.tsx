@@ -26,6 +26,8 @@ import DetailCustomersView from '../pages/customers/detailCustomersView'
 import ListWablasView from '../pages/wablas/listWablasView'
 import ListTransactionView from '../pages/transactions/listTransactionView'
 import DetailTransactionView from '../pages/transactions/detailTransactionView'
+import ListNotificationView from '../pages/notification/ListNotificationView'
+import CreateNotificationView from '../pages/notification/CreateNotificationView'
 
 export default function AppRouters() {
   const routers: { path: string; element: JSX.Element }[] = []
@@ -91,6 +93,14 @@ export default function AppRouters() {
           {
             path: '/customers/detail/:customerId',
             element: <DetailCustomersView />
+          },
+          {
+            path: '/notifications',
+            element: <ListNotificationView />
+          },
+          {
+            path: '/notifications/create',
+            element: <CreateNotificationView />
           },
           {
             path: '/orders',

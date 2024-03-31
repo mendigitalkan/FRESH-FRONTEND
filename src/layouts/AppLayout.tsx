@@ -123,6 +123,7 @@ export default function AppLayout() {
     { title: 'Products', link: '/products', icon: <IconMenus.products /> },
     { title: 'Category', link: '/categories', icon: <IconMenus.category /> },
     { title: 'Customers', link: '/customers', icon: <IconMenus.customers /> },
+    { title: 'Notification', link: '/notifications', icon: <IconMenus.notification /> },
     { title: 'Orders', link: '/orders', icon: <IconMenus.orders /> },
     {
       title: 'Transactions',

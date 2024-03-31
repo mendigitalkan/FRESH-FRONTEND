@@ -9,12 +9,14 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined'
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined'
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined'
+import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined'
 
 export const IconMenus = {
   dashboard: SpaceDashboardOutlinedIcon,
   products: StorefrontIcon,
   category: CategoryOutlinedIcon,
   customers: PeopleAltOutlinedIcon,
+  notification: NotificationsActiveOutlinedIcon,
   orders: AddShoppingCartIcon,
   waBlas: WhatsAppIcon,
   admin: AdminPanelSettingsOutlinedIcon,

@@ -21,7 +21,7 @@ import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { IProductCreateRequestModel } from '../../models/productsModel'
 import { ICategoryModel } from '../../models/categoryModel'
-import { handleUploadImageToFirebase } from '../../utilities/uploadImageToFirebase'
+// import { handleUploadImageToFirebase } from '../../utilities/uploadImageToFirebase'
 import VariantProductSection from './productVariantView'
 import ButtonUploadFile from '../../components/buttons/buttonUpload'
 
@@ -50,13 +50,13 @@ export default function CreateProductView() {
     setCategories(result.items)
   }
 
-  const handleUploadImage = (event: any) => {
-    const image = event.target.files[0]
-    handleUploadImageToFirebase({
-      selectedFile: image,
-      getImageUrl: (image) => setProductImages([...productImages, image])
-    })
-  }
+  // const handleUploadImage = (event: any) => {
+  //   const image = event.target.files[0]
+  //   handleUploadImageToFirebase({
+  //     selectedFile: image,
+  //     getImageUrl: (image) => setProductImages([...productImages, image])
+  //   })
+  // }
 
   const handleSubmit = async () => {
     try {
@@ -196,12 +196,12 @@ export default function CreateProductView() {
           </Grid>
         </Grid>
 
-        <ButtonUploadFile onUpload={console.log} />
-
         <Box sx={{ my: 3 }}>
           <Typography color={'gray'}>Foto Product</Typography>
+          <ButtonUploadFile
+            onUpload={(image) => setProductImages([...productImages, image])}
+          />
           <Stack direction={'row'} flexWrap='wrap' spacing={2}>
-            <TextField fullWidth type='file' onChange={handleUploadImage} />
             {productImages.map((image, index) => (
               <img
                 key={index}
