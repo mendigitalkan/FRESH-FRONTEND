@@ -10,18 +10,18 @@ const LoginView = () => {
   const { setToken } = useToken()
   const navigate = useNavigate()
 
-  const [userEmail, setUserEmail] = useState('')
+  const [userName, setUserName] = useState('')
   const [userPassword, setUserPassword] = useState('')
 
   const handleSubmit = async () => {
     try {
       const payload: IUserLoginRequestModel = {
-        userEmail,
+        userName,
         userPassword
       }
 
       const result = await handlePostRequest({
-        path: '/users/login',
+        path: '/my-profile/login',
         body: payload
       })
 
@@ -61,13 +61,13 @@ const LoginView = () => {
             }}
           >
             <TextField
-              label='E-mail'
+              label='Username'
               id='outlined-start-adornment'
               sx={{ m: 1, width: '36ch' }}
-              value={userEmail}
+              value={userName}
               type='email'
               onChange={(e) => {
-                setUserEmail(e.target.value)
+                setUserName(e.target.value)
               }}
             />
 
@@ -95,12 +95,6 @@ const LoginView = () => {
               Login
             </Button>
           </Box>
-          {/* <Stack direction='row' alignItems='center' mt={5}>
-            <Typography>Belum punya akun?</Typography>
-            <Link style={{ paddingLeft: '10px', textDecoration: 'none' }} to='sign-up'>
-              Sign Up
-            </Link>
-          </Stack> */}
         </Card>
       </Container>
     </>

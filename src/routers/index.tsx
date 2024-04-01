@@ -4,7 +4,6 @@ import ErrorPage from '../pages/error-page'
 import DashboardView from '../pages/dashboard/DashboardView'
 import LoginView from '../pages/auth/Login'
 import ProfileView from '../pages/profile/Index'
-import SignUpView from '../pages/auth/SignUp'
 import AuthLayout from '../layouts/AuthLayout'
 import { useToken } from '../hooks/token'
 import SettingsView from '../pages/settings/Index'
@@ -28,6 +27,7 @@ import ListTransactionView from '../pages/transactions/listTransactionView'
 import DetailTransactionView from '../pages/transactions/detailTransactionView'
 import ListNotificationView from '../pages/notification/ListNotificationView'
 import CreateNotificationView from '../pages/notification/CreateNotificationView'
+import EditProfileView from '../pages/profile/EditProfileView'
 
 export default function AppRouters() {
   const routers: { path: string; element: JSX.Element }[] = []
@@ -39,10 +39,6 @@ export default function AppRouters() {
     {
       path: '/login',
       element: <LoginView />
-    },
-    {
-      path: '/sign-up',
-      element: <SignUpView />
     }
   ]
 
@@ -145,6 +141,10 @@ export default function AppRouters() {
           {
             path: '/my-profile',
             element: <ProfileView />
+          },
+          {
+            path: '/my-profile/edit/:userId',
+            element: <EditProfileView />
           }
         ]
       )

@@ -21,7 +21,6 @@ import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { IProductCreateRequestModel } from '../../models/productsModel'
 import { ICategoryModel } from '../../models/categoryModel'
-// import { handleUploadImageToFirebase } from '../../utilities/uploadImageToFirebase'
 import VariantProductSection from './productVariantView'
 import ButtonUploadFile from '../../components/buttons/buttonUpload'
 
@@ -50,14 +49,6 @@ export default function CreateProductView() {
     setCategories(result.items)
   }
 
-  // const handleUploadImage = (event: any) => {
-  //   const image = event.target.files[0]
-  //   handleUploadImageToFirebase({
-  //     selectedFile: image,
-  //     getImageUrl: (image) => setProductImages([...productImages, image])
-  //   })
-  // }
-
   const handleSubmit = async () => {
     try {
       const payload: IProductCreateRequestModel = {
@@ -75,7 +66,6 @@ export default function CreateProductView() {
         productTotalSale: 0
       }
 
-      console.log(payload)
       await handlePostRequest({
         path: '/products',
         body: payload
@@ -85,6 +75,11 @@ export default function CreateProductView() {
     } catch (error: unknown) {
       console.log(error)
     }
+  }
+
+  const handleDeleteImage = (oldImage: string) => {
+    const newImages = productImages.filter((image) => image !== oldImage)
+    setProductImages(newImages)
   }
 
   useEffect(() => {
@@ -203,15 +198,23 @@ export default function CreateProductView() {
           />
           <Stack direction={'row'} flexWrap='wrap' spacing={2}>
             {productImages.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                style={{
-                  marginTop: 10,
-                  width: 200,
-                  height: 200
-                }}
-              />
+              <Stack spacing={2} key={index}>
+                <img
+                  src={image}
+                  style={{
+                    marginTop: 10,
+                    width: 200,
+                    height: 200
+                  }}
+                />
+                <Button
+                  variant='outlined'
+                  size='small'
+                  onClick={() => handleDeleteImage(image)}
+                >
+                  Delete
+                </Button>
+              </Stack>
             ))}
           </Stack>
         </Box>

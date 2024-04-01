@@ -1,27 +1,22 @@
-import { Box } from '@mui/material'
+import { Box, Button, Stack, Typography } from '@mui/material'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
-import { Card, List } from '@mui/material'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import AccountBoxIcon from '@mui/icons-material/AccountBox'
-import EmailIcon from '@mui/icons-material/Email'
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone'
+import { Card } from '@mui/material'
 import { useHttp } from '../../hooks/http'
 import { useEffect, useState } from 'react'
 import { IUserModel } from '../../models/userModel'
+import { convertTime } from '../../utilities/convertTime'
+import { useNavigate } from 'react-router-dom'
 
 const ProfileView = () => {
   const { handleGetRequest } = useHttp()
   const [detailProfile, setDetailProfile] = useState<IUserModel>()
+  const navigation = useNavigate()
 
   const getMyProfile = async () => {
     const result = await handleGetRequest({
       path: '/my-profile'
     })
-
-    console.log(result)
     setDetailProfile(result)
   }
 
@@ -41,35 +36,52 @@ const ProfileView = () => {
         ]}
       />
 
-      <Card
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: { xs: '290px', sm: '400px', md: '500px' },
-          height: { xs: '250px', sm: '300px' }
-        }}
-      >
-        <h1 style={{ textAlign: 'center' }}>My Profile</h1>
-        <List>
-          <ListItemButton>
-            <ListItemIcon>
-              <AccountBoxIcon />
-            </ListItemIcon>
-            <ListItemText primary={detailProfile?.userName} />
-          </ListItemButton>
-          <ListItemButton>
-            <ListItemIcon>
-              <EmailIcon />
-            </ListItemIcon>
-            <ListItemText primary={detailProfile?.userEmail} />
-          </ListItemButton>
-          <ListItemButton>
-            <ListItemIcon>
-              <LocalPhoneIcon />
-            </ListItemIcon>
-            <ListItemText primary={detailProfile?.userPhoneNumber} />
-          </ListItemButton>
-        </List>
+      <Card sx={{ p: 3 }}>
+        <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+          <h1>My Profile</h1>
+          <Button
+            variant='outlined'
+            onClick={() => navigation('/my-profile/edit/' + detailProfile?.userId)}
+          >
+            Edit
+          </Button>
+        </Stack>
+        <table>
+          <thead>
+            <th></th>
+            <th></th>
+            <th></th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>User Name</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailProfile?.userName}</Typography>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Role</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailProfile?.userRole}</Typography>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Dibuat Pada</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{convertTime(detailProfile?.createdAt + '')}</Typography>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </Card>
     </Box>
   )
