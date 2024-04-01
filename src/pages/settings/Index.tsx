@@ -6,6 +6,8 @@ import Box from '@mui/material/Box'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 import GeneralSettingsView from './GeneralSettingsView'
+import BannerSettingsView from './BannerSettingsView'
+import MyAddressSettingsView from './MyAddressSettingsView'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -64,17 +66,17 @@ export default function SettingsView() {
           <Tabs value={value} onChange={handleChange}>
             <Tab label='Umum' {...a11yProps(0)} />
             <Tab label='Banner' {...a11yProps(1)} />
-            <Tab label='Sistem' {...a11yProps(2)} />
+            <Tab label='Address' {...a11yProps(2)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
           <GeneralSettingsView />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          banner
+          <BannerSettingsView />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          sistem
+          <MyAddressSettingsView />
         </CustomTabPanel>
       </Box>
     </>

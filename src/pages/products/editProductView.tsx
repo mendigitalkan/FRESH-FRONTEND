@@ -51,13 +51,10 @@ export default function EditProductView() {
     setCategories(result.items)
   }
 
-  // const handleUploadImage = (event: any) => {
-  //   const image = event.target.files[0]
-  //   handleUploadImageToFirebase({
-  //     selectedFile: image,
-  //     getImageUrl: (image) => setProductImages([...productImages, image])
-  //   })
-  // }
+  const handleDeleteImage = (oldImage: string) => {
+    const newImages = productImages.filter((image) => image !== oldImage)
+    setProductImages(newImages)
+  }
 
   const handleSubmit = async () => {
     try {
@@ -228,15 +225,23 @@ export default function EditProductView() {
           />
           <Stack direction={'row'} flexWrap='wrap' spacing={2}>
             {productImages.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                style={{
-                  marginTop: 10,
-                  width: 200,
-                  height: 200
-                }}
-              />
+              <Stack spacing={2} key={index}>
+                <img
+                  src={image}
+                  style={{
+                    marginTop: 10,
+                    width: 200,
+                    height: 200
+                  }}
+                />
+                <Button
+                  variant='outlined'
+                  size='small'
+                  onClick={() => handleDeleteImage(image)}
+                >
+                  Delete
+                </Button>
+              </Stack>
             ))}
           </Stack>
         </Box>

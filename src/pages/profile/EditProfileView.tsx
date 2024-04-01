@@ -1,31 +1,42 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Card, Typography, Box, TextField, Stack } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
-import { type INotificationCreateRequestModel } from '../../models/notificationsModel'
+import { IUserUpdateRequestModel } from '../../models/userModel'
 
-export default function CreateNotificationView() {
-  const { handlePostRequest } = useHttp()
+export default function EditProfileView() {
+  const { handleGetRequest, handleUpdateRequest } = useHttp()
   const navigate = useNavigate()
+  const { userId } = useParams()
 
-  const [notificationName, setnotificationName] = useState('')
-  const [notificationMessage, setnotificationMessage] = useState('')
+  const [user, setUser] = useState<IUserUpdateRequestModel>({
+    userId: userId!,
+    userName: '',
+    userPassword: ''
+  })
 
   const handleSubmit = async () => {
     try {
-      const payload: INotificationCreateRequestModel = {
-        notificationName,
-        notificationMessage
-      }
-      await handlePostRequest({
-        path: '/notifications',
-        body: payload
+      await handleUpdateRequest({
+        path: '/my-profile',
+        body: user
       })
-      navigate('/notifications')
+      navigate('/my-profile')
     } catch (error: unknown) {
       console.log(error)
     }
   }
+
+  const getMyProfile = async () => {
+    const result = await handleGetRequest({
+      path: '/my-profile'
+    })
+    setUser(result)
+  }
+
+  useEffect(() => {
+    getMyProfile()
+  }, [])
 
   return (
     <>
@@ -36,7 +47,7 @@ export default function CreateNotificationView() {
         }}
       >
         <Typography variant='h4' marginBottom={5} color='primary' fontWeight={'bold'}>
-          Buat Notifikasi
+          Edit My Profile
         </Typography>
         <Box
           component='form'
@@ -47,24 +58,29 @@ export default function CreateNotificationView() {
           }}
         >
           <TextField
-            label='Nama Notifikasi'
+            label='User Name'
             id='outlined-start-adornment'
             sx={{ m: 1 }}
-            value={notificationName}
+            value={user?.userName}
             type='text'
             onChange={(e) => {
-              setnotificationName(e.target.value)
+              setUser({
+                ...user,
+                userName: e.target.value
+              })
             }}
           />
-
           <TextField
-            label='Pesan Notifikasi'
+            label='password'
             id='outlined-start-adornment'
             sx={{ m: 1 }}
-            value={notificationMessage}
-            type='text'
+            value={user?.userPassword}
+            type='password'
             onChange={(e) => {
-              setnotificationMessage(e.target.value)
+              setUser({
+                ...user,
+                userPassword: e.target.value
+              })
             }}
           />
 
@@ -80,7 +96,7 @@ export default function CreateNotificationView() {
               variant={'contained'}
               onClick={handleSubmit}
             >
-              Send
+              Submit
             </Button>
           </Stack>
         </Box>
