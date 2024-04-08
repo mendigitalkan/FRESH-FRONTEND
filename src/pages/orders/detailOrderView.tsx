@@ -10,7 +10,6 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
-  Grid,
   Radio,
   RadioGroup,
   Stack,
@@ -18,6 +17,7 @@ import {
 } from '@mui/material'
 import { IOrdersModel, IOrdersUpdateRequestModel } from '../../models/ordersModel'
 import { convertNumberToCurrency } from '../../utilities/convertNumberToCurrency'
+import { Carousel } from 'react-responsive-carousel'
 
 export default function DetailOrderView() {
   const { handleGetRequest, handleUpdateRequest } = useHttp()
@@ -26,13 +26,19 @@ export default function DetailOrderView() {
 
   const [detailOrder, setDetailOrder] = useState<IOrdersModel>()
   const [orderStatus, setOrderStatus] = useState('')
+  const [productImages, setProductImages] = useState<string[]>([])
 
   const getDetailUser = async () => {
     const result: IOrdersModel = await handleGetRequest({
       path: '/orders/detail/' + orderId
     })
     if (result) {
+      const images = JSON.parse(result?.product?.productImages || '[]')
+      setProductImages(images)
       setDetailOrder(result)
+
+      console.log('__________detail')
+      console.log(result)
     }
   }
 
@@ -56,70 +62,100 @@ export default function DetailOrderView() {
 
   return (
     <Card sx={{ p: 5 }}>
-      <Grid container spacing={2} my={5}>
-        <Grid item xs={12} md={3}>
-          <img
-            src={detailOrder?.orderProductImages}
-            style={{
-              marginTop: 10,
-              width: 200,
-              height: 200
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} md={9}>
-          <table>
-            <thead>
-              <th></th>
-              <th></th>
-              <th></th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <Typography fontWeight={'Bold'}>Nama</Typography>
-                </td>
-                <td>:</td>
-                <td>
-                  <Typography>{detailOrder?.orderProductName}</Typography>
-                </td>
-              </tr>
+      <Box>
+        <Carousel dynamicHeight>
+          {productImages.map((image, index) => (
+            <div key={index}>
+              <img
+                src={image}
+                style={{
+                  maxHeight: '400px'
+                }}
+              />
+            </div>
+          ))}
+        </Carousel>
+      </Box>
 
-              <tr>
-                <td>
-                  <Typography fontWeight={'Bold'}>Deskripsi</Typography>
-                </td>
-                <td>:</td>
-                <td>
-                  <Typography>{detailOrder?.orderProductDescription}</Typography>
-                </td>
-              </tr>
+      <table>
+        <thead>
+          <th></th>
+          <th></th>
+          <th></th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <Typography fontWeight={'Bold'}>Nama</Typography>
+            </td>
+            <td>:</td>
+            <td>
+              <Typography>{detailOrder?.product?.productName}</Typography>
+            </td>
+          </tr>
 
-              <tr>
-                <td>
-                  <Typography fontWeight={'Bold'}>Harga</Typography>
-                </td>
-                <td>:</td>
-                <td>
-                  <Typography>
-                    Rp{convertNumberToCurrency(detailOrder?.orderProductPrice || 0)}
-                  </Typography>
-                </td>
-              </tr>
+          <tr>
+            <td>
+              <Typography fontWeight={'Bold'}>Deskripsi</Typography>
+            </td>
+            <td>:</td>
+            <td>
+              <Typography>{detailOrder?.product?.productDescription}</Typography>
+            </td>
+          </tr>
 
-              <tr>
-                <td>
-                  <Typography fontWeight={'Bold'}>Status</Typography>
-                </td>
-                <td>:</td>
-                <td>
-                  <Typography>{detailOrder?.orderStatus}</Typography>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </Grid>
-      </Grid>
+          <tr>
+            <td>
+              <Typography fontWeight={'Bold'}>Harga</Typography>
+            </td>
+            <td>:</td>
+            <td>
+              <Typography>
+                Rp
+                {convertNumberToCurrency(
+                  parseFloat(detailOrder?.orderProductPrice ?? '0')
+                )}
+              </Typography>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Typography fontWeight={'Bold'}>Ongkir</Typography>
+            </td>
+            <td>:</td>
+            <td>
+              <Typography>
+                Rp
+                {convertNumberToCurrency(parseFloat(detailOrder?.orderOngkirPrice))}
+              </Typography>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Typography fontWeight={'Bold'}>Total Harga</Typography>
+            </td>
+            <td>:</td>
+            <td>
+              <Typography>
+                Rp
+                {convertNumberToCurrency(
+                  parseFloat(detailOrder?.orderTotalProductPrice ?? 0)
+                )}
+              </Typography>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <Typography fontWeight={'Bold'}>Status</Typography>
+            </td>
+            <td>:</td>
+            <td>
+              <Typography>{detailOrder?.orderStatus}</Typography>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
       <Divider />
       <Box sx={{ my: 5 }}>

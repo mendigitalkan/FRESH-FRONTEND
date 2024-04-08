@@ -5,9 +5,12 @@ export interface IUserModel extends IRootModel {
   userName: string
   userEmail: string
   userPassword: string
-  userPhoneNumber: string
+  userWhatsAppNumber: string
+  userWhatsAppNumberVerified: boolean
   userPhoto: string
   userRole: 'user' | 'admin' | 'superAdmin'
+  userCoin: number
+  userFcmId: string
 }
 
 export interface IUserUpdateRequestModel {

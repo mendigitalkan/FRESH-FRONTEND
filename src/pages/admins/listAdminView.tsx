@@ -75,8 +75,8 @@ export default function ListAdminView() {
       editable: true
     },
     {
-      field: 'userPhoneNumber',
-      renderHeader: () => <strong>{'TELEPON'}</strong>,
+      field: 'userWhatsAppNumber',
+      renderHeader: () => <strong>{'WA'}</strong>,
       flex: 1,
       editable: true
     },

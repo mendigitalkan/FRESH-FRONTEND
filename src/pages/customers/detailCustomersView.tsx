@@ -55,11 +55,11 @@ export default function DetailCustomersView() {
 
           <tr>
             <td>
-              <Typography fontWeight={'Bold'}>Phone</Typography>
+              <Typography fontWeight={'Bold'}>WA</Typography>
             </td>
             <td>:</td>
             <td>
-              <Typography>{detailCustomer?.userPhoneNumber}</Typography>
+              <Typography>{detailCustomer?.userWhatsAppNumber}</Typography>
             </td>
           </tr>
 

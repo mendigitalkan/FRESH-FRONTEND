@@ -63,7 +63,7 @@ export default function ListCustomersView() {
       editable: true
     },
     {
-      field: 'userPhoneNumber',
+      field: 'userWhatsAppNumber',
       flex: 1,
       renderHeader: () => <strong>{'WA'}</strong>,
       editable: true

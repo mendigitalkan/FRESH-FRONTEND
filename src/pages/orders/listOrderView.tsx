@@ -39,7 +39,15 @@ export default function ListOrderView() {
       })
       if (result) {
         console.log(result)
-        setTableData(result.items)
+        const mapingData = result.items.map((item: any) => {
+          return {
+            ...item,
+            orderProductName: item?.product?.productName
+          }
+        })
+
+        console.log(mapingData)
+        setTableData(mapingData)
       }
     } catch (error: any) {
       console.log(error)
@@ -58,11 +66,11 @@ export default function ListOrderView() {
       editable: true
     },
     {
-      field: 'orderProductPrice',
+      field: 'orderTotalProductPrice',
       flex: 1,
       renderHeader: () => <strong>{'Harga'}</strong>,
       editable: true,
-      valueFormatter: (item) => 'Rp' + convertNumberToCurrency(item.value)
+      valueFormatter: (item) => 'Rp' + convertNumberToCurrency(parseFloat(item.value))
     },
     {
       field: 'orderStatus',
