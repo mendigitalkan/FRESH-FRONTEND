@@ -67,6 +67,7 @@ export default function SettingsView() {
             <Tab label='Umum' {...a11yProps(0)} />
             <Tab label='Banner' {...a11yProps(1)} />
             <Tab label='Address' {...a11yProps(2)} />
+            <Tab label='Secret' {...a11yProps(3)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
@@ -76,6 +77,9 @@ export default function SettingsView() {
           <BannerSettingsView />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
+          <MyAddressSettingsView />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={3}>
           <MyAddressSettingsView />
         </CustomTabPanel>
       </Box>

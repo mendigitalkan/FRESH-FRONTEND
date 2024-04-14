@@ -28,6 +28,7 @@ import DetailTransactionView from '../pages/transactions/detailTransactionView'
 import ListNotificationView from '../pages/notification/ListNotificationView'
 import CreateNotificationView from '../pages/notification/CreateNotificationView'
 import EditProfileView from '../pages/profile/EditProfileView'
+import CreateWaBlasView from '../pages/wablas/CreateWaBlasView'
 
 export default function AppRouters() {
   const routers: { path: string; element: JSX.Element }[] = []
@@ -117,6 +118,10 @@ export default function AppRouters() {
           {
             path: '/wa-blas',
             element: <ListWablasView />
+          },
+          {
+            path: '/wa-blas/create',
+            element: <CreateWaBlasView />
           },
           {
             path: '/admins',

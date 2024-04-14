@@ -36,6 +36,7 @@ export default function DetailOrderView() {
       const images = JSON.parse(result?.product?.productImages || '[]')
       setProductImages(images)
       setDetailOrder(result)
+      setOrderStatus(result.orderStatus)
 
       console.log('__________detail')
       console.log(result)
@@ -151,7 +152,7 @@ export default function DetailOrderView() {
             </td>
             <td>:</td>
             <td>
-              <Typography>{detailOrder?.orderStatus}</Typography>
+              <Typography>{orderStatus}</Typography>
             </td>
           </tr>
         </tbody>
@@ -168,31 +169,31 @@ export default function DetailOrderView() {
             onChange={(e) => setOrderStatus(e.target.value)}
           >
             <FormControlLabel
-              // checked={orderStatus === '' && detailOrder?.orderStatus === 'waiting'}
+              checked={orderStatus === 'waiting'}
               value='waiting'
               control={<Radio />}
               label='menunggu'
             />
             <FormControlLabel
-              // checked={orderStatus === '' && detailOrder?.orderStatus === 'process'}
+              checked={orderStatus === 'process'}
               value='process'
               control={<Radio />}
               label='Diprosess'
             />
             <FormControlLabel
-              // checked={orderStatus === '' && detailOrder?.orderStatus === 'delivery'}
+              checked={orderStatus === 'delivery'}
               value='delivery'
               control={<Radio />}
               label='Dikirim'
             />
             <FormControlLabel
-              // checked={orderStatus === '' && detailOrder?.orderStatus === 'done'}
+              checked={orderStatus === 'done'}
               value='done'
               control={<Radio />}
               label='Selesai'
             />
             <FormControlLabel
-              // checked={orderStatus === '' && detailOrder?.orderStatus === 'cancel'}
+              checked={orderStatus === 'cancel'}
               value='cancel'
               control={<Radio />}
               label='Gagal'
