@@ -5,9 +5,12 @@ import { IconMenus } from '../../components/icon'
 import { useEffect, useState } from 'react'
 import { IStatisticTotalModel } from '../../models/statisticModel'
 import { useHttp } from '../../hooks/http'
+import { useNavigate } from 'react-router-dom'
 
 const DashboardView = () => {
   const { handleGetRequest } = useHttp()
+  const navigation = useNavigate()
+
   const [statisticTotal, setStatisticTotal] = useState<IStatisticTotalModel>()
 
   const getStatistic = async () => {
@@ -32,54 +35,93 @@ const DashboardView = () => {
           }
         ]}
       />
-      <Stack direction='row' flexWrap='wrap' spacing={3} my={3}>
-        <Card sx={{ p: 3, minWidth: 200 }}>
-          <Stack direction='row' spacing={2}>
-            <IconMenus.transaction fontSize='large' color={'inherit'} />
-            <Stack justifyContent='center'>
-              <Typography>Penjualan</Typography>
-              <Typography fontSize='large' fontWeight='bold'>
-                {statisticTotal?.totalTransaction}
-              </Typography>
+      <Grid container spacing={2} mb={2}>
+        <Grid item md={3} sm={4} xs={12}>
+          <Card
+            sx={{ p: 3, minWidth: 200, cursor: 'pointer' }}
+            onClick={() => navigation('/transactions')}
+          >
+            <Stack direction='row' spacing={2}>
+              <IconMenus.transaction fontSize='large' color={'inherit'} />
+              <Stack justifyContent='center'>
+                <Typography>Omset</Typography>
+                <Typography fontSize='large' fontWeight='bold'>
+                  {statisticTotal?.totalTransaction}
+                </Typography>
+              </Stack>
             </Stack>
-          </Stack>
-        </Card>
-        <Card sx={{ p: 3, minWidth: 200 }}>
-          <Stack direction='row' spacing={2}>
-            <IconMenus.products fontSize='large' color={'inherit'} />
-            <Stack justifyContent='center'>
-              <Typography>Products</Typography>
-              <Typography fontSize='large' fontWeight='bold'>
-                {statisticTotal?.totalProduct}
-              </Typography>
-            </Stack>
-          </Stack>
-        </Card>
+          </Card>
+        </Grid>
 
-        <Card sx={{ p: 3, minWidth: 200 }}>
-          <Stack direction='row' spacing={2}>
-            <IconMenus.orders fontSize='large' color={'inherit'} />
-            <Stack justifyContent='center'>
-              <Typography>Orders</Typography>
-              <Typography fontSize='large' fontWeight='bold'>
-                {statisticTotal?.totalOrder}
-              </Typography>
+        <Grid item md={3} sm={4} xs={12}>
+          <Card
+            sx={{ p: 3, minWidth: 200, cursor: 'pointer' }}
+            onClick={() => navigation('/transactions')}
+          >
+            <Stack direction='row' spacing={2}>
+              <IconMenus.transaction fontSize='large' color={'inherit'} />
+              <Stack justifyContent='center'>
+                <Typography>Penjualan</Typography>
+                <Typography fontSize='large' fontWeight='bold'>
+                  {statisticTotal?.totalTransaction}
+                </Typography>
+              </Stack>
             </Stack>
-          </Stack>
-        </Card>
+          </Card>
+        </Grid>
 
-        <Card sx={{ p: 3, minWidth: 200 }}>
-          <Stack direction='row' spacing={2}>
-            <IconMenus.customers fontSize='large' color={'inherit'} />
-            <Stack justifyContent='center'>
-              <Typography>Users</Typography>
-              <Typography fontSize='large' fontWeight='bold'>
-                {statisticTotal?.totalUser}
-              </Typography>
+        <Grid item md={3} sm={4} xs={12}>
+          <Card
+            sx={{ p: 3, minWidth: 200, cursor: 'pointer' }}
+            onClick={() => navigation('/products')}
+          >
+            <Stack direction='row' spacing={2}>
+              <IconMenus.products fontSize='large' color={'inherit'} />
+              <Stack justifyContent='center'>
+                <Typography>Products</Typography>
+                <Typography fontSize='large' fontWeight='bold'>
+                  {statisticTotal?.totalProduct}
+                </Typography>
+              </Stack>
             </Stack>
-          </Stack>
-        </Card>
-      </Stack>
+          </Card>
+        </Grid>
+
+        <Grid item md={3} sm={4} xs={12}>
+          <Card
+            sx={{ p: 3, minWidth: 200, cursor: 'pointer' }}
+            onClick={() => navigation('/orders')}
+          >
+            <Stack direction='row' spacing={2}>
+              <IconMenus.orders fontSize='large' color={'inherit'} />
+              <Stack justifyContent='center'>
+                <Typography>Orders</Typography>
+                <Typography fontSize='large' fontWeight='bold'>
+                  {statisticTotal?.totalOrder}
+                </Typography>
+              </Stack>
+            </Stack>
+          </Card>
+        </Grid>
+
+        <Grid item md={3} sm={4} xs={12}>
+          <Card
+            sx={{ p: 3, minWidth: 200, cursor: 'pointer' }}
+            onClick={() => navigation('/customers')}
+          >
+            <Stack direction='row' spacing={2}>
+              <IconMenus.customers fontSize='large' color={'inherit'} />
+              <Stack justifyContent='center'>
+                <Typography>Customers</Typography>
+                <Typography fontSize='large' fontWeight='bold'>
+                  {statisticTotal?.totalUser}
+                </Typography>
+              </Stack>
+            </Stack>
+          </Card>
+        </Grid>
+      </Grid>
+
       <Grid container spacing={3}>
         <Grid item md={7} xs={12}>
           <Card sx={{ p: { md: 5 } }}>

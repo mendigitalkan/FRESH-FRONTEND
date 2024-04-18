@@ -50,7 +50,7 @@ export default function DetailAdminView() {
             </td>
           </tr>
 
-          <tr>
+          {/* <tr>
             <td>
               <Typography fontWeight={'Bold'}>Phone</Typography>
             </td>
@@ -58,7 +58,7 @@ export default function DetailAdminView() {
             <td>
               <Typography>{adminDetail?.userPhoneNumber}</Typography>
             </td>
-          </tr>
+          </tr> */}
 
           <tr>
             <td>

@@ -33,6 +33,6 @@ export interface IUserCreateRequestModel {
 }
 
 export interface IUserLoginRequestModel {
-  userName: string
+  userEmail: string
   userPassword: string
 }

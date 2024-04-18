@@ -11,7 +11,7 @@ import {
 import { MoreOutlined } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
 import { useHttp } from '../../hooks/http'
-import { Stack, TextField } from '@mui/material'
+import { Button, Stack, TextField } from '@mui/material'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 import { useNavigate } from 'react-router-dom'
@@ -19,7 +19,7 @@ import { convertTime } from '../../utilities/convertTime'
 
 export default function ListTransactionView() {
   const navigation = useNavigate()
-  const [search, setSearch] = useState<string>('')
+
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest } = useHttp()
 
@@ -28,7 +28,7 @@ export default function ListTransactionView() {
     page: 0
   })
 
-  const getTableData = async () => {
+  const getTableData = async ({ search }: { search: string }) => {
     try {
       const result = await handleGetTableDataRequest({
         path: '/transactions',
@@ -46,7 +46,7 @@ export default function ListTransactionView() {
   }
 
   useEffect(() => {
-    getTableData()
+    getTableData({ search: '' })
   }, [paginationModel])
 
   const columns: GridColDef[] = [
@@ -95,16 +95,23 @@ export default function ListTransactionView() {
   ]
 
   function CustomToolbar() {
+    const [search, setSearch] = useState<string>('')
     return (
       <GridToolbarContainer sx={{ justifyContent: 'space-between', mb: 2 }}>
         <Stack direction='row' spacing={2}>
           <GridToolbarExport />
         </Stack>
-        <TextField
-          size='small'
-          placeholder='search...'
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <Stack direction={'row'} spacing={1} alignItems={'center'}>
+          <TextField
+            size='small'
+            placeholder='search...'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Button variant='outlined' onClick={() => getTableData({ search })}>
+            Search
+          </Button>
+        </Stack>
       </GridToolbarContainer>
     )
   }

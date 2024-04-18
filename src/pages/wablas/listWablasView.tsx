@@ -21,7 +21,6 @@ import Modal from '../../components/modal'
 
 export default function ListWaBlasView() {
   const navigation = useNavigate()
-  const [search, setSearch] = useState<string>('')
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
 
@@ -45,7 +44,7 @@ export default function ListWaBlasView() {
     setOpenModalDelete(!openModalDelete)
   }
 
-  const getTableData = async () => {
+  const getTableData = async ({ search }: { search: string }) => {
     try {
       const result = await handleGetTableDataRequest({
         path: '/notifications',
@@ -63,7 +62,7 @@ export default function ListWaBlasView() {
   }
 
   useEffect(() => {
-    getTableData()
+    getTableData({ search: '' })
   }, [paginationModel])
 
   const columns: GridColDef[] = [
@@ -106,6 +105,7 @@ export default function ListWaBlasView() {
   ]
 
   function CustomToolbar() {
+    const [search, setSearch] = useState<string>('')
     return (
       <GridToolbarContainer sx={{ justifyContent: 'space-between', mb: 2 }}>
         <Stack direction='row' spacing={2}>
@@ -117,11 +117,17 @@ export default function ListWaBlasView() {
             Buat Pesan Broadcast
           </Button>
         </Stack>
-        <TextField
-          size='small'
-          placeholder='search...'
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <Stack direction={'row'} spacing={1} alignItems={'center'}>
+          <TextField
+            size='small'
+            placeholder='search...'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Button variant='outlined' onClick={() => getTableData({ search })}>
+            Search
+          </Button>
+        </Stack>
       </GridToolbarContainer>
     )
   }
@@ -167,9 +173,7 @@ export default function ListWaBlasView() {
       <Modal
         openModal={openModalDelete}
         handleModalOnCancel={() => setOpenModalDelete(false)}
-        message={
-          'Apakah anda yakin ingin menghapus history pesan ini?'
-        }
+        message={'Apakah anda yakin ingin menghapus history pesan ini?'}
         handleModal={() => {
           handleDeleteNotification(modalDeleteData?.notificationId ?? '')
           setOpenModalDelete(!openModalDelete)

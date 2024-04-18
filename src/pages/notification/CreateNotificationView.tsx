@@ -3,6 +3,8 @@ import { Button, Card, Typography, Box, TextField, Stack } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { type INotificationCreateRequestModel } from '../../models/notificationsModel'
+import BreadCrumberStyle from '../../components/breadcrumb/Index'
+import { IconMenus } from '../../components/icon'
 
 export default function CreateNotificationView() {
   const { handlePostRequest } = useHttp()
@@ -29,6 +31,19 @@ export default function CreateNotificationView() {
 
   return (
     <>
+      <BreadCrumberStyle
+        navigation={[
+          {
+            label: 'Notification',
+            link: '/notifications',
+            icon: <IconMenus.notification fontSize='small' />
+          },
+          {
+            label: 'Create',
+            link: '/notifications/create'
+          }
+        ]}
+      />
       <Card
         sx={{
           mt: 5,

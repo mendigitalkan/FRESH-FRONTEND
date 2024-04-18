@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Button, Card, Typography, Box, TextField, Stack } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
+import BreadCrumberStyle from '../../components/breadcrumb/Index'
+import { IconMenus } from '../../components/icon'
 
 export default function CategoryCreateView() {
   const { handlePostRequest } = useHttp()
@@ -25,6 +27,19 @@ export default function CategoryCreateView() {
 
   return (
     <>
+      <BreadCrumberStyle
+        navigation={[
+          {
+            label: 'Category',
+            link: '/categories',
+            icon: <IconMenus.category fontSize='small' />
+          },
+          {
+            label: 'Create',
+            link: '/categories/create'
+          }
+        ]}
+      />
       <Card
         sx={{
           mt: 5,

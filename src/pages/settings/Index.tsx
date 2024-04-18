@@ -8,6 +8,7 @@ import { IconMenus } from '../../components/icon'
 import GeneralSettingsView from './GeneralSettingsView'
 import BannerSettingsView from './BannerSettingsView'
 import MyAddressSettingsView from './MyAddressSettingsView'
+import SecreatSettingsView from './secreatSettingView'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -80,7 +81,7 @@ export default function SettingsView() {
           <MyAddressSettingsView />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
-          <MyAddressSettingsView />
+          <SecreatSettingsView />
         </CustomTabPanel>
       </Box>
     </>

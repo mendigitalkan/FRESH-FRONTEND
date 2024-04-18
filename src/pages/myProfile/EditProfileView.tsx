@@ -18,7 +18,7 @@ export default function EditProfileView() {
   const handleSubmit = async () => {
     try {
       await handleUpdateRequest({
-        path: '/my-profile',
+        path: '/admins',
         body: user
       })
       navigate('/my-profile')
@@ -29,7 +29,7 @@ export default function EditProfileView() {
 
   const getMyProfile = async () => {
     const result = await handleGetRequest({
-      path: '/my-profile'
+      path: '/admins'
     })
     setUser(result)
   }

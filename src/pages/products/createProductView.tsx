@@ -23,6 +23,8 @@ import { IProductCreateRequestModel } from '../../models/productsModel'
 import { ICategoryModel } from '../../models/categoryModel'
 import VariantProductSection from './productVariantView'
 import ButtonUploadFile from '../../components/buttons/buttonUpload'
+import BreadCrumberStyle from '../../components/breadcrumb/Index'
+import { IconMenus } from '../../components/icon'
 
 export default function CreateProductView() {
   const { handlePostRequest, handleGetRequest } = useHttp()
@@ -87,205 +89,224 @@ export default function CreateProductView() {
   }, [])
 
   return (
-    <Card
-      sx={{
-        mt: 5,
-        p: { xs: 3, md: 5 }
-      }}
-    >
-      <Typography variant='h4' marginBottom={5} color='primary' fontWeight={'bold'}>
-        Tambah Product
-      </Typography>
-
-      <Box
-        component='form'
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center'
+    <>
+      <BreadCrumberStyle
+        navigation={[
+          {
+            label: 'Product',
+            link: '/products',
+            icon: <IconMenus.products fontSize='small' />
+          },
+          {
+            label: 'Create',
+            link: '/products/create'
+          }
+        ]}
+      />
+      <Card
+        sx={{
+          mt: 5,
+          p: { xs: 3, md: 5 }
         }}
       >
-        <Typography fontWeight={'bold'} my={2}>
-          Info Product
+        <Typography variant='h4' marginBottom={5} color='primary' fontWeight={'bold'}>
+          Tambah Product
         </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label='Nama'
-              id='outlined-start-adornment'
-              fullWidth
-              value={productName}
-              type='text'
-              onChange={(e) => {
-                setProductName(e.target.value)
-              }}
-            />
-          </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label='Harga: masukan dalam angka tanpa Rp'
-              fullWidth
-              id='outlined-start-adornment'
-              value={productPrice}
-              type='number'
-              onChange={(e) => {
-                setProductPrice(+e.target.value)
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label='Diskon: masukan dalam angka tanpa persen (%)'
-              fullWidth
-              id='outlined-start-adornment'
-              value={productDiscount}
-              type='number'
-              onChange={(e) => {
-                setProductDiscount(+e.target.value)
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label='Berat: masukan angka dalam gram tanpa (g)'
-              fullWidth
-              id='outlined-start-adornment'
-              value={productWeight}
-              type='number'
-              onChange={(e) => {
-                setProductWeight(+e.target.value)
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label='Stok'
-              fullWidth
-              id='outlined-start-adornment'
-              value={productStock}
-              type='number'
-              onChange={(e) => {
-                setProductStock(+e.target.value)
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel id='demo-controlled-open-select-label'>Kategori</InputLabel>
-              <Select
-                labelId='demo-select-small-label'
-                id='demo-select-small'
+        <Box
+          component='form'
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
+          }}
+        >
+          <Typography fontWeight={'bold'} my={2}>
+            Info Product
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label='Nama'
+                id='outlined-start-adornment'
                 fullWidth
-                value={productCategoryId}
-                onChange={(e) => setProductCategoryId(e.target.value)}
-              >
-                {categories.map((item) => (
-                  <MenuItem key={item.categoryId} value={item.categoryId}>
-                    {item.categoryName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
+                value={productName}
+                type='text'
+                onChange={(e) => {
+                  setProductName(e.target.value)
+                }}
+              />
+            </Grid>
 
-        <Box sx={{ my: 3 }}>
-          <Typography color={'gray'}>Foto Product</Typography>
-          <ButtonUploadFile
-            onUpload={(image) => setProductImages([...productImages, image])}
-          />
-          <Stack direction={'row'} flexWrap='wrap' spacing={2}>
-            {productImages.map((image, index) => (
-              <Stack spacing={2} key={index}>
-                <img
-                  src={image}
-                  style={{
-                    marginTop: 10,
-                    width: 200,
-                    height: 200
-                  }}
-                />
-                <Button
-                  variant='outlined'
-                  size='small'
-                  onClick={() => handleDeleteImage(image)}
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label='Harga: masukan dalam angka tanpa Rp'
+                fullWidth
+                id='outlined-start-adornment'
+                value={productPrice}
+                type='number'
+                onChange={(e) => {
+                  setProductPrice(+e.target.value)
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label='Diskon: masukan dalam angka tanpa persen (%)'
+                fullWidth
+                id='outlined-start-adornment'
+                value={productDiscount}
+                type='number'
+                onChange={(e) => {
+                  setProductDiscount(+e.target.value)
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label='Berat: masukan angka dalam gram tanpa (g)'
+                fullWidth
+                id='outlined-start-adornment'
+                value={productWeight}
+                type='number'
+                onChange={(e) => {
+                  setProductWeight(+e.target.value)
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label='Stok'
+                fullWidth
+                id='outlined-start-adornment'
+                value={productStock}
+                type='number'
+                onChange={(e) => {
+                  setProductStock(+e.target.value)
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <InputLabel id='demo-controlled-open-select-label'>Kategori</InputLabel>
+                <Select
+                  labelId='demo-select-small-label'
+                  id='demo-select-small'
+                  fullWidth
+                  value={productCategoryId}
+                  onChange={(e) => setProductCategoryId(e.target.value)}
                 >
-                  Delete
-                </Button>
+                  {categories.map((item) => (
+                    <MenuItem key={item.categoryId} value={item.categoryId}>
+                      {item.categoryName}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+
+          <Box sx={{ my: 3 }}>
+            <Typography color={'gray'}>Foto Product</Typography>
+            <ButtonUploadFile
+              onUpload={(image) => setProductImages([...productImages, image])}
+            />
+            <Stack direction={'row'} flexWrap='wrap' spacing={2}>
+              {productImages.map((image, index) => (
+                <Stack spacing={2} key={index}>
+                  <img
+                    src={image}
+                    style={{
+                      marginTop: 10,
+                      width: 200,
+                      height: 200
+                    }}
+                  />
+                  <Button
+                    variant='outlined'
+                    size='small'
+                    onClick={() => handleDeleteImage(image)}
+                  >
+                    Delete
+                  </Button>
+                </Stack>
+              ))}
+            </Stack>
+          </Box>
+
+          <Box sx={{ my: 3 }}>
+            <Typography fontWeight={'bold'} mb={2}>
+              Deskripsi
+            </Typography>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label='Deskripsi'
+                id='outlined-start-adornment'
+                multiline
+                fullWidth
+                rows={4}
+                value={productDescription}
+                type='text'
+                onChange={(e) => {
+                  setProductDescription(e.target.value)
+                }}
+              />
+            </Grid>
+          </Box>
+
+          <FormControl>
+            <FormLabel id='demo-radio-buttons-group-label'>Kondisi</FormLabel>
+
+            <RadioGroup
+              aria-labelledby='demo-radio-buttons-group-label'
+              defaultValue='female'
+              name='radio-buttons-group'
+            >
+              <Stack direction={'row'} flexWrap={'wrap'} spacing={2}>
+                <FormControlLabel
+                  value='Baru'
+                  control={
+                    <Radio onChange={(e) => setProductCondition(e.target.value)} />
+                  }
+                  label='Baru'
+                />
+                <FormControlLabel
+                  value='Bekas'
+                  control={
+                    <Radio onChange={(e) => setProductCondition(e.target.value)} />
+                  }
+                  label='Bekas'
+                />
               </Stack>
-            ))}
+            </RadioGroup>
+          </FormControl>
+
+          <Box sx={{ mt: 3 }}>
+            <Typography fontWeight={'bold'}>Varian Product</Typography>
+            <VariantProductSection
+              setProductColors={setProductColors}
+              setProductSizes={setProductSizes}
+            />
+          </Box>
+
+          <Stack direction={'row'} justifyContent='flex-end'>
+            <Button
+              sx={{
+                my: 1,
+                width: '25ch',
+                backgroundColor: 'dodgerblue',
+                color: '#FFF',
+                fontWeight: 'bold'
+              }}
+              variant={'contained'}
+              onClick={handleSubmit}
+            >
+              Submit
+            </Button>
           </Stack>
         </Box>
-
-        <Box sx={{ my: 3 }}>
-          <Typography fontWeight={'bold'} mb={2}>
-            Deskripsi
-          </Typography>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label='Deskripsi'
-              id='outlined-start-adornment'
-              multiline
-              fullWidth
-              rows={4}
-              value={productDescription}
-              type='text'
-              onChange={(e) => {
-                setProductDescription(e.target.value)
-              }}
-            />
-          </Grid>
-        </Box>
-
-        <FormControl>
-          <FormLabel id='demo-radio-buttons-group-label'>Kondisi</FormLabel>
-
-          <RadioGroup
-            aria-labelledby='demo-radio-buttons-group-label'
-            defaultValue='female'
-            name='radio-buttons-group'
-          >
-            <Stack direction={'row'} flexWrap={'wrap'} spacing={2}>
-              <FormControlLabel
-                value='Baru'
-                control={<Radio onChange={(e) => setProductCondition(e.target.value)} />}
-                label='Baru'
-              />
-              <FormControlLabel
-                value='Bekas'
-                control={<Radio onChange={(e) => setProductCondition(e.target.value)} />}
-                label='Bekas'
-              />
-            </Stack>
-          </RadioGroup>
-        </FormControl>
-
-        <Box sx={{ mt: 3 }}>
-          <Typography fontWeight={'bold'}>Varian Product</Typography>
-          <VariantProductSection
-            setProductColors={setProductColors}
-            setProductSizes={setProductSizes}
-          />
-        </Box>
-
-        <Stack direction={'row'} justifyContent='flex-end'>
-          <Button
-            sx={{
-              my: 1,
-              width: '25ch',
-              backgroundColor: 'dodgerblue',
-              color: '#FFF',
-              fontWeight: 'bold'
-            }}
-            variant={'contained'}
-            onClick={handleSubmit}
-          >
-            Submit
-          </Button>
-        </Stack>
-      </Box>
-    </Card>
+      </Card>
+    </>
   )
 }

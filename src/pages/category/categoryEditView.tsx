@@ -3,6 +3,8 @@ import { Button, Card, Typography, Box, TextField, Stack } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { ICategoryModel } from '../../models/categoryModel'
+import BreadCrumberStyle from '../../components/breadcrumb/Index'
+import { IconMenus } from '../../components/icon'
 
 export default function CategoryEditView() {
   const { handleUpdateRequest, handleGetRequest } = useHttp()
@@ -40,6 +42,19 @@ export default function CategoryEditView() {
 
   return (
     <>
+      <BreadCrumberStyle
+        navigation={[
+          {
+            label: 'Category',
+            link: '/categories',
+            icon: <IconMenus.category fontSize='small' />
+          },
+          {
+            label: 'Edit',
+            link: '/categories/edit/' + categoryId
+          }
+        ]}
+      />
       <Card
         sx={{
           mt: 5,

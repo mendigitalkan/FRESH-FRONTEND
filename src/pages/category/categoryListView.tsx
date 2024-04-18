@@ -23,7 +23,6 @@ import { convertTime } from '../../utilities/convertTime'
 
 export default function CategoryListView() {
   const navigation = useNavigate()
-  const [search, setSearch] = useState<string>('')
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
   const [modalDeleteData, setModalDeleteData] = useState<ICategoryModel>()
@@ -46,7 +45,7 @@ export default function CategoryListView() {
     setOpenModalDelete(!openModalDelete)
   }
 
-  const getTableData = async () => {
+  const getTableData = async ({ search }: { search: string }) => {
     try {
       const result = await handleGetTableDataRequest({
         path: '/categories',
@@ -64,7 +63,7 @@ export default function CategoryListView() {
   }
 
   useEffect(() => {
-    getTableData()
+    getTableData({ search: '' })
   }, [paginationModel])
 
   const columns: GridColDef[] = [
@@ -108,6 +107,7 @@ export default function CategoryListView() {
   ]
 
   function CustomToolbar() {
+    const [search, setSearch] = useState<string>('')
     return (
       <GridToolbarContainer sx={{ justifyContent: 'space-between', mb: 2 }}>
         <Stack direction='row' spacing={2}>
@@ -120,11 +120,17 @@ export default function CategoryListView() {
             Tambah Kategori
           </Button>
         </Stack>
-        <TextField
-          size='small'
-          placeholder='search...'
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <Stack direction={'row'} spacing={1} alignItems={'center'}>
+          <TextField
+            size='small'
+            placeholder='search...'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Button variant='outlined' onClick={() => getTableData({ search })}>
+            Search
+          </Button>
+        </Stack>
       </GridToolbarContainer>
     )
   }
