@@ -36,7 +36,7 @@ const DashboardView = () => {
         ]}
       />
       <Grid container spacing={2} mb={2}>
-        <Grid item md={3} sm={4} xs={12}>
+        {/* <Grid item md={3} sm={4} xs={12}>
           <Card
             sx={{ p: 3, minWidth: 200, cursor: 'pointer' }}
             onClick={() => navigation('/transactions')}
@@ -51,7 +51,7 @@ const DashboardView = () => {
               </Stack>
             </Stack>
           </Card>
-        </Grid>
+        </Grid> */}
 
         <Grid item md={3} sm={4} xs={12}>
           <Card
@@ -114,7 +114,7 @@ const DashboardView = () => {
               <Stack justifyContent='center'>
                 <Typography>Customers</Typography>
                 <Typography fontSize='large' fontWeight='bold'>
-                  {statisticTotal?.totalUser}
+                  {statisticTotal?.totalCustomer}
                 </Typography>
               </Stack>
             </Stack>
@@ -122,7 +122,7 @@ const DashboardView = () => {
         </Grid>
       </Grid>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         <Grid item md={7} xs={12}>
           <Card sx={{ p: { md: 5 } }}>
             <ReactApexChart

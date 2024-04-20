@@ -3,6 +3,8 @@ import { Button, Card, Typography, Box, TextField, Stack } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { IUserUpdateRequestModel } from '../../models/userModel'
+import BreadCrumberStyle from '../../components/breadcrumb/Index'
+import { IconMenus } from '../../components/icon'
 
 export default function EditProfileView() {
   const { handleGetRequest, handleUpdateRequest } = useHttp()
@@ -40,6 +42,19 @@ export default function EditProfileView() {
 
   return (
     <>
+      <BreadCrumberStyle
+        navigation={[
+          {
+            label: 'Profile',
+            link: '/profile',
+            icon: <IconMenus.profile fontSize='small' />
+          },
+          {
+            label: 'Edit',
+            link: '/profile/' + userId
+          }
+        ]}
+      />
       <Card
         sx={{
           mt: 5,

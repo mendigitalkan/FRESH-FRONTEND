@@ -16,6 +16,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { IUserModel, IUserUpdateRequestModel } from '../../models/userModel'
 import { handleUploadImageToFirebase } from '../../utilities/uploadImageToFirebase'
+import { IconMenus } from '../../components/icon'
+import BreadCrumberStyle from '../../components/breadcrumb/Index'
 
 export default function EditAdminView() {
   const navigate = useNavigate()
@@ -26,7 +28,6 @@ export default function EditAdminView() {
   const [userName, setUserName] = useState('')
   const [userPassword, setUserPassword] = useState('')
   const [userRole, setUserRole] = useState('')
-  const [userPhoneNumber, setUserPhoneNumber] = useState('')
   const [userPhoto, setUserPhoto] = useState('')
 
   const fileInputRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null)
@@ -38,7 +39,6 @@ export default function EditAdminView() {
         userName,
         userEmail,
         userPassword,
-        userPhoneNumber,
         userRole,
         userPhoto
       }
@@ -69,7 +69,6 @@ export default function EditAdminView() {
       setUserEmail(result.userEmail)
       setUserName(result.userName)
       setUserRole(result.userRole)
-      setUserPhoneNumber(result.userPhoneNumber)
       setUserPhoto(result.userPhoto)
       setUserPassword(result.userPassword)
     }
@@ -81,6 +80,19 @@ export default function EditAdminView() {
 
   return (
     <>
+      <BreadCrumberStyle
+        navigation={[
+          {
+            label: 'Admin',
+            link: '/admins',
+            icon: <IconMenus.admin fontSize='small' />
+          },
+          {
+            label: 'Edit',
+            link: '/admins/edit/' + adminId
+          }
+        ]}
+      />
       <Card
         sx={{
           mt: 5,
@@ -122,19 +134,6 @@ export default function EditAdminView() {
                 type='email'
                 onChange={(e) => {
                   setUserEmail(e.target.value)
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label='Telepon'
-                id='outlined-start-adornment'
-                sx={{ m: 1 }}
-                value={userPhoneNumber}
-                type='text'
-                fullWidth
-                onChange={(e) => {
-                  setUserPhoneNumber(e.target.value)
                 }}
               />
             </Grid>

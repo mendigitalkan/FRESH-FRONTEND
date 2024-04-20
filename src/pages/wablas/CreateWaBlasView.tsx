@@ -2,28 +2,26 @@ import { useState } from 'react'
 import { Button, Card, Typography, Box, TextField, Stack } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
-import { type INotificationCreateRequestModel } from '../../models/notificationsModel'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
+import { IWaBlasCreateRequestModel } from '../../models/waBlasModel'
 
 export default function CreateWaBlasView() {
   const { handlePostRequest } = useHttp()
   const navigate = useNavigate()
 
-  const [notificationName, setnotificationName] = useState('')
-  const [notificationMessage, setnotificationMessage] = useState('')
+  const [waBlas, setWaBlas] = useState<IWaBlasCreateRequestModel>({
+    waBlasTitle: '',
+    waBlasMessage: ''
+  })
 
   const handleSubmit = async () => {
     try {
-      const payload: INotificationCreateRequestModel = {
-        notificationName,
-        notificationMessage
-      }
       await handlePostRequest({
-        path: '/notifications',
-        body: payload
+        path: '/wa-blas/send-message',
+        body: waBlas
       })
-      navigate('/notifications')
+      navigate('/wa-blas')
     } catch (error: unknown) {
       console.log(error)
     }
@@ -62,24 +60,30 @@ export default function CreateWaBlasView() {
           }}
         >
           <TextField
-            label='Nama Notifikasi'
+            label='Titile'
             id='outlined-start-adornment'
             sx={{ m: 1 }}
-            value={notificationName}
+            value={waBlas.waBlasTitle}
             type='text'
             onChange={(e) => {
-              setnotificationName(e.target.value)
+              setWaBlas({
+                ...waBlas,
+                waBlasTitle: e.target.value
+              })
             }}
           />
 
           <TextField
-            label='Pesan Notifikasi'
+            label='Pesan'
             id='outlined-start-adornment'
             sx={{ m: 1 }}
-            value={notificationMessage}
+            value={waBlas.waBlasMessage}
             type='text'
             onChange={(e) => {
-              setnotificationMessage(e.target.value)
+              setWaBlas({
+                ...waBlas,
+                waBlasMessage: e.target.value
+              })
             }}
           />
 

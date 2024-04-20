@@ -2,7 +2,7 @@ import { Box, Button, Card, Grid, Stack, TextField } from '@mui/material'
 import { useState } from 'react'
 import { ISettingModel } from '../../models/settingMode'
 
-export default function GeneralSettingsView() {
+export default function ContactSettingsView() {
   const [settings, setSettings] = useState<ISettingModel>({
     settingId: '',
     settingBanner: '',
@@ -24,15 +24,6 @@ export default function GeneralSettingsView() {
               }
               type='text'
               fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label='Nama Kategori'
-              id='outlined-start-adornment'
-              sx={{ m: 1 }}
-              type='text'
             />
           </Grid>
         </Grid>
