@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { ISettingModel } from '../../models/settingMode'
 import ButtonUploadFile from '../../components/buttons/buttonUpload'
 import { useHttp } from '../../hooks/http'
+import BreadCrumberStyle from '../../components/breadcrumb/Index'
+import { IconMenus } from '../../components/icon'
 
 export default function BannerSettingsView() {
   const { handleGetRequest, handleUpdateRequest } = useHttp()
@@ -52,6 +54,19 @@ export default function BannerSettingsView() {
 
   return (
     <Box>
+      <BreadCrumberStyle
+        navigation={[
+          {
+            label: 'Settings',
+            link: '/settings',
+            icon: <IconMenus.settings fontSize='small' />
+          },
+          {
+            label: 'Banner',
+            link: '/settings'
+          }
+        ]}
+      />
       <Card sx={{ p: 3 }}>
         <Box sx={{ my: 3 }}>
           <Typography color={'gray'}>Banner</Typography>

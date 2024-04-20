@@ -8,7 +8,8 @@ import { IconMenus } from '../../components/icon'
 import GeneralSettingsView from './GeneralSettingsView'
 import BannerSettingsView from './BannerSettingsView'
 import MyAddressSettingsView from './MyAddressSettingsView'
-import SecreatSettingsView from './secreatSettingView'
+import WaBlasSettingsView from './WaBlasSettingsView'
+import TwilioSettingsView from './TwilioSettingsView'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -68,7 +69,8 @@ export default function SettingsView() {
             <Tab label='Umum' {...a11yProps(0)} />
             <Tab label='Banner' {...a11yProps(1)} />
             <Tab label='Address' {...a11yProps(2)} />
-            <Tab label='Secret' {...a11yProps(3)} />
+            <Tab label='Twilio' {...a11yProps(3)} />
+            <Tab label='Wablas' {...a11yProps(4)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
@@ -81,7 +83,10 @@ export default function SettingsView() {
           <MyAddressSettingsView />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
-          <SecreatSettingsView />
+          <TwilioSettingsView />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={4}>
+          <WaBlasSettingsView />
         </CustomTabPanel>
       </Box>
     </>

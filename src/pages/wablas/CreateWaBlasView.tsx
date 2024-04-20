@@ -3,6 +3,8 @@ import { Button, Card, Typography, Box, TextField, Stack } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { type INotificationCreateRequestModel } from '../../models/notificationsModel'
+import BreadCrumberStyle from '../../components/breadcrumb/Index'
+import { IconMenus } from '../../components/icon'
 
 export default function CreateWaBlasView() {
   const { handlePostRequest } = useHttp()
@@ -29,6 +31,19 @@ export default function CreateWaBlasView() {
 
   return (
     <>
+      <BreadCrumberStyle
+        navigation={[
+          {
+            label: 'Wa Blas',
+            link: '/wa-blas',
+            icon: <IconMenus.waBlas fontSize='small' />
+          },
+          {
+            label: 'Create',
+            link: '/wa-blas/create'
+          }
+        ]}
+      />
       <Card
         sx={{
           mt: 5,

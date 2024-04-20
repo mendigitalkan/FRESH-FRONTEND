@@ -138,7 +138,7 @@ export default function ListWaBlasView() {
         navigation={[
           {
             label: 'Wa Blas',
-            link: '/notifications',
+            link: '/wa-blas',
             icon: <IconMenus.waBlas fontSize='small' />
           }
         ]}
