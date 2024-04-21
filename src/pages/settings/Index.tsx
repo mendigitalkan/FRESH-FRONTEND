@@ -10,6 +10,7 @@ import MyAddressSettingsView from './MyAddressSettingsView'
 import WaBlasSettingsView from './WaBlasSettingsView'
 import TwilioSettingsView from './TwilioSettingsView'
 import ContactSettingsView from './ContactSettingView'
+import BankSettingListView from './bank/ListBankSettingView'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -71,6 +72,7 @@ export default function SettingsView() {
             <Tab label='Twilio' {...a11yProps(2)} />
             <Tab label='Wablas' {...a11yProps(3)} />
             <Tab label='Kontak' {...a11yProps(4)} />
+            <Tab label='Bank' {...a11yProps(5)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
@@ -87,6 +89,9 @@ export default function SettingsView() {
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>
           <ContactSettingsView />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={5}>
+          <BankSettingListView />
         </CustomTabPanel>
       </Box>
     </>

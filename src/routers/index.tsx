@@ -29,6 +29,8 @@ import ListNotificationView from '../pages/notification/ListNotificationView'
 import CreateNotificationView from '../pages/notification/CreateNotificationView'
 import EditProfileView from '../pages/myProfile/EditProfileView'
 import CreateWaBlasView from '../pages/wablas/CreateWaBlasView'
+import CreateBankSettingsView from '../pages/settings/bank/CreateBankSettingView'
+import EditBankSettingView from '../pages/settings/bank/EditBankSettingView'
 
 export default function AppRouters() {
   const routers: { path: string; element: JSX.Element }[] = []
@@ -139,10 +141,22 @@ export default function AppRouters() {
             path: '/admins/edit/:adminId',
             element: <EditAdminView />
           },
+
+          //settings routers
           {
             path: '/settings',
             element: <SettingsView />
           },
+          {
+            path: '/settings/bank/create',
+            element: <CreateBankSettingsView />
+          },
+          {
+            path: '/settings/bank/edit/:bankSettingId',
+            element: <EditBankSettingView />
+          },
+
+          //my profile routers
           {
             path: '/my-profile',
             element: <ProfileView />
