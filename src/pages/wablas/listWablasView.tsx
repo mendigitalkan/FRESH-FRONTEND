@@ -15,16 +15,16 @@ import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 import { useNavigate } from 'react-router-dom'
 import { convertTime } from '../../utilities/convertTime'
-import { INotificationModel } from '../../models/notificationsModel'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import Modal from '../../components/modal'
+import { IWaBlasHistoryMode } from '../../models/waBlasModel'
 
 export default function ListWaBlasView() {
   const navigation = useNavigate()
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
 
-  const [modalDeleteData, setModalDeleteData] = useState<INotificationModel>()
+  const [modalDeleteData, setModalDeleteData] = useState<IWaBlasHistoryMode>()
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
 
   const [paginationModel, setPaginationModel] = useState({
@@ -32,14 +32,14 @@ export default function ListWaBlasView() {
     page: 0
   })
 
-  const handleDeleteNotification = async (notificationId: string) => {
+  const handleDeleteNotification = async (wablasHistoryId: string) => {
     await handleRemoveRequest({
-      path: '/notifications?notificationId=' + notificationId
+      path: '/notifications?wablasHistoryId=' + wablasHistoryId
     })
     window.location.reload()
   }
 
-  const handleOpenModalDelete = (data: INotificationModel) => {
+  const handleOpenModalDelete = (data: IWaBlasHistoryMode) => {
     setModalDeleteData(data)
     setOpenModalDelete(!openModalDelete)
   }
@@ -47,7 +47,7 @@ export default function ListWaBlasView() {
   const getTableData = async ({ search }: { search: string }) => {
     try {
       const result = await handleGetTableDataRequest({
-        path: '/notifications',
+        path: '/wa-blas/history',
         page: paginationModel.page ?? 0,
         size: paginationModel.pageSize ?? 10,
         filter: { search }
@@ -67,13 +67,25 @@ export default function ListWaBlasView() {
 
   const columns: GridColDef[] = [
     {
-      field: 'notificationName',
+      field: 'waBlasHistoryUserName',
       flex: 1,
-      renderHeader: () => <strong>{'Nama'}</strong>,
+      renderHeader: () => <strong>{'User'}</strong>,
       editable: true
     },
     {
-      field: 'notificationMessage',
+      field: 'waBlasHistoryUserPhone',
+      flex: 1,
+      renderHeader: () => <strong>{'WA'}</strong>,
+      editable: true
+    },
+    {
+      field: 'waBlasHistoryTitle',
+      flex: 1,
+      renderHeader: () => <strong>{'Title'}</strong>,
+      editable: true
+    },
+    {
+      field: 'waBlasHistoryMessage',
       flex: 1,
       renderHeader: () => <strong>{'Pesan'}</strong>,
       editable: true
@@ -175,7 +187,7 @@ export default function ListWaBlasView() {
         handleModalOnCancel={() => setOpenModalDelete(false)}
         message={'Apakah anda yakin ingin menghapus history pesan ini?'}
         handleModal={() => {
-          handleDeleteNotification(modalDeleteData?.notificationId ?? '')
+          handleDeleteNotification(modalDeleteData?.waBlasHistoryId ?? '')
           setOpenModalDelete(!openModalDelete)
         }}
       />

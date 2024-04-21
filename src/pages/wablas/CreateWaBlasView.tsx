@@ -16,6 +16,7 @@ export default function CreateWaBlasView() {
   })
 
   const handleSubmit = async () => {
+    console.log(waBlas)
     try {
       await handlePostRequest({
         path: '/wa-blas/send-message',
