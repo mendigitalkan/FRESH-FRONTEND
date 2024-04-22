@@ -5,9 +5,12 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
-import GeneralSettingsView from './GeneralSettingsView'
 import BannerSettingsView from './BannerSettingsView'
 import MyAddressSettingsView from './MyAddressSettingsView'
+import WaBlasSettingsView from './WaBlasSettingsView'
+import TwilioSettingsView from './TwilioSettingsView'
+import ContactSettingsView from './ContactSettingView'
+import BankSettingListView from './bank/ListBankSettingView'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -64,19 +67,31 @@ export default function SettingsView() {
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange}>
-            <Tab label='Umum' {...a11yProps(0)} />
-            <Tab label='Banner' {...a11yProps(1)} />
-            <Tab label='Address' {...a11yProps(2)} />
+            <Tab label='Banner' {...a11yProps(0)} />
+            <Tab label='Address' {...a11yProps(1)} />
+            <Tab label='Twilio' {...a11yProps(2)} />
+            <Tab label='Wablas' {...a11yProps(3)} />
+            <Tab label='Kontak' {...a11yProps(4)} />
+            <Tab label='Bank' {...a11yProps(5)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <GeneralSettingsView />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
           <BannerSettingsView />
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
+        <CustomTabPanel value={value} index={1}>
           <MyAddressSettingsView />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
+          <TwilioSettingsView />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={3}>
+          <WaBlasSettingsView />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={4}>
+          <ContactSettingsView />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={5}>
+          <BankSettingListView />
         </CustomTabPanel>
       </Box>
     </>

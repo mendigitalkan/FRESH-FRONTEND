@@ -1,57 +1,45 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Button, Card, Typography, Box, TextField, Stack } from '@mui/material'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
-import { ICategoryModel } from '../../models/categoryModel'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
+import { IWaBlasCreateRequestModel } from '../../models/waBlasModel'
 
-export default function CategoryEditView() {
-  const { handleUpdateRequest, handleGetRequest } = useHttp()
+export default function CreateWaBlasView() {
+  const { handlePostRequest } = useHttp()
   const navigate = useNavigate()
-  const { categoryId } = useParams()
-  const [categoryName, setCategoryName] = useState('')
+
+  const [waBlas, setWaBlas] = useState<IWaBlasCreateRequestModel>({
+    waBlasTitle: '',
+    waBlasMessage: ''
+  })
 
   const handleSubmit = async () => {
+    console.log(waBlas)
     try {
-      await handleUpdateRequest({
-        path: '/categories',
-        body: {
-          categoryId,
-          categoryName
-        }
+      await handlePostRequest({
+        path: '/wa-blas/send-message',
+        body: waBlas
       })
-      navigate('/categories')
+      navigate('/wa-blas')
     } catch (error: unknown) {
       console.log(error)
     }
   }
-
-  const handleDetailGetCategory = async () => {
-    const result: ICategoryModel = await handleGetRequest({
-      path: '/categories/detail/' + categoryId
-    })
-    if (result !== null) {
-      setCategoryName(result.categoryName)
-    }
-  }
-
-  useEffect(() => {
-    handleDetailGetCategory()
-  }, [])
 
   return (
     <>
       <BreadCrumberStyle
         navigation={[
           {
-            label: 'Category',
-            link: '/categories',
-            icon: <IconMenus.category fontSize='small' />
+            label: 'Wa Blas',
+            link: '/wa-blas',
+            icon: <IconMenus.waBlas fontSize='small' />
           },
           {
-            label: 'Edit',
-            link: '/categories/edit/' + categoryId
+            label: 'Create',
+            link: '/wa-blas/create'
           }
         ]}
       />
@@ -62,7 +50,7 @@ export default function CategoryEditView() {
         }}
       >
         <Typography variant='h4' marginBottom={5} color='primary' fontWeight={'bold'}>
-          Tambah Kategori
+          Buat Pesan Broadcast
         </Typography>
         <Box
           component='form'
@@ -73,14 +61,30 @@ export default function CategoryEditView() {
           }}
         >
           <TextField
-            label='Nama Kategori'
+            label='Titile'
             id='outlined-start-adornment'
             sx={{ m: 1 }}
-            value={categoryName}
-            defaultValue={categoryName}
+            value={waBlas.waBlasTitle}
             type='text'
             onChange={(e) => {
-              setCategoryName(e.target.value)
+              setWaBlas({
+                ...waBlas,
+                waBlasTitle: e.target.value
+              })
+            }}
+          />
+
+          <TextField
+            label='Pesan'
+            id='outlined-start-adornment'
+            sx={{ m: 1 }}
+            value={waBlas.waBlasMessage}
+            type='text'
+            onChange={(e) => {
+              setWaBlas({
+                ...waBlas,
+                waBlasMessage: e.target.value
+              })
             }}
           />
 
@@ -96,7 +100,7 @@ export default function CategoryEditView() {
               variant={'contained'}
               onClick={handleSubmit}
             >
-              Submit
+              Send
             </Button>
           </Stack>
         </Box>

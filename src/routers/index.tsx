@@ -1,9 +1,9 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
 import ErrorPage from '../pages/error-page'
-import DashboardView from '../pages/dashboard/DashboardView'
+import DashboardView from '../pages/dashboard/dashboardView'
 import LoginView from '../pages/auth/Login'
-import ProfileView from '../pages/profile/Index'
+import ProfileView from '../pages/myProfile/Index'
 import AuthLayout from '../layouts/AuthLayout'
 import { useToken } from '../hooks/token'
 import SettingsView from '../pages/settings/Index'
@@ -27,7 +27,10 @@ import ListTransactionView from '../pages/transactions/listTransactionView'
 import DetailTransactionView from '../pages/transactions/detailTransactionView'
 import ListNotificationView from '../pages/notification/ListNotificationView'
 import CreateNotificationView from '../pages/notification/CreateNotificationView'
-import EditProfileView from '../pages/profile/EditProfileView'
+import EditProfileView from '../pages/myProfile/EditProfileView'
+import CreateWaBlasView from '../pages/wablas/CreateWaBlasView'
+import CreateBankSettingsView from '../pages/settings/bank/CreateBankSettingView'
+import EditBankSettingView from '../pages/settings/bank/EditBankSettingView'
 
 export default function AppRouters() {
   const routers: { path: string; element: JSX.Element }[] = []
@@ -106,6 +109,8 @@ export default function AppRouters() {
             path: '/orders/detail/:orderId',
             element: <DetailOrderView />
           },
+
+          //transaction router
           {
             path: '/transactions',
             element: <ListTransactionView />
@@ -114,9 +119,15 @@ export default function AppRouters() {
             path: '/transactions/detail/:transactionId',
             element: <DetailTransactionView />
           },
+
+          //wa blas router
           {
             path: '/wa-blas',
             element: <ListWablasView />
+          },
+          {
+            path: '/wa-blas/create',
+            element: <CreateWaBlasView />
           },
           {
             path: '/admins',
@@ -134,10 +145,22 @@ export default function AppRouters() {
             path: '/admins/edit/:adminId',
             element: <EditAdminView />
           },
+
+          //settings routers
           {
             path: '/settings',
             element: <SettingsView />
           },
+          {
+            path: '/settings/bank/create',
+            element: <CreateBankSettingsView />
+          },
+          {
+            path: '/settings/bank/edit/:bankSettingId',
+            element: <EditBankSettingView />
+          },
+
+          //my profile routers
           {
             path: '/my-profile',
             element: <ProfileView />

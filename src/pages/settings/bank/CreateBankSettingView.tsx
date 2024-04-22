@@ -1,29 +1,29 @@
 import { useState } from 'react'
 import { Button, Card, Typography, Box, TextField, Stack } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { useHttp } from '../../hooks/http'
-import { type INotificationCreateRequestModel } from '../../models/notificationsModel'
-import BreadCrumberStyle from '../../components/breadcrumb/Index'
-import { IconMenus } from '../../components/icon'
+import { useHttp } from '../../../hooks/http'
+import BreadCrumberStyle from '../../../components/breadcrumb/Index'
+import { IconMenus } from '../../../components/icon'
+import { IBankSettingsUpdateRequestModel } from '../../../models/bankSettingsModel'
 
-export default function CreateNotificationView() {
+export default function CreateBankSettingsView() {
   const { handlePostRequest } = useHttp()
   const navigate = useNavigate()
 
-  const [notificationName, setnotificationName] = useState('')
-  const [notificationMessage, setnotificationMessage] = useState('')
+  const [bankSettings, setBankSettings] = useState<IBankSettingsUpdateRequestModel>({
+    bankSettingId: '',
+    bankSettingName: '',
+    bankSettingNumber: '',
+    bankSettingOwnerName: ''
+  })
 
   const handleSubmit = async () => {
     try {
-      const payload: INotificationCreateRequestModel = {
-        notificationName,
-        notificationMessage
-      }
       await handlePostRequest({
-        path: '/notifications',
-        body: payload
+        path: '/bank/settings',
+        body: bankSettings
       })
-      navigate('/notifications')
+      navigate('/settings')
     } catch (error: unknown) {
       console.log(error)
     }
@@ -34,13 +34,17 @@ export default function CreateNotificationView() {
       <BreadCrumberStyle
         navigation={[
           {
-            label: 'Notification',
-            link: '/notifications',
-            icon: <IconMenus.notification fontSize='small' />
+            label: 'Settings',
+            link: '/settings',
+            icon: <IconMenus.settings fontSize='small' />
+          },
+          {
+            label: 'Bank',
+            link: '/settings'
           },
           {
             label: 'Create',
-            link: '/notifications/create'
+            link: '/settings/bank/create'
           }
         ]}
       />
@@ -51,7 +55,7 @@ export default function CreateNotificationView() {
         }}
       >
         <Typography variant='h4' marginBottom={5} color='primary' fontWeight={'bold'}>
-          Buat Notifikasi
+          Tambah Bank
         </Typography>
         <Box
           component='form'
@@ -62,24 +66,44 @@ export default function CreateNotificationView() {
           }}
         >
           <TextField
-            label='Nama Notifikasi'
+            label='Nama Bank'
             id='outlined-start-adornment'
             sx={{ m: 1 }}
-            value={notificationName}
+            value={bankSettings.bankSettingName}
             type='text'
             onChange={(e) => {
-              setnotificationName(e.target.value)
+              setBankSettings({
+                ...bankSettings,
+                bankSettingName: e.target.value
+              })
             }}
           />
 
           <TextField
-            label='Pesan Notifikasi'
+            label='Nomor Rekening'
             id='outlined-start-adornment'
             sx={{ m: 1 }}
-            value={notificationMessage}
+            value={bankSettings.bankSettingNumber}
             type='text'
             onChange={(e) => {
-              setnotificationMessage(e.target.value)
+              setBankSettings({
+                ...bankSettings,
+                bankSettingNumber: e.target.value
+              })
+            }}
+          />
+
+          <TextField
+            label='Nama Pemilik'
+            id='outlined-start-adornment'
+            sx={{ m: 1 }}
+            value={bankSettings.bankSettingOwnerName}
+            type='text'
+            onChange={(e) => {
+              setBankSettings({
+                ...bankSettings,
+                bankSettingOwnerName: e.target.value
+              })
             }}
           />
 
@@ -95,7 +119,7 @@ export default function CreateNotificationView() {
               variant={'contained'}
               onClick={handleSubmit}
             >
-              Send
+              Submit
             </Button>
           </Stack>
         </Box>

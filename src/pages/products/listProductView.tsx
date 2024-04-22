@@ -23,7 +23,7 @@ import { convertNumberToCurrency } from '../../utilities/convertNumberToCurrency
 
 export default function ProductListView() {
   const navigation = useNavigate()
-  const [search, setSearch] = useState<string>('')
+
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
   const [modalDeleteData, setModalDeleteData] = useState<IProductModel>()
@@ -46,7 +46,7 @@ export default function ProductListView() {
     setOpenModalDelete(!openModalDelete)
   }
 
-  const getTableData = async () => {
+  const getTableData = async ({ search }: { search: string }) => {
     try {
       const result = await handleGetTableDataRequest({
         path: '/products',
@@ -64,7 +64,7 @@ export default function ProductListView() {
   }
 
   useEffect(() => {
-    getTableData()
+    getTableData({ search: '' })
   }, [paginationModel])
 
   const columns: GridColDef[] = [
@@ -126,6 +126,7 @@ export default function ProductListView() {
   ]
 
   function CustomToolbar() {
+    const [search, setSearch] = useState<string>('')
     return (
       <GridToolbarContainer sx={{ justifyContent: 'space-between', mb: 2 }}>
         <Stack direction='row' spacing={2}>
@@ -138,11 +139,17 @@ export default function ProductListView() {
             Tambah Product
           </Button>
         </Stack>
-        <TextField
-          size='small'
-          placeholder='search...'
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <Stack direction={'row'} spacing={1} alignItems={'center'}>
+          <TextField
+            size='small'
+            placeholder='search...'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Button variant='outlined' onClick={() => getTableData({ search })}>
+            Search
+          </Button>
+        </Stack>
       </GridToolbarContainer>
     )
   }

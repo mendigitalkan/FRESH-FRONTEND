@@ -11,15 +11,15 @@ import {
 import { MoreOutlined } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
 import { useHttp } from '../../hooks/http'
-import { Stack, TextField } from '@mui/material'
+import { Button, Stack, TextField } from '@mui/material'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 import { useNavigate } from 'react-router-dom'
 import { convertTime } from '../../utilities/convertTime'
+import { convertNumberToCurrency } from '../../utilities/convertNumberToCurrency'
 
 export default function ListTransactionView() {
   const navigation = useNavigate()
-  const [search, setSearch] = useState<string>('')
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest } = useHttp()
 
@@ -28,17 +28,26 @@ export default function ListTransactionView() {
     page: 0
   })
 
-  const getTableData = async () => {
+  const getTableData = async ({ search }: { search: string }) => {
     try {
       const result = await handleGetTableDataRequest({
-        path: '/transactions',
+        path: '/orders',
         page: paginationModel.page ?? 0,
         size: paginationModel.pageSize ?? 10,
-        filter: { search }
+        filter: { search, orderStatus: 'done' }
       })
       if (result) {
         console.log(result)
-        setTableData(result.items)
+        const mapingData = result.items.map((item: any) => {
+          return {
+            ...item,
+            userName: item?.user?.userName,
+            orderProductName: item?.product?.productName
+          }
+        })
+
+        console.log(mapingData)
+        setTableData(mapingData)
       }
     } catch (error: any) {
       console.log(error)
@@ -46,28 +55,29 @@ export default function ListTransactionView() {
   }
 
   useEffect(() => {
-    getTableData()
+    getTableData({ search: '' })
   }, [paginationModel])
 
   const columns: GridColDef[] = [
-    // {
-    //   field: 'orderProductName',
-    //   flex: 1,
-    //   renderHeader: () => <strong>{'Nama'}</strong>,
-    //   editable: true
-    // },
-    // {
-    //   field: 'orderProductPrice',
-    //   flex: 1,
-    //   renderHeader: () => <strong>{'Harga'}</strong>,
-    //   editable: true
-    // },
-    // {
-    //   field: 'orderStatus',
-    //   flex: 1,
-    //   renderHeader: () => <strong>{'Status'}</strong>,
-    //   editable: true
-    // },
+    {
+      field: 'userName',
+      flex: 1,
+      renderHeader: () => <strong>{'Pembeli'}</strong>,
+      editable: true
+    },
+    {
+      field: 'orderProductName',
+      flex: 1,
+      renderHeader: () => <strong>{'Produk'}</strong>,
+      editable: true
+    },
+    {
+      field: 'orderTotalProductPrice',
+      flex: 1,
+      renderHeader: () => <strong>{'Harga'}</strong>,
+      editable: true,
+      valueFormatter: (item) => 'Rp' + convertNumberToCurrency(parseFloat(item.value))
+    },
     {
       field: 'createdAt',
       flex: 1,
@@ -86,7 +96,7 @@ export default function ListTransactionView() {
           <GridActionsCellItem
             icon={<MoreOutlined color='info' />}
             label='Detail'
-            onClick={() => navigation('/transactions/detail/' + row.transactionId)}
+            onClick={() => navigation('/transactions/detail/' + row.orderId)}
             color='inherit'
           />
         ]
@@ -95,16 +105,23 @@ export default function ListTransactionView() {
   ]
 
   function CustomToolbar() {
+    const [search, setSearch] = useState<string>('')
     return (
       <GridToolbarContainer sx={{ justifyContent: 'space-between', mb: 2 }}>
         <Stack direction='row' spacing={2}>
           <GridToolbarExport />
         </Stack>
-        <TextField
-          size='small'
-          placeholder='search...'
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <Stack direction={'row'} spacing={1} alignItems={'center'}>
+          <TextField
+            size='small'
+            placeholder='search...'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Button variant='outlined' onClick={() => getTableData({ search })}>
+            Search
+          </Button>
+        </Stack>
       </GridToolbarContainer>
     )
   }
@@ -114,8 +131,8 @@ export default function ListTransactionView() {
       <BreadCrumberStyle
         navigation={[
           {
-            label: 'Customers',
-            link: '/customers',
+            label: 'Transaksi',
+            link: '/transactions',
             icon: <IconMenus.transaction fontSize='small' />
           }
         ]}

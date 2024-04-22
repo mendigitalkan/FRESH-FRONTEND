@@ -21,7 +21,6 @@ import ModalStyle from '../../components/modal'
 import { IUserModel } from '../../models/userModel'
 
 export default function ListAdminView() {
-  const [search, setSearch] = useState<string>('')
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
   const navigation = useNavigate()
@@ -34,7 +33,7 @@ export default function ListAdminView() {
     page: 0
   })
 
-  const getTableData = async () => {
+  const getTableData = async ({ search }: { search: string }) => {
     try {
       const result = await handleGetTableDataRequest({
         path: '/users/admins',
@@ -64,7 +63,7 @@ export default function ListAdminView() {
   }
 
   useEffect(() => {
-    getTableData()
+    getTableData({ search: '' })
   }, [paginationModel])
 
   const columns: GridColDef[] = [
@@ -75,8 +74,8 @@ export default function ListAdminView() {
       editable: true
     },
     {
-      field: 'userPhoneNumber',
-      renderHeader: () => <strong>{'TELEPON'}</strong>,
+      field: 'userWhatsAppNumber',
+      renderHeader: () => <strong>{'WA'}</strong>,
       flex: 1,
       editable: true
     },
@@ -126,6 +125,7 @@ export default function ListAdminView() {
   ]
 
   function CustomToolbar() {
+    const [search, setSearch] = useState<string>('')
     return (
       <GridToolbarContainer sx={{ justifyContent: 'space-between', mb: 2 }}>
         <Stack direction='row' spacing={2}>
@@ -138,11 +138,17 @@ export default function ListAdminView() {
             Tambah Admin
           </Button>
         </Stack>
-        <TextField
-          size='small'
-          placeholder='search...'
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <Stack direction={'row'} spacing={1} alignItems={'center'}>
+          <TextField
+            size='small'
+            placeholder='search...'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Button variant='outlined' onClick={() => getTableData({ search })}>
+            Search
+          </Button>
+        </Stack>
       </GridToolbarContainer>
     )
   }

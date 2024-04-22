@@ -5,6 +5,8 @@ import {
   IMyAddressModel
 } from '../../models/myAddressModel'
 import { useHttp } from '../../hooks/http'
+import BreadCrumberStyle from '../../components/breadcrumb/Index'
+import { IconMenus } from '../../components/icon'
 
 export default function MyAddressSettingsView() {
   const { handleGetRequest, handleUpdateRequest } = useHttp()
@@ -46,6 +48,19 @@ export default function MyAddressSettingsView() {
 
   return (
     <Box>
+      <BreadCrumberStyle
+        navigation={[
+          {
+            label: 'Settings',
+            link: '/settings',
+            icon: <IconMenus.settings fontSize='small' />
+          },
+          {
+            label: 'Address',
+            link: '/settings'
+          }
+        ]}
+      />
       <Card sx={{ p: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>

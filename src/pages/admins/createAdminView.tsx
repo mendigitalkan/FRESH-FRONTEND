@@ -16,6 +16,8 @@ import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { IUserCreateRequestModel } from '../../models/userModel'
 import { handleUploadImageToFirebase } from '../../utilities/uploadImageToFirebase'
+import BreadCrumberStyle from '../../components/breadcrumb/Index'
+import { IconMenus } from '../../components/icon'
 
 export default function CreateAdminView() {
   const { handlePostRequest } = useHttp()
@@ -61,6 +63,19 @@ export default function CreateAdminView() {
 
   return (
     <>
+      <BreadCrumberStyle
+        navigation={[
+          {
+            label: 'Admin',
+            link: '/admins',
+            icon: <IconMenus.admin fontSize='small' />
+          },
+          {
+            label: 'Create',
+            link: '/admins/create'
+          }
+        ]}
+      />
       <Card
         sx={{
           mt: 5,

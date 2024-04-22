@@ -11,7 +11,7 @@ import {
 import { MoreOutlined } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
 import { useHttp } from '../../hooks/http'
-import { Stack, TextField } from '@mui/material'
+import { Button, Stack, TextField } from '@mui/material'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 import { useNavigate } from 'react-router-dom'
@@ -20,7 +20,6 @@ import { convertNumberToCurrency } from '../../utilities/convertNumberToCurrency
 
 export default function ListOrderView() {
   const navigation = useNavigate()
-  const [search, setSearch] = useState<string>('')
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest } = useHttp()
 
@@ -29,7 +28,7 @@ export default function ListOrderView() {
     page: 0
   })
 
-  const getTableData = async () => {
+  const getTableData = async ({ search }: { search: string }) => {
     try {
       const result = await handleGetTableDataRequest({
         path: '/orders',
@@ -39,7 +38,16 @@ export default function ListOrderView() {
       })
       if (result) {
         console.log(result)
-        setTableData(result.items)
+        const mapingData = result.items.map((item: any) => {
+          return {
+            ...item,
+            userName: item?.user?.userName,
+            orderProductName: item?.product?.productName
+          }
+        })
+
+        console.log(mapingData)
+        setTableData(mapingData)
       }
     } catch (error: any) {
       console.log(error)
@@ -47,22 +55,28 @@ export default function ListOrderView() {
   }
 
   useEffect(() => {
-    getTableData()
+    getTableData({ search: '' })
   }, [paginationModel])
 
   const columns: GridColDef[] = [
     {
-      field: 'orderProductName',
+      field: 'userName',
       flex: 1,
-      renderHeader: () => <strong>{'Nama'}</strong>,
+      renderHeader: () => <strong>{'Pembeli'}</strong>,
       editable: true
     },
     {
-      field: 'orderProductPrice',
+      field: 'orderProductName',
+      flex: 1,
+      renderHeader: () => <strong>{'Produk'}</strong>,
+      editable: true
+    },
+    {
+      field: 'orderTotalProductPrice',
       flex: 1,
       renderHeader: () => <strong>{'Harga'}</strong>,
       editable: true,
-      valueFormatter: (item) => 'Rp' + convertNumberToCurrency(item.value)
+      valueFormatter: (item) => 'Rp' + convertNumberToCurrency(parseFloat(item.value))
     },
     {
       field: 'orderStatus',
@@ -97,16 +111,23 @@ export default function ListOrderView() {
   ]
 
   function CustomToolbar() {
+    const [search, setSearch] = useState<string>('')
     return (
       <GridToolbarContainer sx={{ justifyContent: 'space-between', mb: 2 }}>
         <Stack direction='row' spacing={2}>
           <GridToolbarExport />
         </Stack>
-        <TextField
-          size='small'
-          placeholder='search...'
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <Stack direction={'row'} spacing={1} alignItems={'center'}>
+          <TextField
+            size='small'
+            placeholder='search...'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Button variant='outlined' onClick={() => getTableData({ search })}>
+            Search
+          </Button>
+        </Stack>
       </GridToolbarContainer>
     )
   }

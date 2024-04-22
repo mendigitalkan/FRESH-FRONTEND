@@ -12,20 +12,20 @@ import {
 } from '@mui/x-data-grid'
 import { Add } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
-import { useHttp } from '../../hooks/http'
+import { useHttp } from '../../../hooks/http'
 import { Button, Stack, TextField } from '@mui/material'
-import BreadCrumberStyle from '../../components/breadcrumb/Index'
-import { IconMenus } from '../../components/icon'
+import BreadCrumberStyle from '../../../components/breadcrumb/Index'
+import { IconMenus } from '../../../components/icon'
 import { useNavigate } from 'react-router-dom'
-import Modal from '../../components/modal'
-import { ICategoryModel } from '../../models/categoryModel'
-import { convertTime } from '../../utilities/convertTime'
+import Modal from '../../../components/modal'
+import { convertTime } from '../../../utilities/convertTime'
+import { IBankSettingsModel } from '../../../models/bankSettingsModel'
 
-export default function CategoryListView() {
+export default function BankSettingListView() {
   const navigation = useNavigate()
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
-  const [modalDeleteData, setModalDeleteData] = useState<ICategoryModel>()
+  const [modalDeleteData, setModalDeleteData] = useState<IBankSettingsModel>()
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
 
   const [paginationModel, setPaginationModel] = useState({
@@ -33,14 +33,14 @@ export default function CategoryListView() {
     page: 0
   })
 
-  const handleDeleteCategory = async (categoryId: string) => {
+  const handleDeleteCategory = async (bankSettingId: string) => {
     await handleRemoveRequest({
-      path: '/categories?categoryId=' + categoryId
+      path: '/bank/settings?bankSettingId=' + bankSettingId
     })
     window.location.reload()
   }
 
-  const handleOpenModalDelete = (data: ICategoryModel) => {
+  const handleOpenModalDelete = (data: IBankSettingsModel) => {
     setModalDeleteData(data)
     setOpenModalDelete(!openModalDelete)
   }
@@ -48,7 +48,7 @@ export default function CategoryListView() {
   const getTableData = async ({ search }: { search: string }) => {
     try {
       const result = await handleGetTableDataRequest({
-        path: '/categories',
+        path: '/bank/settings',
         page: paginationModel.page ?? 0,
         size: paginationModel.pageSize ?? 10,
         filter: { search }
@@ -68,9 +68,15 @@ export default function CategoryListView() {
 
   const columns: GridColDef[] = [
     {
-      field: 'categoryName',
+      field: 'bankSettingName',
       flex: 1,
-      renderHeader: () => <strong>{'Nama'}</strong>,
+      renderHeader: () => <strong>{'Nama Bank'}</strong>,
+      editable: true
+    },
+    {
+      field: 'bankSettingOwnerName',
+      flex: 1,
+      renderHeader: () => <strong>{'Nama Pemilik'}</strong>,
       editable: true
     },
     {
@@ -92,7 +98,7 @@ export default function CategoryListView() {
             icon={<EditIcon />}
             label='Edit'
             className='textPrimary'
-            onClick={() => navigation('edit/' + row.categoryId)}
+            onClick={() => navigation('bank/edit/' + row.bankSettingId)}
             color='inherit'
           />,
           <GridActionsCellItem
@@ -113,11 +119,11 @@ export default function CategoryListView() {
         <Stack direction='row' spacing={2}>
           <GridToolbarExport />
           <Button
-            onClick={() => navigation('create')}
+            onClick={() => navigation('bank/create')}
             startIcon={<Add />}
             variant='outlined'
           >
-            Tambah Kategori
+            Tambah Bank
           </Button>
         </Stack>
         <Stack direction={'row'} spacing={1} alignItems={'center'}>
@@ -140,9 +146,13 @@ export default function CategoryListView() {
       <BreadCrumberStyle
         navigation={[
           {
-            label: 'Category',
-            link: '/catgories',
-            icon: <IconMenus.category fontSize='small' />
+            label: 'Settings',
+            link: '/settings',
+            icon: <IconMenus.settings fontSize='small' />
+          },
+          {
+            label: 'Bank',
+            link: '/settings'
           }
         ]}
       />
@@ -177,11 +187,9 @@ export default function CategoryListView() {
       <Modal
         openModal={openModalDelete}
         handleModalOnCancel={() => setOpenModalDelete(false)}
-        message={
-          'Apakah anda yakin ingin menghapus kategori ' + modalDeleteData?.categoryName
-        }
+        message={'Apakah anda yakin ingin menghapus ' + modalDeleteData?.bankSettingName}
         handleModal={() => {
-          handleDeleteCategory(modalDeleteData?.categoryId ?? '')
+          handleDeleteCategory(modalDeleteData?.bankSettingId ?? '')
           setOpenModalDelete(!openModalDelete)
         }}
       />
