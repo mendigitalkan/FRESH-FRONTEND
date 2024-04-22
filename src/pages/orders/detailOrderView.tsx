@@ -39,9 +39,6 @@ export default function DetailOrderView() {
       setProductImages(images)
       setDetailOrder(result)
       setOrderStatus(result.orderStatus)
-
-      console.log('__________detail')
-      console.log(result)
     }
   }
 
@@ -103,7 +100,25 @@ export default function DetailOrderView() {
           <tbody>
             <tr>
               <td>
-                <Typography fontWeight={'Bold'}>Nama</Typography>
+                <Typography fontWeight={'Bold'}>Pembeli</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailOrder?.user?.userName}</Typography>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>NO WA</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailOrder?.user?.userWhatsAppNumber}</Typography>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Produk</Typography>
               </td>
               <td>:</td>
               <td>

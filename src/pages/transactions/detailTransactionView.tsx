@@ -2,25 +2,30 @@
 import { useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { useEffect, useState } from 'react'
-import { Card, Grid, Typography } from '@mui/material'
+import { Box, Card, Typography } from '@mui/material'
+import { IOrdersModel } from '../../models/ordersModel'
 import { convertNumberToCurrency } from '../../utilities/convertNumberToCurrency'
-import { ITransactionsModel } from '../../models/transactionsModel'
+import { Carousel } from 'react-responsive-carousel'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 
-export default function DetailTransactionView() {
+export default function DetailOrderView() {
   const { handleGetRequest } = useHttp()
   const { transactionId } = useParams()
 
-  const [detailTransaction, setDetaiTransaction] = useState<ITransactionsModel>()
+  const [detailOrder, setDetailOrder] = useState<IOrdersModel>()
+  const [orderStatus, setOrderStatus] = useState('')
+  const [productImages, setProductImages] = useState<string[]>([])
 
   const getDetailUser = async () => {
-    const result: ITransactionsModel = await handleGetRequest({
-      path: '/transactions/detail/' + transactionId
+    const result: IOrdersModel = await handleGetRequest({
+      path: '/orders/detail/' + transactionId
     })
-    console.log(result)
     if (result) {
-      setDetaiTransaction(result)
+      const images = JSON.parse(result?.product?.productImages || '[]')
+      setProductImages(images)
+      setDetailOrder(result)
+      setOrderStatus(result.orderStatus)
     }
   }
 
@@ -33,84 +38,129 @@ export default function DetailTransactionView() {
       <BreadCrumberStyle
         navigation={[
           {
-            label: 'Customers',
-            link: '/customers',
+            label: 'Transaction',
+            link: '/transactions',
             icon: <IconMenus.transaction fontSize='small' />
           },
           {
             label: 'Detail',
-            link: '/customers/detail/' + transactionId
+            link: '/transactions/detail/' + transactionId
           }
         ]}
       />
       <Card sx={{ p: 5 }}>
-        <Grid container spacing={2} my={5}>
-          <Grid item xs={12} md={3}>
-            <img
-              src={detailTransaction?.order?.product?.productImages[0]}
-              style={{
-                marginTop: 10,
-                width: 200,
-                height: 200
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={9}>
-            <table>
-              <thead>
-                <th></th>
-                <th></th>
-                <th></th>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <Typography fontWeight={'Bold'}>Nama</Typography>
-                  </td>
-                  <td>:</td>
-                  <td>
-                    <Typography>{detailTransaction?.order?.orderProductName}</Typography>
-                  </td>
-                </tr>
+        <Box>
+          <Carousel dynamicHeight>
+            {productImages.map((image, index) => (
+              <div key={index}>
+                <img
+                  src={image}
+                  style={{
+                    maxHeight: '400px'
+                  }}
+                />
+              </div>
+            ))}
+          </Carousel>
+        </Box>
 
-                <tr>
-                  <td>
-                    <Typography fontWeight={'Bold'}>Deskripsi</Typography>
-                  </td>
-                  <td>:</td>
-                  <td>
-                    <Typography>
-                      {detailTransaction?.order?.orderProductDescription}
-                    </Typography>
-                  </td>
-                </tr>
+        <table>
+          <thead>
+            <th></th>
+            <th></th>
+            <th></th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Pembeli</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailOrder?.user?.userName}</Typography>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>NO WA</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailOrder?.user?.userWhatsAppNumber}</Typography>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Produk</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailOrder?.product?.productName}</Typography>
+              </td>
+            </tr>
 
-                <tr>
-                  <td>
-                    <Typography fontWeight={'Bold'}>Harga</Typography>
-                  </td>
-                  <td>:</td>
-                  <td>
-                    <Typography>
-                      Rp
-                      {convertNumberToCurrency(detailTransaction?.transactionPrice || 0)}
-                    </Typography>
-                  </td>
-                </tr>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Deskripsi</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailOrder?.product?.productDescription}</Typography>
+              </td>
+            </tr>
 
-                <tr>
-                  <td>
-                    <Typography fontWeight={'Bold'}>User Name</Typography>
-                  </td>
-                  <td>:</td>
-                  <td>
-                    <Typography>{detailTransaction?.user?.userName}</Typography>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </Grid>
-        </Grid>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Harga</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>
+                  Rp
+                  {convertNumberToCurrency(
+                    parseFloat(detailOrder?.orderProductPrice ?? '0')
+                  )}
+                </Typography>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Ongkir</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>
+                  Rp
+                  {convertNumberToCurrency(parseFloat(detailOrder?.orderOngkirPrice))}
+                </Typography>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Total Harga</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>
+                  Rp
+                  {convertNumberToCurrency(
+                    parseFloat(detailOrder?.orderTotalProductPrice ?? 0)
+                  )}
+                </Typography>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Status</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{orderStatus}</Typography>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </Card>
     </>
   )

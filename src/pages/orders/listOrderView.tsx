@@ -41,6 +41,7 @@ export default function ListOrderView() {
         const mapingData = result.items.map((item: any) => {
           return {
             ...item,
+            userName: item?.user?.userName,
             orderProductName: item?.product?.productName
           }
         })
@@ -59,9 +60,15 @@ export default function ListOrderView() {
 
   const columns: GridColDef[] = [
     {
+      field: 'userName',
+      flex: 1,
+      renderHeader: () => <strong>{'Pembeli'}</strong>,
+      editable: true
+    },
+    {
       field: 'orderProductName',
       flex: 1,
-      renderHeader: () => <strong>{'Nama'}</strong>,
+      renderHeader: () => <strong>{'Produk'}</strong>,
       editable: true
     },
     {

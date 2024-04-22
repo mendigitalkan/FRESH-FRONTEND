@@ -1,5 +1,6 @@
 import { IProductModel } from './productsModel'
 import { IRootModel } from './rootModel'
+import { IUserModel } from './userModel'
 
 export interface IOrdersModel extends IRootModel {
   orderId: string
@@ -13,6 +14,7 @@ export interface IOrdersModel extends IRootModel {
   orderTotalItem: number
   orderStatus: 'waiting' | 'process' | 'delivery' | 'done' | 'cancel' | string
   product: IProductModel
+  user: IUserModel
 }
 
 export interface IOrdersUpdateRequestModel {

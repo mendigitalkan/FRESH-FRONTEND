@@ -11,6 +11,7 @@ export interface IUserModel extends IRootModel {
   userRole: 'user' | 'admin' | 'superAdmin'
   userCoin: number
   userFcmId: string
+  userPartnerCode: string
 }
 
 export interface IUserUpdateRequestModel {
@@ -21,6 +22,7 @@ export interface IUserUpdateRequestModel {
   userPhoneNumber?: string
   userPhoto?: string
   userRole?: 'user' | 'admin' | 'superAdmin' | string
+  userPartnerCode: string
 }
 
 export interface IUserCreateRequestModel {

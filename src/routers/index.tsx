@@ -109,6 +109,8 @@ export default function AppRouters() {
             path: '/orders/detail/:orderId',
             element: <DetailOrderView />
           },
+
+          //transaction router
           {
             path: '/transactions',
             element: <ListTransactionView />
@@ -117,6 +119,8 @@ export default function AppRouters() {
             path: '/transactions/detail/:transactionId',
             element: <DetailTransactionView />
           },
+
+          //wa blas router
           {
             path: '/wa-blas',
             element: <ListWablasView />
