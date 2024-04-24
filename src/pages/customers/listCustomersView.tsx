@@ -68,9 +68,15 @@ export default function ListCustomersView() {
       editable: true
     },
     {
+      field: 'userPartnerCode',
+      flex: 1,
+      renderHeader: () => <strong>{'Kode Partner'}</strong>,
+      editable: true
+    },
+    {
       field: 'createdAt',
       flex: 1,
-      renderHeader: () => <strong>{'Dibuat Pada'}</strong>,
+      renderHeader: () => <strong>{'Registrasi Pada'}</strong>,
       editable: true,
       valueFormatter: (item) => convertTime(item.value)
     },

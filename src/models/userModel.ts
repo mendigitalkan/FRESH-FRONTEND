@@ -22,7 +22,8 @@ export interface IUserUpdateRequestModel {
   userPhoneNumber?: string
   userPhoto?: string
   userRole?: 'user' | 'admin' | 'superAdmin' | string
-  userPartnerCode: string
+  userCoin?: number
+  userPartnerCode?: string
 }
 
 export interface IUserCreateRequestModel {
