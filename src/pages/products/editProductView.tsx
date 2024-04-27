@@ -37,7 +37,7 @@ export default function EditProductView() {
   const [productImages, setProductImages] = useState<string[]>([])
   const [productPrice, setProductPrice] = useState(0)
   const [productDiscount, setProductDiscount] = useState(0)
-  const [productCategoryId, setProductCategoryId] = useState('')
+  const [productCategoryName, setProductCategoryName] = useState('')
   const [productStock, setProductStock] = useState(0)
   const [productWeight, setProductWeight] = useState(0)
   const [productCondition, setProductCondition] = useState<'Baru' | 'Bekas' | string>('')
@@ -66,7 +66,7 @@ export default function EditProductView() {
         productDescription,
         productImages: JSON.stringify(productImages),
         productPrice,
-        productCategoryId,
+        productCategoryName,
         productStock,
         productWeight,
         productCondition,
@@ -102,7 +102,7 @@ export default function EditProductView() {
       setProductDiscount(result.productDiscount)
       setProductWeight(result.productWeight)
       setProductPrice(result.productPrice)
-      setProductCategoryId(result.productCategoryId)
+      setProductCategoryName(result.productCategoryName)
 
       setProductImages(images)
       setProductColors(productColors)
@@ -221,11 +221,11 @@ export default function EditProductView() {
                   labelId='demo-select-small-label'
                   id='demo-select-small'
                   fullWidth
-                  value={productCategoryId}
-                  onChange={(e) => setProductCategoryId(e.target.value)}
+                  value={productCategoryName}
+                  onChange={(e) => setProductCategoryName(e.target.value)}
                 >
                   {categories.map((item) => (
-                    <MenuItem key={item.categoryId} value={item.categoryId}>
+                    <MenuItem key={item.categoryName} value={item.categoryName}>
                       {item.categoryName}
                     </MenuItem>
                   ))}

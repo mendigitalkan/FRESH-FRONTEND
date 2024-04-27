@@ -39,6 +39,8 @@ export default function DetailOrderView() {
       setProductImages(images)
       setDetailOrder(result)
       setOrderStatus(result.orderStatus)
+
+      console.log(result)
     }
   }
 
@@ -90,6 +92,8 @@ export default function DetailOrderView() {
             ))}
           </Carousel>
         </Box>
+
+        <Typography my={3}>Detail Barang</Typography>
 
         <table>
           <thead>
@@ -190,6 +194,85 @@ export default function DetailOrderView() {
         </table>
 
         <Divider />
+        <Typography my={3}>Alamat Pengiriman</Typography>
+        <table>
+          <thead>
+            <th></th>
+            <th></th>
+            <th></th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Nama Pemilik</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailOrder?.address?.addressUserName}</Typography>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Kontak</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailOrder?.address?.addressKontak}</Typography>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Provinsi</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailOrder?.address?.addressProvinsi}</Typography>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Kabupaten</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailOrder?.address?.addressKabupaten}</Typography>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Kecamatan</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailOrder?.address?.addressKecamatan}</Typography>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Detail</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailOrder?.address?.addressDetail}</Typography>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Typography fontWeight={'Bold'}>Kode Pos</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailOrder?.address?.addressPostalCode}</Typography>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <Divider />
+
+        <Typography my={3}>Bukti Transfer</Typography>
+
+        <Divider />
+
         <Box sx={{ my: 5 }}>
           <FormControl>
             <FormLabel id='demo-row-radio-buttons-group-label'>Status Pesanan</FormLabel>
