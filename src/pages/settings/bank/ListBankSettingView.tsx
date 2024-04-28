@@ -74,6 +74,12 @@ export default function BankSettingListView() {
       editable: true
     },
     {
+      field: 'bankSettingNumber',
+      flex: 1,
+      renderHeader: () => <strong>{'No Rekening'}</strong>,
+      editable: true
+    },
+    {
       field: 'bankSettingOwnerName',
       flex: 1,
       renderHeader: () => <strong>{'Nama Pemilik'}</strong>,

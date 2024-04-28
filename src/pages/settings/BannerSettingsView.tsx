@@ -13,7 +13,7 @@ export default function BannerSettingsView() {
   const [settings, setSettings] = useState<ISettingModel>({
     settingId: '',
     settingBanner: '',
-    settingWhatsappNumber: '087343434'
+    settingWhatsappNumber: ''
   })
 
   const handleDeleteImage = (oldImage: string) => {

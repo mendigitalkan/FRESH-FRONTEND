@@ -269,9 +269,9 @@ export default function DetailOrderView() {
         </table>
         <Divider />
 
-        <Typography my={3}>Bukti Transfer</Typography>
-
-        <Divider />
+        {/* <Typography my={3}>Bukti Transfer</Typography> */}
+        {/* 
+        <Divider /> */}
 
         <Box sx={{ my: 5 }}>
           <FormControl>

@@ -3,4 +3,6 @@ export interface IStatisticTotalModel {
   totalOrder: number
   totalTransaction: number
   totalCustomer: number
+  totalUserPria: number
+  totalUserWanita: number
 }

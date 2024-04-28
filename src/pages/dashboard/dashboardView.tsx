@@ -125,6 +125,7 @@ const DashboardView = () => {
       <Grid container spacing={2}>
         <Grid item md={7} xs={12}>
           <Card sx={{ p: { md: 5 } }}>
+            <Typography>Trafik</Typography>
             <ReactApexChart
               options={{
                 chart: {
@@ -157,12 +158,8 @@ const DashboardView = () => {
               }}
               series={[
                 {
-                  name: 'series1',
+                  name: 'Trafik',
                   data: [31, 40, 28, 51, 42, 109, 100]
-                },
-                {
-                  name: 'series2',
-                  data: [11, 32, 45, 32, 34, 52, 41]
                 }
               ]}
               type='area'
@@ -172,6 +169,7 @@ const DashboardView = () => {
         </Grid>
         <Grid item md={5} xs={12}>
           <Card sx={{ p: 5 }}>
+            <Typography>Gender</Typography>
             <div id='chart'>
               <ReactApexChart
                 options={{
@@ -179,7 +177,7 @@ const DashboardView = () => {
                     width: 380,
                     type: 'pie'
                   },
-                  labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+                  labels: ['Pria', 'Wanita'],
                   responsive: [
                     {
                       breakpoint: 480,
@@ -194,7 +192,10 @@ const DashboardView = () => {
                     }
                   ]
                 }}
-                series={[44, 55, 13, 43, 22]}
+                series={[
+                  statisticTotal?.totalUserPria ?? 0,
+                  statisticTotal?.totalUserWanita ?? 0
+                ]}
                 type='pie'
                 width={380}
               />
