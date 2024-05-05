@@ -35,7 +35,7 @@ export default function CreateProductView() {
   const [productImages, setProductImages] = useState<string[]>([])
   const [productPrice, setProductPrice] = useState(0)
   const [productDiscount, setProductDiscount] = useState(0)
-  const [productCategoryId, setProductCategoryId] = useState('')
+  const [productCategoryName, setProductCategoryName] = useState('')
   const [productStock, setProductStock] = useState(0)
   const [productWeight, setProductWeight] = useState(0)
   const [productCondition, setProductCondition] = useState<'Baru' | 'Bekas' | string>('')
@@ -58,7 +58,7 @@ export default function CreateProductView() {
         productDescription,
         productImages: JSON.stringify(productImages),
         productPrice,
-        productCategoryId,
+        productCategoryName,
         productStock,
         productWeight,
         productCondition,
@@ -194,8 +194,10 @@ export default function CreateProductView() {
                   labelId='demo-select-small-label'
                   id='demo-select-small'
                   fullWidth
-                  value={productCategoryId}
-                  onChange={(e) => setProductCategoryId(e.target.value)}
+                  value={productCategoryName}
+                  onChange={(e) => {
+                    setProductCategoryName(e.target.value)
+                  }}
                 >
                   {categories.map((item) => (
                     <MenuItem key={item.categoryId} value={item.categoryId}>

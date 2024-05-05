@@ -1,3 +1,4 @@
+import { IAddressesModel } from './addressModel'
 import { IProductModel } from './productsModel'
 import { IRootModel } from './rootModel'
 import { IUserModel } from './userModel'
@@ -15,6 +16,8 @@ export interface IOrdersModel extends IRootModel {
   orderStatus: 'waiting' | 'process' | 'delivery' | 'done' | 'cancel' | string
   product: IProductModel
   user: IUserModel
+  orderTransferBankImage: string
+  address: IAddressesModel
 }
 
 export interface IOrdersUpdateRequestModel {

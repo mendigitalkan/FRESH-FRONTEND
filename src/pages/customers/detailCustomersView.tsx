@@ -1,17 +1,34 @@
 import { useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { useEffect, useState } from 'react'
-import { Card, Typography } from '@mui/material'
-import { IUserModel } from '../../models/userModel'
+import {
+  Button,
+  Card,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Stack,
+  TextField,
+  Typography
+} from '@mui/material'
+import { IUserModel, IUserUpdateRequestModel } from '../../models/userModel'
 import { convertTime } from '../../utilities/convertTime'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 
 export default function DetailCustomersView() {
-  const { handleGetRequest } = useHttp()
+  const { handleGetRequest, handleUpdateRequest } = useHttp()
   const { customerId } = useParams()
 
   const [detailCustomer, setDetailCustomer] = useState<IUserModel>()
+  const [openModalUpdateCoin, setOpenModalUpdateCoin] = useState(false)
+  const [coinSelected, setCoinSelected] = useState(0)
+
+  const handleOpenModalUpdateCoin = () => {
+    setOpenModalUpdateCoin(!openModalUpdateCoin)
+  }
 
   const getDetailUser = async () => {
     const result: IUserModel = await handleGetRequest({
@@ -19,6 +36,25 @@ export default function DetailCustomersView() {
     })
     if (result) {
       setDetailCustomer(result)
+      setCoinSelected(result?.userCoin)
+    }
+  }
+
+  const handleUpdateCoin = async () => {
+    try {
+      const payload: IUserUpdateRequestModel = {
+        userCoin: coinSelected,
+        userId: detailCustomer?.userId + ''
+      }
+
+      await handleUpdateRequest({
+        path: '/users',
+        body: payload
+      })
+
+      window.location.reload()
+    } catch (error: unknown) {
+      console.log(error)
     }
   }
 
@@ -41,6 +77,25 @@ export default function DetailCustomersView() {
           }
         ]}
       />
+      <Grid container spacing={2} mb={2}>
+        <Grid item sm={4} xs={12}>
+          <Card sx={{ p: 3, minWidth: 200 }}>
+            <Stack direction='row' justifyContent={'space-between'}>
+              <Stack direction='row' spacing={2}>
+                <IconMenus.transaction fontSize='large' color={'inherit'} />
+                <Stack justifyContent='center'>
+                  <Typography>Koin</Typography>
+                  <Typography fontSize='large' fontWeight='bold'>
+                    {detailCustomer?.userCoin}
+                  </Typography>
+                </Stack>
+              </Stack>
+              <Button onClick={handleOpenModalUpdateCoin}>Update Koin</Button>
+            </Stack>
+          </Card>
+        </Grid>
+      </Grid>
+
       <Card sx={{ p: 5 }}>
         <table>
           <thead>
@@ -81,6 +136,16 @@ export default function DetailCustomersView() {
 
             <tr>
               <td>
+                <Typography fontWeight={'Bold'}>Kode Partner</Typography>
+              </td>
+              <td>:</td>
+              <td>
+                <Typography>{detailCustomer?.userPartnerCode}</Typography>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
                 <Typography fontWeight={'Bold'}>Role</Typography>
               </td>
               <td>:</td>
@@ -100,6 +165,29 @@ export default function DetailCustomersView() {
           </tbody>
         </table>
       </Card>
+      <Dialog
+        open={openModalUpdateCoin}
+        onClose={handleOpenModalUpdateCoin}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogTitle id='alert-dialog-title'>{'Update Coin?'}</DialogTitle>
+        <DialogContent>
+          <TextField
+            id='outlined-number'
+            label='Coin'
+            type='number'
+            value={coinSelected}
+            onChange={(e) => setCoinSelected(+e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleOpenModalUpdateCoin}>Cancel</Button>
+          <Button onClick={handleUpdateCoin} autoFocus>
+            Update
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   )
 }

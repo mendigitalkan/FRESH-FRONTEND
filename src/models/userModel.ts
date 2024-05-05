@@ -9,6 +9,7 @@ export interface IUserModel extends IRootModel {
   userWhatsAppNumberVerified: boolean
   userPhoto: string
   userRole: 'user' | 'admin' | 'superAdmin'
+  userGender: 'pria' | 'wanita'
   userCoin: number
   userFcmId: string
   userPartnerCode: string
@@ -22,7 +23,9 @@ export interface IUserUpdateRequestModel {
   userPhoneNumber?: string
   userPhoto?: string
   userRole?: 'user' | 'admin' | 'superAdmin' | string
-  userPartnerCode: string
+  userGender?: 'pria' | 'wanita'
+  userCoin?: number
+  userPartnerCode?: string
 }
 
 export interface IUserCreateRequestModel {

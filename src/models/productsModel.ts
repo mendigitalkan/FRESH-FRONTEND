@@ -7,7 +7,7 @@ export interface IProductModel extends IRootModel {
   productDescription: string
   productImages: string
   productPrice: number
-  productCategoryId: string
+  productCategoryName: string
   productTotalSale: number
   productStock: number
   productDiscount: number
@@ -23,7 +23,7 @@ export interface IProductUpdateRequestModel {
   productDescription?: string
   productImages?: string
   productPrice?: number
-  productCategoryId?: string
+  productCategoryName?: string
   productTotalSale?: number
   productStock?: number
   productDiscount?: number
@@ -38,7 +38,7 @@ export interface IProductCreateRequestModel {
   productDescription: string
   productImages: string
   productPrice: number
-  productCategoryId: string
+  productCategoryName: string
   productTotalSale: number
   productStock: number
   productDiscount: number

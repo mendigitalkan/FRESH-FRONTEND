@@ -3,7 +3,8 @@ import { IRootModel } from './rootModel'
 export interface IAddressesModel extends IRootModel {
   addressId: string
   addressUserId: string
-  addressName: string
+  addressUserName: string
+  addressKontak?: string
   addressDetail: string
   addressPostalCode: string
   addressProvinsi: string

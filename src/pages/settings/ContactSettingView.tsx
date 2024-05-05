@@ -1,15 +1,47 @@
 import { Box, Button, Card, Grid, Stack, TextField } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ISettingModel } from '../../models/settingMode'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
+import { useHttp } from '../../hooks/http'
 
 export default function ContactSettingsView() {
+  const { handleGetRequest, handleUpdateRequest } = useHttp()
+
   const [settings, setSettings] = useState<ISettingModel>({
     settingId: '',
     settingBanner: '',
     settingWhatsappNumber: ''
   })
+
+  const getDetailSettings = async () => {
+    const result: ISettingModel = await handleGetRequest({
+      path: '/settings'
+    })
+    if (result) {
+      setSettings(result)
+    }
+  }
+
+  const handleSubmit = async () => {
+    try {
+      const payload: ISettingModel = {
+        ...settings,
+        settingWhatsappNumber: settings?.settingWhatsappNumber
+      }
+      await handleUpdateRequest({
+        path: '/settings',
+        body: payload
+      })
+      window.location.reload()
+    } catch (error: unknown) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getDetailSettings()
+  }, [])
 
   return (
     <Box>
@@ -43,7 +75,9 @@ export default function ContactSettingsView() {
           </Grid>
         </Grid>
         <Stack direction={'row'} justifyContent={'flex-end'} sx={{ marginTop: 5 }}>
-          <Button variant='outlined'>Update</Button>
+          <Button variant='outlined' onClick={handleSubmit}>
+            Update
+          </Button>
         </Stack>
       </Card>
     </Box>
