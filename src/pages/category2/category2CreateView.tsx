@@ -1,23 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Button, Card, Typography, Box, TextField, Stack } from '@mui/material'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
-import { ICategoryModel } from '../../models/categoryModel'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 
-export default function CategoryEditView() {
-  const { handleUpdateRequest, handleGetRequest } = useHttp()
+export default function Category2CreateView() {
+  const { handlePostRequest } = useHttp()
   const navigate = useNavigate()
-  const { categoryId } = useParams()
+
   const [categoryName, setCategoryName] = useState('')
 
   const handleSubmit = async () => {
     try {
-      await handleUpdateRequest({
-        path: '/categories',
+      await handlePostRequest({
+        path: '/category2',
         body: {
-          categoryId,
           categoryName
         }
       })
@@ -26,19 +24,6 @@ export default function CategoryEditView() {
       console.log(error)
     }
   }
-
-  const handleDetailGetCategory = async () => {
-    const result: ICategoryModel = await handleGetRequest({
-      path: '/categories/detail/' + categoryId
-    })
-    if (result !== null) {
-      setCategoryName(result.categoryName)
-    }
-  }
-
-  useEffect(() => {
-    handleDetailGetCategory()
-  }, [])
 
   return (
     <>
@@ -50,8 +35,8 @@ export default function CategoryEditView() {
             icon: <IconMenus.category fontSize='small' />
           },
           {
-            label: 'Edit',
-            link: '/categories/edit/' + categoryId
+            label: 'Create',
+            link: '/categories/create'
           }
         ]}
       />
@@ -62,7 +47,7 @@ export default function CategoryEditView() {
         }}
       >
         <Typography variant='h4' marginBottom={5} color='primary' fontWeight={'bold'}>
-          Tambah Kategori
+          Tambah Sub Kategori
         </Typography>
         <Box
           component='form'
@@ -77,7 +62,6 @@ export default function CategoryEditView() {
             id='outlined-start-adornment'
             sx={{ m: 1 }}
             value={categoryName}
-            defaultValue={categoryName}
             type='text'
             onChange={(e) => {
               setCategoryName(e.target.value)

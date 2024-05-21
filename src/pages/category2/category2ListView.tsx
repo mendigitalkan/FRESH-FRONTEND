@@ -18,14 +18,14 @@ import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 import { useNavigate } from 'react-router-dom'
 import Modal from '../../components/modal'
-import { ICategoryModel } from '../../models/categoryModel'
+import { ICategory1Model } from '../../models/categoryModel'
 import { convertTime } from '../../utilities/convertTime'
 
-export default function CategoryListView() {
+export default function Category2ListView() {
   const navigation = useNavigate()
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
-  const [modalDeleteData, setModalDeleteData] = useState<ICategoryModel>()
+  const [modalDeleteData, setModalDeleteData] = useState<ICategory1Model>()
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
 
   const [paginationModel, setPaginationModel] = useState({
@@ -40,7 +40,7 @@ export default function CategoryListView() {
     window.location.reload()
   }
 
-  const handleOpenModalDelete = (data: ICategoryModel) => {
+  const handleOpenModalDelete = (data: ICategory1Model) => {
     setModalDeleteData(data)
     setOpenModalDelete(!openModalDelete)
   }
@@ -48,7 +48,7 @@ export default function CategoryListView() {
   const getTableData = async ({ search }: { search: string }) => {
     try {
       const result = await handleGetTableDataRequest({
-        path: '/categories',
+        path: '/category1',
         page: paginationModel.page ?? 0,
         size: paginationModel.pageSize ?? 10,
         filter: { search }
@@ -181,7 +181,7 @@ export default function CategoryListView() {
           'Apakah anda yakin ingin menghapus kategori ' + modalDeleteData?.categoryName
         }
         handleModal={() => {
-          handleDeleteCategory(modalDeleteData?.categoryId ?? '')
+          handleDeleteCategory(modalDeleteData?.categoryId1 ?? '')
           setOpenModalDelete(!openModalDelete)
         }}
       />

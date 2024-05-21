@@ -1,21 +1,23 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Card, Typography, Box, TextField, Stack } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
+import { ICategory3Model } from '../../models/categoryModel'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 
-export default function CategoryCreateView() {
-  const { handlePostRequest } = useHttp()
+export default function Category3EditView() {
+  const { handleUpdateRequest, handleGetRequest } = useHttp()
   const navigate = useNavigate()
-
+  const { categoryId } = useParams()
   const [categoryName, setCategoryName] = useState('')
 
   const handleSubmit = async () => {
     try {
-      await handlePostRequest({
-        path: '/categories',
+      await handleUpdateRequest({
+        path: '/category3',
         body: {
+          categoryId,
           categoryName
         }
       })
@@ -24,6 +26,19 @@ export default function CategoryCreateView() {
       console.log(error)
     }
   }
+
+  const handleDetailGetCategory = async () => {
+    const result: ICategory3Model = await handleGetRequest({
+      path: '/categories/detail/' + categoryId
+    })
+    if (result !== null) {
+      setCategoryName(result.categoryName)
+    }
+  }
+
+  useEffect(() => {
+    handleDetailGetCategory()
+  }, [])
 
   return (
     <>
@@ -35,8 +50,8 @@ export default function CategoryCreateView() {
             icon: <IconMenus.category fontSize='small' />
           },
           {
-            label: 'Create',
-            link: '/categories/create'
+            label: 'Edit',
+            link: '/categories/edit/' + categoryId
           }
         ]}
       />
@@ -62,6 +77,7 @@ export default function CategoryCreateView() {
             id='outlined-start-adornment'
             sx={{ m: 1 }}
             value={categoryName}
+            defaultValue={categoryName}
             type='text'
             onChange={(e) => {
               setCategoryName(e.target.value)

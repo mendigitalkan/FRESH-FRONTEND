@@ -102,7 +102,7 @@ export default function DetailProductView() {
                 </td>
                 <td>:</td>
                 <td>
-                  <Typography>{productDetail?.productCategoryId}</Typography>
+                  <Typography>{productDetail?.productCategoryName}</Typography>
                 </td>
               </tr>
 
