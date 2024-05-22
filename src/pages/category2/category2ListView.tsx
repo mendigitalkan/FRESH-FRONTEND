@@ -10,19 +10,20 @@ import {
   GridToolbarContainer,
   GridToolbarExport
 } from '@mui/x-data-grid'
-import { Add } from '@mui/icons-material'
+import { Add, MoreOutlined } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
 import { useHttp } from '../../hooks/http'
 import { Button, Stack, TextField } from '@mui/material'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Modal from '../../components/modal'
 import { ICategory1Model } from '../../models/categoryModel'
 import { convertTime } from '../../utilities/convertTime'
 
 export default function Category2ListView() {
   const navigation = useNavigate()
+  const { categoryId1 } = useParams()
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
   const [modalDeleteData, setModalDeleteData] = useState<ICategory1Model>()
@@ -48,10 +49,10 @@ export default function Category2ListView() {
   const getTableData = async ({ search }: { search: string }) => {
     try {
       const result = await handleGetTableDataRequest({
-        path: '/category1',
+        path: '/category2',
         page: paginationModel.page ?? 0,
         size: paginationModel.pageSize ?? 10,
-        filter: { search }
+        filter: { search, categoryId1 }
       })
       if (result) {
         console.log(result)
@@ -100,6 +101,14 @@ export default function Category2ListView() {
             label='Delete'
             onClick={() => handleOpenModalDelete(row)}
             color='inherit'
+          />,
+          <GridActionsCellItem
+            icon={<MoreOutlined color='info' />}
+            label='Detail'
+            onClick={() =>
+              navigation(`/categories/subcategory/${categoryId1}/${row.categoryId2}`)
+            }
+            color='inherit'
           />
         ]
       }
@@ -113,11 +122,11 @@ export default function Category2ListView() {
         <Stack direction='row' spacing={2}>
           <GridToolbarExport />
           <Button
-            onClick={() => navigation('create')}
+            onClick={() => navigation(`/categories/subcategory/create/${categoryId1}`)}
             startIcon={<Add />}
             variant='outlined'
           >
-            Tambah Kategori
+            Tambah Sub Kategori
           </Button>
         </Stack>
         <Stack direction={'row'} spacing={1} alignItems={'center'}>
@@ -141,7 +150,7 @@ export default function Category2ListView() {
         navigation={[
           {
             label: 'Category',
-            link: '/catgories',
+            link: '/categories',
             icon: <IconMenus.category fontSize='small' />
           }
         ]}

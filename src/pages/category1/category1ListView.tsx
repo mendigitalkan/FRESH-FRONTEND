@@ -10,7 +10,7 @@ import {
   GridToolbarContainer,
   GridToolbarExport
 } from '@mui/x-data-grid'
-import { Add } from '@mui/icons-material'
+import { Add, MoreOutlined } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
 import { useHttp } from '../../hooks/http'
 import { Button, Stack, TextField } from '@mui/material'
@@ -35,7 +35,7 @@ export default function Category1ListView() {
 
   const handleDeleteCategory = async (categoryId: string) => {
     await handleRemoveRequest({
-      path: '/categories?categoryId=' + categoryId
+      path: '/category1?categoryId1=' + categoryId
     })
     window.location.reload()
   }
@@ -92,13 +92,19 @@ export default function Category1ListView() {
             icon={<EditIcon />}
             label='Edit'
             className='textPrimary'
-            onClick={() => navigation('edit/' + row.categoryId)}
+            onClick={() => navigation('edit/' + row.categoryId1)}
             color='inherit'
           />,
           <GridActionsCellItem
             icon={<DeleteIcon color='error' />}
             label='Delete'
             onClick={() => handleOpenModalDelete(row)}
+            color='inherit'
+          />,
+          <GridActionsCellItem
+            icon={<MoreOutlined color='info' />}
+            label='Detail'
+            onClick={() => navigation('/categories/subcategory/' + row.categoryId1)}
             color='inherit'
           />
         ]
@@ -141,7 +147,7 @@ export default function Category1ListView() {
         navigation={[
           {
             label: 'Category',
-            link: '/catgories',
+            link: '/categories',
             icon: <IconMenus.category fontSize='small' />
           }
         ]}

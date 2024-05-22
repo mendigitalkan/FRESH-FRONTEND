@@ -82,41 +82,45 @@ export default function AppRouters() {
 
           // category 1
           {
-            path: '/category1',
+            path: '/categories',
             element: <Category1ListView />
           },
           {
-            path: '/category1/create',
+            path: '/categories/create',
             element: <Category1CreateView />
           },
           {
-            path: '/category1/edit/:categoryId',
+            path: '/categories/edit/:categoryId',
             element: <Category1EditView />
           },
 
-          // category 2
+          //category 2
           {
-            path: '/category2',
+            path: '/categories/subcategory/:categoryId1',
             element: <Category2ListView />
           },
           {
-            path: '/category2/create',
+            path: '/categories/subcategory/create/:categoryId1',
             element: <Category2CreateView />
           },
           {
-            path: '/category2/edit/:categoryId',
+            path: '/categories/subcategory/edit/:categoryId',
             element: <Category2EditView />
           },
-
+          {
+            path: '/categories/subcategory/:categoryId1/:categoryId2',
+            element: <Category3ListView />
+          },
+          {
+            path: '/categories/subcategory/create/:categoryId1/:categoryId2',
+            element: <Category3CreateView />
+          },
           // category 3
           {
             path: '/category3',
             element: <Category3ListView />
           },
-          {
-            path: '/category3/create',
-            element: <Category3CreateView />
-          },
+
           {
             path: '/category3/edit/:categoryId',
             element: <Category3EditView />

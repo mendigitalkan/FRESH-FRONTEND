@@ -14,7 +14,7 @@ export default function Category1CreateView() {
   const handleSubmit = async () => {
     try {
       await handlePostRequest({
-        path: '/categories',
+        path: '/category1',
         body: {
           categoryName
         }

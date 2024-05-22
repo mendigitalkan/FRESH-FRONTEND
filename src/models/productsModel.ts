@@ -7,11 +7,13 @@ export interface IProductModel extends IRootModel {
   productDescription: string
   productImages: string
   productPrice: number
-  productCategoryName: string
+  productCategoryId1: string
+  productCategoryId2: string
+  productCategoryId3: string
   productTotalSale: number
   productStock: number
   productDiscount: number
-  productCondition: 'Baru' | 'Bekas'
+  productCondition: 'Baru' | 'Bekas' | string
   productWeight: number
   productColors: string
   productSizes: string
@@ -23,11 +25,13 @@ export interface IProductUpdateRequestModel {
   productDescription?: string
   productImages?: string
   productPrice?: number
-  productCategoryName?: string
+  productCategoryId1?: string
+  productCategoryId2?: string
+  productCategoryId3?: string
   productTotalSale?: number
   productStock?: number
   productDiscount?: number
-  productCondition?: 'Baru' | 'Bekas' | string
+  productCondition?: 'Baru' | 'Bekas'
   productWeight?: number
   productColors?: string
   productSizes?: string
@@ -38,7 +42,9 @@ export interface IProductCreateRequestModel {
   productDescription: string
   productImages: string
   productPrice: number
-  productCategoryName: string
+  productCategoryId1: string
+  productCategoryId2: string
+  productCategoryId3: string
   productTotalSale: number
   productStock: number
   productDiscount: number

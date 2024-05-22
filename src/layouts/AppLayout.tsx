@@ -121,7 +121,7 @@ export default function AppLayout() {
   const adminMenus = [
     { title: 'Dashboard', link: '/', icon: <IconMenus.dashboard /> },
     { title: 'Products', link: '/products', icon: <IconMenus.products /> },
-    { title: 'Category', link: '/category1', icon: <IconMenus.category /> },
+    { title: 'Category', link: '/categories', icon: <IconMenus.category /> },
     { title: 'Customers', link: '/customers', icon: <IconMenus.customers /> },
     { title: 'Notification', link: '/notifications', icon: <IconMenus.notification /> },
     { title: 'Orders', link: '/orders', icon: <IconMenus.orders /> },

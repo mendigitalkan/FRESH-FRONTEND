@@ -16,13 +16,14 @@ import { useHttp } from '../../hooks/http'
 import { Button, Stack, TextField } from '@mui/material'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Modal from '../../components/modal'
 import { ICategory3Model } from '../../models/categoryModel'
 import { convertTime } from '../../utilities/convertTime'
 
 export default function Category3ListView() {
   const navigation = useNavigate()
+  const { categoryId1, categoryId2 } = useParams()
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
   const [modalDeleteData, setModalDeleteData] = useState<ICategory3Model>()
@@ -48,10 +49,10 @@ export default function Category3ListView() {
   const getTableData = async ({ search }: { search: string }) => {
     try {
       const result = await handleGetTableDataRequest({
-        path: '/category1',
+        path: '/category3',
         page: paginationModel.page ?? 0,
         size: paginationModel.pageSize ?? 10,
-        filter: { search }
+        filter: { search, categoryId1, categoryId2 }
       })
       if (result) {
         console.log(result)
@@ -113,7 +114,9 @@ export default function Category3ListView() {
         <Stack direction='row' spacing={2}>
           <GridToolbarExport />
           <Button
-            onClick={() => navigation('create')}
+            onClick={() =>
+              navigation(`/categories/subcategory/create/${categoryId1}/${categoryId2}`)
+            }
             startIcon={<Add />}
             variant='outlined'
           >
@@ -141,7 +144,7 @@ export default function Category3ListView() {
         navigation={[
           {
             label: 'Category',
-            link: '/catgories',
+            link: '/categories',
             icon: <IconMenus.category fontSize='small' />
           }
         ]}
