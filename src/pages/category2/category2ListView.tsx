@@ -149,7 +149,7 @@ export default function Category2ListView() {
       <BreadCrumberStyle
         navigation={[
           {
-            label: 'Category',
+            label: 'Sub Category 1',
             link: '/categories',
             icon: <IconMenus.category fontSize='small' />
           }

@@ -4,19 +4,22 @@ import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
+import ButtonUploadFile from '../../components/buttons/buttonUpload'
 
 export default function Category1CreateView() {
   const { handlePostRequest } = useHttp()
   const navigate = useNavigate()
 
   const [categoryName, setCategoryName] = useState('')
+  const [categoryIcon, setCategoryIcon] = useState('')
 
   const handleSubmit = async () => {
     try {
       await handlePostRequest({
         path: '/category1',
         body: {
-          categoryName
+          categoryName,
+          categoryIcon
         }
       })
       navigate('/categories')
@@ -60,7 +63,6 @@ export default function Category1CreateView() {
           <TextField
             label='Nama Kategori'
             id='outlined-start-adornment'
-            sx={{ m: 1 }}
             value={categoryName}
             type='text'
             onChange={(e) => {
@@ -68,6 +70,31 @@ export default function Category1CreateView() {
             }}
           />
 
+          <Box sx={{ my: 3 }}>
+            <Typography color={'gray'}>Icon</Typography>
+            <ButtonUploadFile onUpload={(image) => setCategoryIcon(image)} />
+            <Stack direction={'row'} flexWrap='wrap' spacing={2}>
+              {categoryIcon && (
+                <Stack spacing={2}>
+                  <img
+                    src={categoryIcon}
+                    style={{
+                      marginTop: 10,
+                      width: 200,
+                      height: 200
+                    }}
+                  />
+                  <Button
+                    variant='outlined'
+                    size='small'
+                    onClick={() => setCategoryIcon('')}
+                  >
+                    Delete
+                  </Button>
+                </Stack>
+              )}
+            </Stack>
+          </Box>
           <Stack direction={'row'} justifyContent='flex-end'>
             <Button
               sx={{

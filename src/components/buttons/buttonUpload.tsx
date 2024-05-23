@@ -56,7 +56,12 @@ export default function ButtonUploadFile({ onUpload }: ButtonUploadFileTypes) {
   return (
     <div className='flex items-center'>
       <div onClick={() => fileInputRef.current.click()}>
-        <input type='file' ref={fileInputRef} onChange={handleFileUpload}></input>
+        <input
+          type='file'
+          ref={fileInputRef}
+          onChange={handleFileUpload}
+          accept='image/*'
+        ></input>
       </div>
     </div>
   )

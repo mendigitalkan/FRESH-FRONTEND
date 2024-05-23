@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { ICategory1Model, ICategory2Model, ICategory3Model } from './categoryModel'
 import { IRootModel } from './rootModel'
 
 export interface IProductModel extends IRootModel {
@@ -17,6 +18,9 @@ export interface IProductModel extends IRootModel {
   productWeight: number
   productColors: string
   productSizes: string
+  category1: ICategory1Model
+  category2: ICategory2Model
+  category3: ICategory3Model
 }
 
 export interface IProductUpdateRequestModel {
@@ -31,7 +35,7 @@ export interface IProductUpdateRequestModel {
   productTotalSale?: number
   productStock?: number
   productDiscount?: number
-  productCondition?: 'Baru' | 'Bekas'
+  productCondition?: 'Baru' | 'Bekas' | string
   productWeight?: number
   productColors?: string
   productSizes?: string

@@ -2,7 +2,7 @@
 import { useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { useEffect, useState } from 'react'
-import { Box, Card, Chip, Grid, Typography } from '@mui/material'
+import { Box, Card, Chip, Grid, Stack, Typography } from '@mui/material'
 import { IProductModel } from '../../models/productsModel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
 import { Carousel } from 'react-responsive-carousel'
@@ -38,6 +38,8 @@ export default function DetailProductView() {
     getDetailProduct()
   }, [])
 
+  console.log('_________product detail')
+  console.log(productDetail)
   return (
     <>
       <BreadCrumberStyle
@@ -102,7 +104,20 @@ export default function DetailProductView() {
                 </td>
                 <td>:</td>
                 <td>
-                  <Typography>{productDetail?.productCategoryName}</Typography>
+                  <Stack direction={'row'} spacing={1}>
+                    <Chip
+                      label={productDetail?.category1.categoryName}
+                      sx={{ mx: 0.2 }}
+                    />
+                    <Chip
+                      label={productDetail?.category2.categoryName}
+                      sx={{ mx: 0.2 }}
+                    />
+                    <Chip
+                      label={productDetail?.category3.categoryName}
+                      sx={{ mx: 0.2 }}
+                    />
+                  </Stack>
                 </td>
               </tr>
 

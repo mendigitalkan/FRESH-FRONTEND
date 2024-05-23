@@ -68,11 +68,26 @@ export default function Category1ListView() {
 
   const columns: GridColDef[] = [
     {
+      field: 'categoryIcon',
+      flex: 1,
+      renderHeader: () => <strong>{'Icon'}</strong>,
+      renderCell: (params) => (
+        <img
+          src={params.value}
+          style={{
+            width: 80,
+            height: 80
+          }}
+        />
+      )
+    },
+    {
       field: 'categoryName',
       flex: 1,
       renderHeader: () => <strong>{'Nama'}</strong>,
       editable: true
     },
+
     {
       field: 'createdAt',
       flex: 1,

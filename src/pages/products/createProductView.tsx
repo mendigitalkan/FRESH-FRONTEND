@@ -39,7 +39,6 @@ export default function CreateProductView() {
   const [productImages, setProductImages] = useState<string[]>([])
   const [productPrice, setProductPrice] = useState(0)
   const [productDiscount, setProductDiscount] = useState(0)
-  const [productCategoryName, setProductCategoryName] = useState('')
   const [productStock, setProductStock] = useState(0)
   const [productWeight, setProductWeight] = useState(0)
   const [productCondition, setProductCondition] = useState<'Baru' | 'Bekas' | string>('')
@@ -59,6 +58,20 @@ export default function CreateProductView() {
       path: '/category1'
     })
     setListCategory1(result.items)
+  }
+
+  const getListCategory2 = async () => {
+    const result = await handleGetRequest({
+      path: `/category2?categoryId1=${productCategoryId1}`
+    })
+    setListCategory2(result.items)
+  }
+
+  const getListCategory3 = async () => {
+    const result = await handleGetRequest({
+      path: `/category3?categoryId1=${productCategoryId1}&&categoryId2=${productCategoryId2}`
+    })
+    setListCategory3(result.items)
   }
 
   const handleSubmit = async () => {
@@ -100,6 +113,18 @@ export default function CreateProductView() {
     getListCategory1()
   }, [])
 
+  useEffect(() => {
+    if (productCategoryId1) {
+      getListCategory2()
+    }
+  }, [productCategoryId1])
+
+  useEffect(() => {
+    if (productCategoryId1 && productCategoryId2) {
+      getListCategory3()
+    }
+  }, [productCategoryId1, productCategoryId2])
+
   return (
     <>
       <BreadCrumberStyle
@@ -136,7 +161,7 @@ export default function CreateProductView() {
           <Typography fontWeight={'bold'} my={2}>
             Info Product
           </Typography>
-          <Grid container spacing={2} mb={10}>
+          <Grid container spacing={2} mb={5}>
             <Grid item xs={12} sm={6}>
               <TextField
                 label='Nama'
@@ -198,76 +223,9 @@ export default function CreateProductView() {
                 }}
               />
             </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id='demo-controlled-open-select-label'>Kategori</InputLabel>
-                <Select
-                  labelId='demo-select-small-label'
-                  id='demo-select-small'
-                  fullWidth
-                  value={productCategoryName}
-                  onChange={(e) => {
-                    setProductCategoryName(e.target.value)
-                  }}
-                >
-                  {listCategory1.map((item) => (
-                    <MenuItem key={item.categoryId1} value={item.categoryId1}>
-                      {item.categoryName}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id='demo-controlled-open-select-label'>
-                  Sub Kategori 1
-                </InputLabel>
-                <Select
-                  labelId='demo-select-small-label'
-                  id='demo-select-small'
-                  fullWidth
-                  value={productCategoryName}
-                  onChange={(e) => {
-                    setProductCategoryId2(e.target.value)
-                  }}
-                >
-                  {listCategory2.map((item) => (
-                    <MenuItem key={item.categoryId2} value={item.categoryId2}>
-                      {item.categoryName}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id='demo-controlled-open-select-label'>
-                  Sub Kategori 2
-                </InputLabel>
-                <Select
-                  labelId='demo-select-small-label'
-                  id='demo-select-small'
-                  fullWidth
-                  value={productCategoryName}
-                  onChange={(e) => {
-                    setProductCategoryName(e.target.value)
-                  }}
-                >
-                  {listCategory3.map((item) => (
-                    <MenuItem key={item.categoryId3} value={item.categoryId3}>
-                      {item.categoryName}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
           </Grid>
 
-          <Box sx={{ my: 3 }}>
+          <Box>
             <Typography color={'gray'}>Foto Product</Typography>
             <ButtonUploadFile
               onUpload={(image) => setProductImages([...productImages, image])}
@@ -293,6 +251,79 @@ export default function CreateProductView() {
                 </Stack>
               ))}
             </Stack>
+          </Box>
+          <Box sx={{ my: 5 }}>
+            <Typography fontWeight={'bold'} mb={2}>
+              Category
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id='demo-controlled-open-select-label'>Kategori</InputLabel>
+                  <Select
+                    labelId='demo-select-small-label'
+                    id='demo-select-small'
+                    fullWidth
+                    value={productCategoryId1}
+                    onChange={(e) => {
+                      setProductCategoryId1(e.target.value)
+                    }}
+                  >
+                    {listCategory1.map((item) => (
+                      <MenuItem key={item.categoryId1} value={item.categoryId1}>
+                        {item.categoryName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id='demo-controlled-open-select-label'>
+                    Sub Kategori 1
+                  </InputLabel>
+                  <Select
+                    labelId='demo-select-small-label'
+                    id='demo-select-small'
+                    fullWidth
+                    value={productCategoryId2}
+                    onChange={(e) => {
+                      setProductCategoryId2(e.target.value)
+                    }}
+                  >
+                    {listCategory2.map((item) => (
+                      <MenuItem key={item.categoryId2} value={item.categoryId2}>
+                        {item.categoryName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id='demo-controlled-open-select-label'>
+                    Sub Kategori 2
+                  </InputLabel>
+                  <Select
+                    labelId='demo-select-small-label'
+                    id='demo-select-small'
+                    fullWidth
+                    value={productCategoryId3}
+                    onChange={(e) => {
+                      setProductCategoryId3(e.target.value)
+                    }}
+                  >
+                    {listCategory3.map((item) => (
+                      <MenuItem key={item.categoryId3} value={item.categoryId3}>
+                        {item.categoryName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
           </Box>
 
           <Box sx={{ my: 3 }}>

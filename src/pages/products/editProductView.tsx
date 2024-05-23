@@ -20,12 +20,16 @@ import {
 import { useNavigate, useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { IProductModel, IProductUpdateRequestModel } from '../../models/productsModel'
-import { ICategoryModel } from '../../models/categoryModel'
 // import { handleUploadImageToFirebase } from '../../utilities/uploadImageToFirebase'
 import VariantProductSection from './productVariantView'
 import ButtonUploadFile from '../../components/buttons/buttonUpload'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
+import {
+  ICategory1Model,
+  ICategory2Model,
+  ICategory3Model
+} from '../../models/categoryModel'
 
 export default function EditProductView() {
   const { handleUpdateRequest, handleGetRequest } = useHttp()
@@ -37,20 +41,39 @@ export default function EditProductView() {
   const [productImages, setProductImages] = useState<string[]>([])
   const [productPrice, setProductPrice] = useState(0)
   const [productDiscount, setProductDiscount] = useState(0)
-  const [productCategoryName, setProductCategoryName] = useState('')
   const [productStock, setProductStock] = useState(0)
   const [productWeight, setProductWeight] = useState(0)
   const [productCondition, setProductCondition] = useState<'Baru' | 'Bekas' | string>('')
   const [productColors, setProductColors] = useState<string[]>([])
   const [productSizes, setProductSizes] = useState<string[]>([])
 
-  const [categories, setCategories] = useState<ICategoryModel[]>([])
+  const [productCategoryId1, setProductCategoryId1] = useState<string>('')
+  const [productCategoryId2, setProductCategoryId2] = useState<string>('')
+  const [productCategoryId3, setProductCategoryId3] = useState<string>('')
 
-  const getCategories = async () => {
+  const [listCategory1, setListCategory1] = useState<ICategory1Model[]>([])
+  const [listCategory2, setListCategory2] = useState<ICategory2Model[]>([])
+  const [listCategory3, setListCategory3] = useState<ICategory3Model[]>([])
+
+  const getListCategory1 = async () => {
     const result = await handleGetRequest({
-      path: '/categories'
+      path: '/category1'
     })
-    setCategories(result.items)
+    setListCategory1(result.items)
+  }
+
+  const getListCategory2 = async () => {
+    const result = await handleGetRequest({
+      path: `/category2?categoryId1=${productCategoryId1}`
+    })
+    setListCategory2(result.items)
+  }
+
+  const getListCategory3 = async () => {
+    const result = await handleGetRequest({
+      path: `/category3?categoryId1=${productCategoryId1}&&categoryId2=${productCategoryId2}`
+    })
+    setListCategory3(result.items)
   }
 
   const handleDeleteImage = (oldImage: string) => {
@@ -66,7 +89,9 @@ export default function EditProductView() {
         productDescription,
         productImages: JSON.stringify(productImages),
         productPrice,
-        productCategoryName,
+        productCategoryId1,
+        productCategoryId2,
+        productCategoryId3,
         productStock,
         productWeight,
         productCondition,
@@ -102,7 +127,6 @@ export default function EditProductView() {
       setProductDiscount(result.productDiscount)
       setProductWeight(result.productWeight)
       setProductPrice(result.productPrice)
-      setProductCategoryName(result.productCategoryName)
 
       setProductImages(images)
       setProductColors(productColors)
@@ -111,9 +135,24 @@ export default function EditProductView() {
   }
 
   useEffect(() => {
-    getCategories()
     getDetailProduct()
   }, [])
+
+  useEffect(() => {
+    getListCategory1()
+  }, [])
+
+  useEffect(() => {
+    if (productCategoryId1) {
+      getListCategory2()
+    }
+  }, [productCategoryId1])
+
+  useEffect(() => {
+    if (productCategoryId1 && productCategoryId2) {
+      getListCategory3()
+    }
+  }, [productCategoryId1, productCategoryId2])
 
   return (
     <>
@@ -164,7 +203,6 @@ export default function EditProductView() {
                 }}
               />
             </Grid>
-
             <Grid item xs={12} sm={6}>
               <TextField
                 label='Harga: masukan dalam angka tanpa Rp'
@@ -213,25 +251,6 @@ export default function EditProductView() {
                 }}
               />
             </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id='demo-controlled-open-select-label'>Kategori</InputLabel>
-                <Select
-                  labelId='demo-select-small-label'
-                  id='demo-select-small'
-                  fullWidth
-                  value={productCategoryName}
-                  onChange={(e) => setProductCategoryName(e.target.value)}
-                >
-                  {categories.map((item) => (
-                    <MenuItem key={item.categoryName} value={item.categoryName}>
-                      {item.categoryName}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
           </Grid>
 
           <Box sx={{ my: 3 }}>
@@ -260,6 +279,80 @@ export default function EditProductView() {
                 </Stack>
               ))}
             </Stack>
+          </Box>
+
+          <Box sx={{ my: 5 }}>
+            <Typography fontWeight={'bold'} mb={2}>
+              Category
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id='demo-controlled-open-select-label'>Kategori</InputLabel>
+                  <Select
+                    labelId='demo-select-small-label'
+                    id='demo-select-small'
+                    fullWidth
+                    value={productCategoryId1}
+                    onChange={(e) => {
+                      setProductCategoryId1(e.target.value)
+                    }}
+                  >
+                    {listCategory1.map((item) => (
+                      <MenuItem key={item.categoryId1} value={item.categoryId1}>
+                        {item.categoryName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id='demo-controlled-open-select-label'>
+                    Sub Kategori 1
+                  </InputLabel>
+                  <Select
+                    labelId='demo-select-small-label'
+                    id='demo-select-small'
+                    fullWidth
+                    value={productCategoryId2}
+                    onChange={(e) => {
+                      setProductCategoryId2(e.target.value)
+                    }}
+                  >
+                    {listCategory2.map((item) => (
+                      <MenuItem key={item.categoryId2} value={item.categoryId2}>
+                        {item.categoryName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id='demo-controlled-open-select-label'>
+                    Sub Kategori 2
+                  </InputLabel>
+                  <Select
+                    labelId='demo-select-small-label'
+                    id='demo-select-small'
+                    fullWidth
+                    value={productCategoryId3}
+                    onChange={(e) => {
+                      setProductCategoryId3(e.target.value)
+                    }}
+                  >
+                    {listCategory3.map((item) => (
+                      <MenuItem key={item.categoryId3} value={item.categoryId3}>
+                        {item.categoryName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
           </Box>
 
           <Box sx={{ my: 3 }}>

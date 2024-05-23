@@ -143,7 +143,7 @@ export default function Category3ListView() {
       <BreadCrumberStyle
         navigation={[
           {
-            label: 'Category',
+            label: 'Sub Category 2',
             link: '/categories',
             icon: <IconMenus.category fontSize='small' />
           }
