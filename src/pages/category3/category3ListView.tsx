@@ -34,9 +34,9 @@ export default function Category3ListView() {
     page: 0
   })
 
-  const handleDeleteCategory = async (categoryId: string) => {
+  const handleDeleteCategory = async (categoryId3: string) => {
     await handleRemoveRequest({
-      path: '/categories?categoryId=' + categoryId
+      path: `/category3?categoryId1=${categoryId1}&&categoryId2=${categoryId2}&&categoryId3=${categoryId3}`
     })
     window.location.reload()
   }
@@ -93,7 +93,11 @@ export default function Category3ListView() {
             icon={<EditIcon />}
             label='Edit'
             className='textPrimary'
-            onClick={() => navigation('edit/' + row.categoryId)}
+            onClick={() =>
+              navigation(
+                `/categories/subcategory/edit/${categoryId1}/${categoryId2}/${row.categoryId3}`
+              )
+            }
             color='inherit'
           />,
           <GridActionsCellItem
@@ -184,7 +188,7 @@ export default function Category3ListView() {
           'Apakah anda yakin ingin menghapus kategori ' + modalDeleteData?.categoryName
         }
         handleModal={() => {
-          handleDeleteCategory(modalDeleteData?.categoryId1 ?? '')
+          handleDeleteCategory(modalDeleteData?.categoryId3 ?? '')
           setOpenModalDelete(!openModalDelete)
         }}
       />

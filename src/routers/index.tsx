@@ -104,9 +104,11 @@ export default function AppRouters() {
             element: <Category2CreateView />
           },
           {
-            path: '/categories/subcategory/edit/:categoryId',
+            path: '/categories/subcategory/edit/:categoryId1/:categoryId2',
             element: <Category2EditView />
           },
+
+          // category 3
           {
             path: '/categories/subcategory/:categoryId1/:categoryId2',
             element: <Category3ListView />
@@ -115,14 +117,8 @@ export default function AppRouters() {
             path: '/categories/subcategory/create/:categoryId1/:categoryId2',
             element: <Category3CreateView />
           },
-          // category 3
           {
-            path: '/category3',
-            element: <Category3ListView />
-          },
-
-          {
-            path: '/category3/edit/:categoryId',
+            path: '/categories/subcategory/edit/:categoryId1/:categoryId2/:categoryId3',
             element: <Category3EditView />
           },
 

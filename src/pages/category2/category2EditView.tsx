@@ -9,19 +9,23 @@ import { IconMenus } from '../../components/icon'
 export default function Category2EditView() {
   const { handleUpdateRequest, handleGetRequest } = useHttp()
   const navigate = useNavigate()
-  const { categoryId } = useParams()
+  const { categoryId1, categoryId2 } = useParams()
   const [categoryName, setCategoryName] = useState('')
+
+  console.log('_+++categoryId 2')
+  console.log(categoryId2)
 
   const handleSubmit = async () => {
     try {
       await handleUpdateRequest({
         path: '/category2',
         body: {
-          categoryId,
+          categoryId1,
+          categoryId2,
           categoryName
         }
       })
-      navigate('/categories')
+      navigate(`/categories/subcategory/${categoryId1}`)
     } catch (error: unknown) {
       console.log(error)
     }
@@ -29,11 +33,13 @@ export default function Category2EditView() {
 
   const handleDetailGetCategory = async () => {
     const result: ICategory2Model = await handleGetRequest({
-      path: '/categories/detail/' + categoryId
+      path: `/category2/detail/${categoryId1}/${categoryId2}`
     })
     if (result !== null) {
       setCategoryName(result.categoryName)
     }
+
+    console.log(result)
   }
 
   useEffect(() => {
@@ -51,7 +57,7 @@ export default function Category2EditView() {
           },
           {
             label: 'Edit',
-            link: '/categories/edit/' + categoryId
+            link: '/categories/subcategory/edit/' + categoryId2
           }
         ]}
       />
@@ -62,7 +68,7 @@ export default function Category2EditView() {
         }}
       >
         <Typography variant='h4' marginBottom={5} color='primary' fontWeight={'bold'}>
-          Tambah Kategori
+          Tambah Sub Kategori
         </Typography>
         <Box
           component='form'

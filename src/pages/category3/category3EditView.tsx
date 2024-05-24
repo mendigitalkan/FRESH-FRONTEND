@@ -9,7 +9,7 @@ import { IconMenus } from '../../components/icon'
 export default function Category3EditView() {
   const { handleUpdateRequest, handleGetRequest } = useHttp()
   const navigate = useNavigate()
-  const { categoryId } = useParams()
+  const { categoryId1, categoryId2, categoryId3 } = useParams()
   const [categoryName, setCategoryName] = useState('')
 
   const handleSubmit = async () => {
@@ -17,11 +17,13 @@ export default function Category3EditView() {
       await handleUpdateRequest({
         path: '/category3',
         body: {
-          categoryId,
+          categoryId1,
+          categoryId2,
+          categoryId3,
           categoryName
         }
       })
-      navigate('/categories')
+      navigate(`/categories/subcategory/${categoryId1}/${categoryId2}`)
     } catch (error: unknown) {
       console.log(error)
     }
@@ -29,7 +31,7 @@ export default function Category3EditView() {
 
   const handleDetailGetCategory = async () => {
     const result: ICategory3Model = await handleGetRequest({
-      path: '/categories/detail/' + categoryId
+      path: `/category3/detail?categoryId1=${categoryId1}&&categoryId2=${categoryId2}&&categoryId3=${categoryId3}`
     })
     if (result !== null) {
       setCategoryName(result.categoryName)
@@ -51,7 +53,7 @@ export default function Category3EditView() {
           },
           {
             label: 'Edit',
-            link: '/categories/edit/' + categoryId
+            link: '/categories'
           }
         ]}
       />

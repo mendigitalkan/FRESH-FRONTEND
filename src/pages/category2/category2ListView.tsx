@@ -18,7 +18,7 @@ import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 import { useNavigate, useParams } from 'react-router-dom'
 import Modal from '../../components/modal'
-import { ICategory1Model } from '../../models/categoryModel'
+import { ICategory2Model } from '../../models/categoryModel'
 import { convertTime } from '../../utilities/convertTime'
 
 export default function Category2ListView() {
@@ -26,7 +26,7 @@ export default function Category2ListView() {
   const { categoryId1 } = useParams()
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
-  const [modalDeleteData, setModalDeleteData] = useState<ICategory1Model>()
+  const [modalDeleteData, setModalDeleteData] = useState<ICategory2Model>()
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
 
   const [paginationModel, setPaginationModel] = useState({
@@ -34,14 +34,14 @@ export default function Category2ListView() {
     page: 0
   })
 
-  const handleDeleteCategory = async (categoryId: string) => {
+  const handleDeleteCategory = async (categoryId2: string) => {
     await handleRemoveRequest({
-      path: '/categories?categoryId=' + categoryId
+      path: `/category2?categoryId1=${categoryId1}&&categoryId2=${categoryId2}`
     })
     window.location.reload()
   }
 
-  const handleOpenModalDelete = (data: ICategory1Model) => {
+  const handleOpenModalDelete = (data: ICategory2Model) => {
     setModalDeleteData(data)
     setOpenModalDelete(!openModalDelete)
   }
@@ -93,7 +93,11 @@ export default function Category2ListView() {
             icon={<EditIcon />}
             label='Edit'
             className='textPrimary'
-            onClick={() => navigation('edit/' + row.categoryId)}
+            onClick={() =>
+              navigation(
+                `/categories/subcategory/edit/${row.categoryId1}/${row.categoryId2}`
+              )
+            }
             color='inherit'
           />,
           <GridActionsCellItem
@@ -190,7 +194,7 @@ export default function Category2ListView() {
           'Apakah anda yakin ingin menghapus kategori ' + modalDeleteData?.categoryName
         }
         handleModal={() => {
-          handleDeleteCategory(modalDeleteData?.categoryId1 ?? '')
+          handleDeleteCategory(modalDeleteData?.categoryId2 ?? '')
           setOpenModalDelete(!openModalDelete)
         }}
       />
