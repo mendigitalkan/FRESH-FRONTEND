@@ -37,11 +37,7 @@ export default function ButtonUploadFile({ onUpload }: ButtonUploadFileTypes) {
     formData.append('file', fileInputRef.current.files[0])
 
     try {
-      const result = await axios.post(
-        CONFIGS.baseUrl + '/upload-file/products-images',
-        formData
-      )
-
+      const result = await axios.post(CONFIGS.uploadFileUrl, formData)
       console.log(result.data.fileUrl)
       onUpload(result.data.fileUrl)
     } catch (error: any) {

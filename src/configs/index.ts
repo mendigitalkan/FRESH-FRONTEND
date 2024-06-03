@@ -1,25 +1,8 @@
 export const CONFIGS = {
   env: import.meta.env.VITE_APP_STAGE || 'development',
-  baseUrl: 'http://localhost:8008/api/v1', //'https://jasaapk.us/fresh/api/v1',
+  baseUrl: 'https://jasaapk.us/fresh/api/v1', //'http://localhost:8008/api/v1'
   localStorageKey: 'qwerty',
+  uploadFileUrl: 'https://jasaapk.us/storage/api/v1/fresh',
   tokenKeyLocalStorage: 'qwerty',
   tokenSecret: 'qwerty'
-}
-
-import { initializeApp } from 'firebase/app'
-import { getStorage } from 'firebase/storage'
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyBr5A5kQ1Dak_VeVbEcJYeoCi_g8XUVmWU',
-  authDomain: 'toren-itera.firebaseapp.com',
-  projectId: 'toren-itera',
-  storageBucket: 'toren-itera.appspot.com',
-  messagingSenderId: '971511034983',
-  appId: '1:971511034983:web:4f67c76d98b8baa9fb50c2'
-}
-const app = initializeApp(firebaseConfig)
-const storage = getStorage(app)
-
-export const firebaseConfigs = {
-  storage
 }

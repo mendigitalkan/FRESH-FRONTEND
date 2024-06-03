@@ -105,18 +105,24 @@ export default function DetailProductView() {
                 <td>:</td>
                 <td>
                   <Stack direction={'row'} spacing={1}>
-                    <Chip
-                      label={productDetail?.category1.categoryName}
-                      sx={{ mx: 0.2 }}
-                    />
-                    <Chip
-                      label={productDetail?.category2.categoryName}
-                      sx={{ mx: 0.2 }}
-                    />
-                    <Chip
-                      label={productDetail?.category3.categoryName}
-                      sx={{ mx: 0.2 }}
-                    />
+                    {productDetail?.category1 && (
+                      <Chip
+                        label={productDetail?.category1?.categoryName}
+                        sx={{ mx: 0.2 }}
+                      />
+                    )}
+                    {productDetail?.category2 && (
+                      <Chip
+                        label={productDetail?.category2?.categoryName}
+                        sx={{ mx: 0.2 }}
+                      />
+                    )}
+                    {productDetail?.category3 && (
+                      <Chip
+                        label={productDetail?.category3?.categoryName}
+                        sx={{ mx: 0.2 }}
+                      />
+                    )}
                   </Stack>
                 </td>
               </tr>
