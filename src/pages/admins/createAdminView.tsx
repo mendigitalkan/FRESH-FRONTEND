@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import {
   Button,
   Card,
@@ -15,7 +15,6 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { IUserCreateRequestModel } from '../../models/userModel'
-import { handleUploadImageToFirebase } from '../../utilities/uploadImageToFirebase'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 
@@ -28,9 +27,6 @@ export default function CreateAdminView() {
   const [userPassword, setUserPassword] = useState('')
   const [userRole, setUserRole] = useState('')
   const [userPhoneNumber, setUserPhoneNumber] = useState('')
-  const [userPhoto, setUserPhoto] = useState('')
-
-  const fileInputRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null)
 
   const handleSubmit = async () => {
     try {
@@ -40,7 +36,7 @@ export default function CreateAdminView() {
         userPassword,
         userPhoneNumber,
         userRole,
-        userPhoto
+        userPhoto: ''
       }
 
       await handlePostRequest({
@@ -52,13 +48,6 @@ export default function CreateAdminView() {
     } catch (error: unknown) {
       console.log(error)
     }
-  }
-
-  const handleUploadImage = () => {
-    handleUploadImageToFirebase({
-      selectedFile: fileInputRef,
-      getImageUrl: setUserPhoto
-    })
   }
 
   return (
@@ -146,17 +135,7 @@ export default function CreateAdminView() {
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label='Foto'
-                id='outlined-start-adornment'
-                sx={{ m: 1 }}
-                type='file'
-                fullWidth
-                onChange={handleUploadImage}
-                ref={fileInputRef}
-              />
-            </Grid>
+
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel id='demo-multiple-name-label'>Pilih Role</InputLabel>

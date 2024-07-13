@@ -1,25 +1,27 @@
 import { useState } from 'react'
 import { Button, Card, Typography, Box, TextField, Stack } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 
-export default function CategoryCreateView() {
+export default function Category2CreateView() {
   const { handlePostRequest } = useHttp()
   const navigate = useNavigate()
+  const { categoryId1 } = useParams()
 
   const [categoryName, setCategoryName] = useState('')
 
   const handleSubmit = async () => {
     try {
       await handlePostRequest({
-        path: '/categories',
+        path: '/category2',
         body: {
-          categoryName
+          categoryName,
+          categoryId1
         }
       })
-      navigate('/categories')
+      navigate(`/categories/subcategory/${categoryId1}`)
     } catch (error: unknown) {
       console.log(error)
     }
@@ -47,7 +49,7 @@ export default function CategoryCreateView() {
         }}
       >
         <Typography variant='h4' marginBottom={5} color='primary' fontWeight={'bold'}>
-          Tambah Kategori
+          Tambah Sub Kategori
         </Typography>
         <Box
           component='form'

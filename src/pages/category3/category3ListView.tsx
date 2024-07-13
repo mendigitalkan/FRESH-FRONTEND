@@ -16,16 +16,17 @@ import { useHttp } from '../../hooks/http'
 import { Button, Stack, TextField } from '@mui/material'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Modal from '../../components/modal'
-import { ICategoryModel } from '../../models/categoryModel'
+import { ICategory3Model } from '../../models/categoryModel'
 import { convertTime } from '../../utilities/convertTime'
 
-export default function CategoryListView() {
+export default function Category3ListView() {
   const navigation = useNavigate()
+  const { categoryId1, categoryId2 } = useParams()
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest, handleRemoveRequest } = useHttp()
-  const [modalDeleteData, setModalDeleteData] = useState<ICategoryModel>()
+  const [modalDeleteData, setModalDeleteData] = useState<ICategory3Model>()
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
 
   const [paginationModel, setPaginationModel] = useState({
@@ -33,14 +34,14 @@ export default function CategoryListView() {
     page: 0
   })
 
-  const handleDeleteCategory = async (categoryId: string) => {
+  const handleDeleteCategory = async (categoryId3: string) => {
     await handleRemoveRequest({
-      path: '/categories?categoryId=' + categoryId
+      path: `/category3?categoryId1=${categoryId1}&&categoryId2=${categoryId2}&&categoryId3=${categoryId3}`
     })
     window.location.reload()
   }
 
-  const handleOpenModalDelete = (data: ICategoryModel) => {
+  const handleOpenModalDelete = (data: ICategory3Model) => {
     setModalDeleteData(data)
     setOpenModalDelete(!openModalDelete)
   }
@@ -48,10 +49,10 @@ export default function CategoryListView() {
   const getTableData = async ({ search }: { search: string }) => {
     try {
       const result = await handleGetTableDataRequest({
-        path: '/categories',
+        path: '/category3',
         page: paginationModel.page ?? 0,
         size: paginationModel.pageSize ?? 10,
-        filter: { search }
+        filter: { search, categoryId1, categoryId2 }
       })
       if (result) {
         console.log(result)
@@ -92,7 +93,11 @@ export default function CategoryListView() {
             icon={<EditIcon />}
             label='Edit'
             className='textPrimary'
-            onClick={() => navigation('edit/' + row.categoryId)}
+            onClick={() =>
+              navigation(
+                `/categories/subcategory/edit/${categoryId1}/${categoryId2}/${row.categoryId3}`
+              )
+            }
             color='inherit'
           />,
           <GridActionsCellItem
@@ -113,7 +118,9 @@ export default function CategoryListView() {
         <Stack direction='row' spacing={2}>
           <GridToolbarExport />
           <Button
-            onClick={() => navigation('create')}
+            onClick={() =>
+              navigation(`/categories/subcategory/create/${categoryId1}/${categoryId2}`)
+            }
             startIcon={<Add />}
             variant='outlined'
           >
@@ -140,8 +147,8 @@ export default function CategoryListView() {
       <BreadCrumberStyle
         navigation={[
           {
-            label: 'Category',
-            link: '/catgories',
+            label: 'Sub Category 2',
+            link: '/categories',
             icon: <IconMenus.category fontSize='small' />
           }
         ]}
@@ -181,7 +188,7 @@ export default function CategoryListView() {
           'Apakah anda yakin ingin menghapus kategori ' + modalDeleteData?.categoryName
         }
         handleModal={() => {
-          handleDeleteCategory(modalDeleteData?.categoryId ?? '')
+          handleDeleteCategory(modalDeleteData?.categoryId3 ?? '')
           setOpenModalDelete(!openModalDelete)
         }}
       />

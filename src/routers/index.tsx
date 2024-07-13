@@ -8,9 +8,9 @@ import AuthLayout from '../layouts/AuthLayout'
 import { useToken } from '../hooks/token'
 import SettingsView from '../pages/settings/Index'
 import ProductListView from '../pages/products/listProductView'
-import CategoryListView from '../pages/category/categoryListView'
-import CategoryCreateView from '../pages/category/categoryCreateView'
-import CategoryEditView from '../pages/category/categoryEditView'
+import Category1ListView from '../pages/category1/category1ListView'
+import Category1CreateView from '../pages/category1/category1CreateView'
+import Category1EditView from '../pages/category1/category1EditView'
 import DetailProductView from '../pages/products/detailProductView'
 import CreateProductView from '../pages/products/createProductView'
 import EditProductView from '../pages/products/editProductView'
@@ -31,6 +31,12 @@ import EditProfileView from '../pages/myProfile/EditProfileView'
 import CreateWaBlasView from '../pages/wablas/CreateWaBlasView'
 import CreateBankSettingsView from '../pages/settings/bank/CreateBankSettingView'
 import EditBankSettingView from '../pages/settings/bank/EditBankSettingView'
+import Category2CreateView from '../pages/category2/category2CreateView'
+import Category2EditView from '../pages/category2/category2EditView'
+import Category2ListView from '../pages/category2/category2ListView'
+import Category3CreateView from '../pages/category3/category3CreateView'
+import Category3EditView from '../pages/category3/category3EditView'
+import Category3ListView from '../pages/category3/category3ListView'
 
 export default function AppRouters() {
   const routers: { path: string; element: JSX.Element }[] = []
@@ -73,18 +79,50 @@ export default function AppRouters() {
             path: '/products/edit/:productId',
             element: <EditProductView />
           },
+
+          // category 1
           {
             path: '/categories',
-            element: <CategoryListView />
+            element: <Category1ListView />
           },
           {
             path: '/categories/create',
-            element: <CategoryCreateView />
+            element: <Category1CreateView />
           },
           {
             path: '/categories/edit/:categoryId',
-            element: <CategoryEditView />
+            element: <Category1EditView />
           },
+
+          //category 2
+          {
+            path: '/categories/subcategory/:categoryId1',
+            element: <Category2ListView />
+          },
+          {
+            path: '/categories/subcategory/create/:categoryId1',
+            element: <Category2CreateView />
+          },
+          {
+            path: '/categories/subcategory/edit/:categoryId1/:categoryId2',
+            element: <Category2EditView />
+          },
+
+          // category 3
+          {
+            path: '/categories/subcategory/:categoryId1/:categoryId2',
+            element: <Category3ListView />
+          },
+          {
+            path: '/categories/subcategory/create/:categoryId1/:categoryId2',
+            element: <Category3CreateView />
+          },
+          {
+            path: '/categories/subcategory/edit/:categoryId1/:categoryId2/:categoryId3',
+            element: <Category3EditView />
+          },
+
+          //customers
           {
             path: '/customers',
             element: <ListCustomersView />

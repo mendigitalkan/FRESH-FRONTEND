@@ -148,9 +148,7 @@ export default function DetailOrderView() {
               <td>
                 <Typography>
                   Rp
-                  {convertNumberToCurrency(
-                    parseFloat(detailOrder?.orderProductPrice ?? '0')
-                  )}
+                  {convertNumberToCurrency(detailOrder?.orderProductPrice ?? 0)}
                 </Typography>
               </td>
             </tr>
@@ -162,7 +160,7 @@ export default function DetailOrderView() {
               <td>
                 <Typography>
                   Rp
-                  {convertNumberToCurrency(parseFloat(detailOrder?.orderOngkirPrice))}
+                  {convertNumberToCurrency(detailOrder?.orderOngkirPrice ?? 0)}
                 </Typography>
               </td>
             </tr>
@@ -174,9 +172,7 @@ export default function DetailOrderView() {
               <td>
                 <Typography>
                   Rp
-                  {convertNumberToCurrency(
-                    parseFloat(detailOrder?.orderTotalProductPrice ?? 0)
-                  )}
+                  {convertNumberToCurrency(detailOrder?.orderTotalProductPrice ?? 0)}
                 </Typography>
               </td>
             </tr>

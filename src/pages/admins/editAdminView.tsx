@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Button,
   Card,
@@ -15,7 +15,6 @@ import {
 import { useNavigate, useParams } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
 import { IUserModel, IUserUpdateRequestModel } from '../../models/userModel'
-import { handleUploadImageToFirebase } from '../../utilities/uploadImageToFirebase'
 import { IconMenus } from '../../components/icon'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 
@@ -29,8 +28,6 @@ export default function EditAdminView() {
   const [userPassword, setUserPassword] = useState('')
   const [userRole, setUserRole] = useState('')
   const [userPhoto, setUserPhoto] = useState('')
-
-  const fileInputRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null)
 
   const handleSubmit = async () => {
     try {
@@ -52,13 +49,6 @@ export default function EditAdminView() {
     } catch (error: unknown) {
       console.log(error)
     }
-  }
-
-  const handleUploadImage = () => {
-    handleUploadImageToFirebase({
-      selectedFile: fileInputRef,
-      getImageUrl: setUserPhoto
-    })
   }
 
   const getDetailUser = async () => {
@@ -148,17 +138,6 @@ export default function EditAdminView() {
                 onChange={(e) => {
                   setUserPassword(e.target.value)
                 }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label='Foto'
-                id='outlined-start-adornment'
-                sx={{ m: 1 }}
-                type='file'
-                fullWidth
-                onChange={handleUploadImage}
-                ref={fileInputRef}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
