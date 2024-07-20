@@ -123,7 +123,6 @@ export default function AppLayout() {
     { title: 'Products', link: '/products', icon: <IconMenus.products /> },
     { title: 'Category', link: '/categories', icon: <IconMenus.category /> },
     { title: 'Customers', link: '/customers', icon: <IconMenus.customers /> },
-    { title: 'Notification', link: '/notifications', icon: <IconMenus.notification /> },
     { title: 'Orders', link: '/orders', icon: <IconMenus.orders /> },
     {
       title: 'Transactions',
@@ -134,6 +133,7 @@ export default function AppLayout() {
 
   const superAdminMenus = [
     ...adminMenus,
+    { title: 'Notification', link: '/notifications', icon: <IconMenus.notification /> },
     {
       title: 'Wa Blas',
       link: '/wa-blas',
@@ -143,13 +143,19 @@ export default function AppLayout() {
       title: 'Admins',
       link: '/admins',
       icon: <IconMenus.admin />
-    }
+    },
+    { title: 'Settings', link: '/settings', icon: <IconMenus.settings /> }
   ]
 
   const token = getToken()
 
   if (token !== null) {
     const resultToken: IUserModel = jwtDecode(token)
+
+    console.log('=================user token')
+    console.log(resultToken)
+    console.log('=================user token')
+
     switch (resultToken.userRole) {
       case 'admin':
         menuItems.push(...adminMenus)
@@ -161,10 +167,7 @@ export default function AppLayout() {
         break
     }
 
-    menuItems.push(
-      { title: 'Settings', link: '/settings', icon: <IconMenus.settings /> },
-      { title: 'Profile', link: '/my-profile', icon: <IconMenus.profile /> }
-    )
+    menuItems.push({ title: 'Profile', link: '/my-profile', icon: <IconMenus.profile /> })
   }
 
   const handleDrawer = () => {

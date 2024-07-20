@@ -127,6 +127,13 @@ export default function EditProductView() {
       setProductDiscount(result.productDiscount)
       setProductWeight(result.productWeight)
       setProductPrice(result.productPrice)
+      setProductStock(result.productStock)
+
+      setProductCategoryId1(result.productCategoryId1)
+      setProductCategoryId2(result.productCategoryId2)
+      setProductCategoryId3(result.productCategoryId3)
+      setProductCondition(result.productCondition)
+      setProductCondition(JSON.parse(result.productColors))
 
       setProductImages(images)
       setProductColors(productColors)
@@ -386,6 +393,7 @@ export default function EditProductView() {
               <Stack direction={'row'} flexWrap={'wrap'} spacing={2}>
                 <FormControlLabel
                   value='Baru'
+                  defaultChecked={productCondition === 'Baru'}
                   control={
                     <Radio onChange={(e) => setProductCondition(e.target.value)} />
                   }
@@ -393,6 +401,7 @@ export default function EditProductView() {
                 />
                 <FormControlLabel
                   value='Bekas'
+                  defaultChecked={productCondition === 'Bekas'}
                   control={
                     <Radio onChange={(e) => setProductCondition(e.target.value)} />
                   }

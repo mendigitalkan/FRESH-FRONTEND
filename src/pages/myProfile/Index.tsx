@@ -15,7 +15,7 @@ const ProfileView = () => {
 
   const getMyProfile = async () => {
     const result = await handleGetRequest({
-      path: '/admins'
+      path: '/my-profile'
     })
     setDetailProfile(result)
   }
