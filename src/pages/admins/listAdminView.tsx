@@ -36,7 +36,7 @@ export default function ListAdminView() {
   const getTableData = async ({ search }: { search: string }) => {
     try {
       const result = await handleGetTableDataRequest({
-        path: '/users/admins',
+        path: '/admins',
         page: paginationModel.page ?? 0,
         size: paginationModel.pageSize ?? 10,
         filter: { search }
@@ -71,12 +71,6 @@ export default function ListAdminView() {
       field: 'userName',
       flex: 1,
       renderHeader: () => <strong>{'NAMA'}</strong>,
-      editable: true
-    },
-    {
-      field: 'userWhatsAppNumber',
-      renderHeader: () => <strong>{'WA'}</strong>,
-      flex: 1,
       editable: true
     },
     {

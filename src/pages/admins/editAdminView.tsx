@@ -27,7 +27,6 @@ export default function EditAdminView() {
   const [userName, setUserName] = useState('')
   const [userPassword, setUserPassword] = useState('')
   const [userRole, setUserRole] = useState('')
-  const [userPhoto, setUserPhoto] = useState('')
 
   const handleSubmit = async () => {
     try {
@@ -36,12 +35,11 @@ export default function EditAdminView() {
         userName,
         userEmail,
         userPassword,
-        userRole,
-        userPhoto
+        userRole
       }
 
       await handleUpdateRequest({
-        path: '/users',
+        path: '/admins',
         body: payload
       })
 
@@ -53,13 +51,12 @@ export default function EditAdminView() {
 
   const getDetailUser = async () => {
     const result: IUserModel = await handleGetRequest({
-      path: '/users/admins/detail/' + adminId
+      path: '/admins/detail/' + adminId
     })
     if (result) {
       setUserEmail(result.userEmail)
       setUserName(result.userName)
       setUserRole(result.userRole)
-      setUserPhoto(result.userPhoto)
       setUserPassword(result.userPassword)
     }
   }

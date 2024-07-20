@@ -14,7 +14,6 @@ import {
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http'
-import { IUserCreateRequestModel } from '../../models/userModel'
 import BreadCrumberStyle from '../../components/breadcrumb/Index'
 import { IconMenus } from '../../components/icon'
 
@@ -26,21 +25,18 @@ export default function CreateAdminView() {
   const [userName, setUserName] = useState('')
   const [userPassword, setUserPassword] = useState('')
   const [userRole, setUserRole] = useState('')
-  const [userPhoneNumber, setUserPhoneNumber] = useState('')
 
   const handleSubmit = async () => {
     try {
-      const payload: IUserCreateRequestModel = {
+      const payload = {
         userName,
         userEmail,
         userPassword,
-        userPhoneNumber,
-        userRole,
-        userPhoto: ''
+        userRole
       }
 
       await handlePostRequest({
-        path: '/users/register',
+        path: '/admins',
         body: payload
       })
 
@@ -109,19 +105,7 @@ export default function CreateAdminView() {
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label='Telepon'
-                id='outlined-start-adornment'
-                sx={{ m: 1 }}
-                value={userPhoneNumber}
-                type='text'
-                fullWidth
-                onChange={(e) => {
-                  setUserPhoneNumber(e.target.value)
-                }}
-              />
-            </Grid>
+
             <Grid item xs={12} sm={6}>
               <TextField
                 label='Password'
