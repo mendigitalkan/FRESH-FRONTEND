@@ -111,7 +111,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function AppLayout() {
   const theme = useTheme()
-  const [openDrawer, setOpenDrawer] = useState(true)
+  const [openDrawer, setOpenDrawer] = useState(false)
   const { appAlert, setAppAlert, isLoading, setIsLoading } = useAppContext()
   const { removeToken, getToken } = useToken()
   const navigate = useNavigate()
@@ -151,10 +151,6 @@ export default function AppLayout() {
 
   if (token !== null) {
     const resultToken: IUserModel = jwtDecode(token)
-
-    console.log('=================user token')
-    console.log(resultToken)
-    console.log('=================user token')
 
     switch (resultToken.userRole) {
       case 'admin':

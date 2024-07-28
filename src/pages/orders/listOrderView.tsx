@@ -23,6 +23,8 @@ export default function ListOrderView() {
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest } = useHttp()
 
+  const [loading, setLoading] = useState(false)
+  const [rowCount, setRowCount] = useState(0)
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 25,
     page: 0
@@ -30,6 +32,7 @@ export default function ListOrderView() {
 
   const getTableData = async ({ search }: { search: string }) => {
     try {
+      setLoading(true)
       const result = await handleGetTableDataRequest({
         path: '/orders',
         page: paginationModel.page ?? 0,
@@ -48,9 +51,12 @@ export default function ListOrderView() {
 
         console.log(mapingData)
         setTableData(mapingData)
+        setRowCount(result.total_items)
       }
     } catch (error: any) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -162,12 +168,15 @@ export default function ListOrderView() {
           initialState={{
             pagination: { paginationModel: { pageSize: 2, page: 0 } }
           }}
+          loading={loading}
           pageSizeOptions={[2, 5, 10, 25]}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           slots={{
             toolbar: CustomToolbar
           }}
+          rowCount={rowCount}
+          paginationMode='server'
         />
       </Box>
     </>

@@ -4,7 +4,9 @@ import { Typography, Stack, FormGroup, FormControlLabel, Checkbox } from '@mui/m
 
 interface IVariantProductModel {
   setProductColors: (value: string[]) => void
+  productColors?: string[]
   setProductSizes: (value: string[]) => void
+  productSizes?: string[]
 }
 
 export default function VariantProductSection(props: IVariantProductModel) {
@@ -34,6 +36,16 @@ export default function VariantProductSection(props: IVariantProductModel) {
     props.setProductSizes(sizes)
   }, [colors, sizes, props])
 
+  useEffect(() => {
+    if (props.productColors?.length !== 0 || props.productSizes?.length !== 0) {
+      setColors(props.productColors ?? [])
+      setSizes(props.productSizes ?? [])
+
+      console.log('=============colosss')
+      console.log(props.productColors)
+    }
+  }, [])
+
   return (
     <>
       <Typography color={'gray'}>Ukuran</Typography>
@@ -44,6 +56,7 @@ export default function VariantProductSection(props: IVariantProductModel) {
               control={
                 <Checkbox
                   value={'S'}
+                  checked={sizes?.includes('S')}
                   onChange={(e) => handleSelectSizes(e.target.value)}
                 />
               }
@@ -53,6 +66,7 @@ export default function VariantProductSection(props: IVariantProductModel) {
               control={
                 <Checkbox
                   value={'M'}
+                  checked={sizes?.includes('M')}
                   onChange={(e) => handleSelectSizes(e.target.value)}
                 />
               }
@@ -62,6 +76,7 @@ export default function VariantProductSection(props: IVariantProductModel) {
               control={
                 <Checkbox
                   value={'L'}
+                  checked={sizes?.includes('L')}
                   onChange={(e) => handleSelectSizes(e.target.value)}
                 />
               }
@@ -71,6 +86,7 @@ export default function VariantProductSection(props: IVariantProductModel) {
               control={
                 <Checkbox
                   value={'XL'}
+                  checked={sizes?.includes('XL')}
                   onChange={(e) => handleSelectSizes(e.target.value)}
                 />
               }
@@ -80,6 +96,7 @@ export default function VariantProductSection(props: IVariantProductModel) {
               control={
                 <Checkbox
                   value={'XXL'}
+                  checked={sizes?.includes('XXL')}
                   onChange={(e) => handleSelectSizes(e.target.value)}
                 />
               }
@@ -94,6 +111,7 @@ export default function VariantProductSection(props: IVariantProductModel) {
               control={
                 <Checkbox
                   value={'Hitam'}
+                  checked={colors?.includes('Hitam')}
                   onChange={(e) => handleSelectColor(e.target.value)}
                 />
               }
@@ -103,6 +121,7 @@ export default function VariantProductSection(props: IVariantProductModel) {
               control={
                 <Checkbox
                   value={'Merah'}
+                  checked={colors?.includes('Merah')}
                   onChange={(e) => handleSelectColor(e.target.value)}
                 />
               }
@@ -112,6 +131,7 @@ export default function VariantProductSection(props: IVariantProductModel) {
               control={
                 <Checkbox
                   value={'Putih'}
+                  checked={colors?.includes('Putih')}
                   onChange={(e) => handleSelectColor(e.target.value)}
                 />
               }
@@ -121,6 +141,7 @@ export default function VariantProductSection(props: IVariantProductModel) {
               control={
                 <Checkbox
                   value={'Kuning'}
+                  checked={colors?.includes('Kuning')}
                   onChange={(e) => handleSelectColor(e.target.value)}
                 />
               }
@@ -130,6 +151,7 @@ export default function VariantProductSection(props: IVariantProductModel) {
               control={
                 <Checkbox
                   value={'Hijau'}
+                  checked={colors?.includes('Hijau')}
                   onChange={(e) => handleSelectColor(e.target.value)}
                 />
               }
@@ -139,6 +161,7 @@ export default function VariantProductSection(props: IVariantProductModel) {
               control={
                 <Checkbox
                   value={'Biru'}
+                  checked={colors?.includes('Biru')}
                   onChange={(e) => handleSelectColor(e.target.value)}
                 />
               }
@@ -148,6 +171,7 @@ export default function VariantProductSection(props: IVariantProductModel) {
               control={
                 <Checkbox
                   value={'Abu-Abu'}
+                  checked={colors?.includes('Abu-Abu')}
                   onChange={(e) => handleSelectColor(e.target.value)}
                 />
               }

@@ -28,8 +28,10 @@ export default function Category1ListView() {
   const [modalDeleteData, setModalDeleteData] = useState<ICategory1Model>()
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
 
+  const [loading, setLoading] = useState(false)
+  const [rowCount, setRowCount] = useState(0)
   const [paginationModel, setPaginationModel] = useState({
-    pageSize: 25,
+    pageSize: 10,
     page: 0
   })
 
@@ -47,6 +49,7 @@ export default function Category1ListView() {
 
   const getTableData = async ({ search }: { search: string }) => {
     try {
+      setLoading(true)
       const result = await handleGetTableDataRequest({
         path: '/category1',
         page: paginationModel.page ?? 0,
@@ -56,9 +59,12 @@ export default function Category1ListView() {
       if (result) {
         console.log(result)
         setTableData(result.items)
+        setRowCount(result.total_items)
       }
     } catch (error: any) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -184,7 +190,7 @@ export default function Category1ListView() {
           editMode='row'
           sx={{ padding: 2 }}
           initialState={{
-            pagination: { paginationModel: { pageSize: 2, page: 0 } }
+            pagination: { paginationModel: { pageSize: 10, page: 0 } }
           }}
           pageSizeOptions={[2, 5, 10, 25]}
           paginationModel={paginationModel}
@@ -192,6 +198,9 @@ export default function Category1ListView() {
           slots={{
             toolbar: CustomToolbar
           }}
+          rowCount={rowCount}
+          paginationMode='server'
+          loading={loading}
         />
       </Box>
 

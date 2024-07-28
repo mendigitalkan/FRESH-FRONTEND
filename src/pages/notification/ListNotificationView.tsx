@@ -27,6 +27,8 @@ export default function ListNotificationView() {
   const [modalDeleteData, setModalDeleteData] = useState<INotificationModel>()
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
 
+  const [loading, setLoading] = useState(false)
+  const [rowCount, setRowCount] = useState(0)
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 25,
     page: 0
@@ -46,6 +48,7 @@ export default function ListNotificationView() {
 
   const getTableData = async ({ search }: { search: string }) => {
     try {
+      setLoading(true)
       const result = await handleGetTableDataRequest({
         path: '/notifications',
         page: paginationModel.page ?? 0,
@@ -55,9 +58,12 @@ export default function ListNotificationView() {
       if (result) {
         console.log(result)
         setTableData(result.items)
+        setRowCount(result.total_items)
       }
     } catch (error: any) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -168,6 +174,9 @@ export default function ListNotificationView() {
           slots={{
             toolbar: CustomToolbar
           }}
+          rowCount={rowCount}
+          paginationMode='server'
+          loading={loading}
         />
       </Box>
       <Modal

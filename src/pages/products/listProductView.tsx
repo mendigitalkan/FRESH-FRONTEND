@@ -29,6 +29,8 @@ export default function ProductListView() {
   const [modalDeleteData, setModalDeleteData] = useState<IProductModel>()
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
 
+  const [loading, setLoading] = useState(false)
+  const [rowCount, setRowCount] = useState(0)
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 25,
     page: 0
@@ -48,6 +50,7 @@ export default function ProductListView() {
 
   const getTableData = async ({ search }: { search: string }) => {
     try {
+      setLoading(true)
       const result = await handleGetTableDataRequest({
         path: '/products',
         page: paginationModel.page ?? 0,
@@ -57,9 +60,12 @@ export default function ProductListView() {
       if (result) {
         console.log(result)
         setTableData(result.items)
+        setRowCount(result.total_items)
       }
     } catch (error: any) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -190,6 +196,9 @@ export default function ProductListView() {
           slots={{
             toolbar: CustomToolbar
           }}
+          loading={loading}
+          rowCount={rowCount}
+          paginationMode='server'
         />
       </Box>
 
