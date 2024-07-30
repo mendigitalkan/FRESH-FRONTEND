@@ -14,7 +14,7 @@ export default function DetailAdminView() {
 
   const getDetailUser = async () => {
     const result: IUserModel = await handleGetRequest({
-      path: '/users/admins/detail/' + adminId
+      path: '/admins/detail/' + adminId
     })
     setAdminDetail(result)
   }

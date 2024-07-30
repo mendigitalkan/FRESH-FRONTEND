@@ -28,6 +28,8 @@ export default function ListAdminView() {
   const [modalDeleteData, setModalDeleteData] = useState<IUserModel>()
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
 
+  const [loading, setLoading] = useState(false)
+  const [rowCount, setRowCount] = useState(0)
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 25,
     page: 0
@@ -35,8 +37,9 @@ export default function ListAdminView() {
 
   const getTableData = async ({ search }: { search: string }) => {
     try {
+      setLoading(true)
       const result = await handleGetTableDataRequest({
-        path: '/users/admins',
+        path: '/admins',
         page: paginationModel.page ?? 0,
         size: paginationModel.pageSize ?? 10,
         filter: { search }
@@ -44,9 +47,12 @@ export default function ListAdminView() {
 
       if (result) {
         setTableData(result.items)
+        setRowCount(result.total_items)
       }
     } catch (error: any) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -71,12 +77,6 @@ export default function ListAdminView() {
       field: 'userName',
       flex: 1,
       renderHeader: () => <strong>{'NAMA'}</strong>,
-      editable: true
-    },
-    {
-      field: 'userWhatsAppNumber',
-      renderHeader: () => <strong>{'WA'}</strong>,
-      flex: 1,
       editable: true
     },
     {
@@ -189,6 +189,9 @@ export default function ListAdminView() {
           slots={{
             toolbar: CustomToolbar
           }}
+          rowCount={rowCount}
+          paginationMode='server'
+          loading={loading}
         />
       </Box>
 

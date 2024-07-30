@@ -23,6 +23,8 @@ export default function ListTransactionView() {
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest } = useHttp()
 
+  const [loading, setLoading] = useState(false)
+  const [rowCount, setRowCount] = useState(0)
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 25,
     page: 0
@@ -30,6 +32,7 @@ export default function ListTransactionView() {
 
   const getTableData = async ({ search }: { search: string }) => {
     try {
+      setLoading(true)
       const result = await handleGetTableDataRequest({
         path: '/orders',
         page: paginationModel.page ?? 0,
@@ -48,9 +51,12 @@ export default function ListTransactionView() {
 
         console.log(mapingData)
         setTableData(mapingData)
+        setRowCount(result.total_items)
       }
     } catch (error: any) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -162,6 +168,9 @@ export default function ListTransactionView() {
           slots={{
             toolbar: CustomToolbar
           }}
+          rowCount={rowCount}
+          paginationMode='server'
+          loading={loading}
         />
       </Box>
     </>

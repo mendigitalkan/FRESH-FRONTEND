@@ -27,6 +27,8 @@ export default function ListWaBlasView() {
   const [modalDeleteData, setModalDeleteData] = useState<IWaBlasHistoryMode>()
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
 
+  const [loading, setLoading] = useState(false)
+  const [rowCount, setRowCount] = useState(0)
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 25,
     page: 0
@@ -46,6 +48,7 @@ export default function ListWaBlasView() {
 
   const getTableData = async ({ search }: { search: string }) => {
     try {
+      setLoading(true)
       const result = await handleGetTableDataRequest({
         path: '/wa-blas/history',
         page: paginationModel.page ?? 0,
@@ -55,9 +58,12 @@ export default function ListWaBlasView() {
       if (result) {
         console.log(result)
         setTableData(result.items)
+        setRowCount(result.total_items)
       }
     } catch (error: any) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -180,6 +186,9 @@ export default function ListWaBlasView() {
           slots={{
             toolbar: CustomToolbar
           }}
+          rowCount={rowCount}
+          paginationMode='server'
+          loading={loading}
         />
       </Box>
       <Modal

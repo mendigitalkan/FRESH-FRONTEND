@@ -29,6 +29,8 @@ export default function Category3ListView() {
   const [modalDeleteData, setModalDeleteData] = useState<ICategory3Model>()
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
 
+  const [loading, setLoading] = useState(false)
+  const [rowCount, setRowCount] = useState(0)
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 25,
     page: 0
@@ -48,6 +50,7 @@ export default function Category3ListView() {
 
   const getTableData = async ({ search }: { search: string }) => {
     try {
+      setLoading(true)
       const result = await handleGetTableDataRequest({
         path: '/category3',
         page: paginationModel.page ?? 0,
@@ -57,9 +60,12 @@ export default function Category3ListView() {
       if (result) {
         console.log(result)
         setTableData(result.items)
+        setRowCount(result.total_items)
       }
     } catch (error: any) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -178,6 +184,9 @@ export default function Category3ListView() {
           slots={{
             toolbar: CustomToolbar
           }}
+          rowCount={rowCount}
+          paginationMode='server'
+          loading={loading}
         />
       </Box>
 

@@ -55,6 +55,8 @@ export default function EditProductView() {
   const [listCategory2, setListCategory2] = useState<ICategory2Model[]>([])
   const [listCategory3, setListCategory3] = useState<ICategory3Model[]>([])
 
+  const [loading, setLoading] = useState(false)
+
   const getListCategory1 = async () => {
     const result = await handleGetRequest({
       path: '/category1'
@@ -113,32 +115,42 @@ export default function EditProductView() {
   }
 
   const getDetailProduct = async () => {
-    const result: IProductModel = await handleGetRequest({
-      path: '/products/detail/' + productId
-    })
-    if (result) {
-      const images = JSON.parse(result.productImages || '[]')
-      const productColors = JSON.parse(result.productColors || '[]')
-      const productSizes = JSON.parse(result.productSizes || '[]')
+    try {
+      setLoading(true)
+      const result: IProductModel = await handleGetRequest({
+        path: '/products/detail/' + productId
+      })
+      if (result) {
+        const images = JSON.parse(result.productImages || '[]')
+        const productColors = JSON.parse(result.productColors || '[]')
+        const productSizes = JSON.parse(result.productSizes || '[]')
 
-      setProductName(result.productName)
-      setProductDescription(result.productDescription)
-      setProductCondition(result.productCondition)
-      setProductDiscount(result.productDiscount)
-      setProductWeight(result.productWeight)
-      setProductPrice(result.productPrice)
+        setProductName(result.productName)
+        setProductDescription(result.productDescription)
+        setProductCondition(result.productCondition)
+        setProductDiscount(result.productDiscount)
+        setProductWeight(result.productWeight)
+        setProductPrice(result.productPrice)
+        setProductStock(result.productStock)
 
-      setProductImages(images)
-      setProductColors(productColors)
-      setProductSizes(productSizes)
+        setProductCategoryId1(result.productCategoryId1)
+        setProductCategoryId2(result.productCategoryId2)
+        setProductCategoryId3(result.productCategoryId3)
+        setProductCondition(result.productCondition)
+
+        setProductImages(images)
+        setProductColors(productColors)
+        setProductSizes(productSizes)
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
   useEffect(() => {
     getDetailProduct()
-  }, [])
-
-  useEffect(() => {
     getListCategory1()
   }, [])
 
@@ -153,6 +165,8 @@ export default function EditProductView() {
       getListCategory3()
     }
   }, [productCategoryId1, productCategoryId2])
+
+  if (loading) return <div>loading...</div>
 
   return (
     <>
@@ -176,7 +190,7 @@ export default function EditProductView() {
         }}
       >
         <Typography variant='h4' marginBottom={5} color='primary' fontWeight={'bold'}>
-          Tambah Product
+          Edit Product
         </Typography>
 
         <Box
@@ -386,6 +400,7 @@ export default function EditProductView() {
               <Stack direction={'row'} flexWrap={'wrap'} spacing={2}>
                 <FormControlLabel
                   value='Baru'
+                  checked={productCondition === 'Baru'}
                   control={
                     <Radio onChange={(e) => setProductCondition(e.target.value)} />
                   }
@@ -393,6 +408,7 @@ export default function EditProductView() {
                 />
                 <FormControlLabel
                   value='Bekas'
+                  checked={productCondition === 'Bekas'}
                   control={
                     <Radio onChange={(e) => setProductCondition(e.target.value)} />
                   }
@@ -406,7 +422,9 @@ export default function EditProductView() {
             <Typography fontWeight={'bold'}>Varian Product</Typography>
             <VariantProductSection
               setProductColors={setProductColors}
+              productColors={productColors}
               setProductSizes={setProductSizes}
+              productSizes={productSizes}
             />
           </Box>
 

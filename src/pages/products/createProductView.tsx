@@ -180,7 +180,7 @@ export default function CreateProductView() {
                 label='Harga: masukan dalam angka tanpa Rp'
                 fullWidth
                 id='outlined-start-adornment'
-                value={productPrice}
+                value={productPrice + ''}
                 type='number'
                 onChange={(e) => {
                   setProductPrice(+e.target.value)
@@ -192,7 +192,7 @@ export default function CreateProductView() {
                 label='Diskon: masukan dalam angka tanpa persen (%)'
                 fullWidth
                 id='outlined-start-adornment'
-                value={productDiscount}
+                value={productDiscount + ''}
                 type='number'
                 onChange={(e) => {
                   setProductDiscount(+e.target.value)
@@ -204,7 +204,7 @@ export default function CreateProductView() {
                 label='Berat: masukan angka dalam gram tanpa (g)'
                 fullWidth
                 id='outlined-start-adornment'
-                value={productWeight}
+                value={productWeight + ''}
                 type='number'
                 onChange={(e) => {
                   setProductWeight(+e.target.value)
@@ -216,7 +216,7 @@ export default function CreateProductView() {
                 label='Stok'
                 fullWidth
                 id='outlined-start-adornment'
-                value={productStock}
+                value={productStock + ''}
                 type='number'
                 onChange={(e) => {
                   setProductStock(+e.target.value)

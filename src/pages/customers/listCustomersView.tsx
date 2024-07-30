@@ -22,6 +22,8 @@ export default function ListCustomersView() {
   const [tableData, setTableData] = useState<GridRowsProp[]>([])
   const { handleGetTableDataRequest } = useHttp()
 
+  const [loading, setLoading] = useState(false)
+  const [rowCount, setRowCount] = useState(0)
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 25,
     page: 0
@@ -29,6 +31,7 @@ export default function ListCustomersView() {
 
   const getTableData = async ({ search }: { search: string }) => {
     try {
+      setLoading(true)
       const result = await handleGetTableDataRequest({
         path: '/users',
         page: paginationModel.page ?? 0,
@@ -38,9 +41,12 @@ export default function ListCustomersView() {
       if (result) {
         console.log(result)
         setTableData(result.items)
+        setRowCount(result.total_items)
       }
     } catch (error: any) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -158,6 +164,9 @@ export default function ListCustomersView() {
           slots={{
             toolbar: CustomToolbar
           }}
+          loading={loading}
+          rowCount={rowCount}
+          paginationMode='server'
         />
       </Box>
     </>
